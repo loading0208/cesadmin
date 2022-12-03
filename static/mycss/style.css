@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@200;300;400&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Mali', cursive;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(30deg, rgba(85, 239, 196, 0.3), #dcdde1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    position: relative;
+    height: 580px;
+    width: 360px;
+    background-image: linear-gradient(20deg, #55efc4, #00cec9);
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in {
+    position: absolute;
+    top: -40px;
+    left: 55px;
+    height: 80px;
+    width: 250px;
+    background: #00b894;
+    color: #fff;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#logo {
+    font-size: 7rem;
+    color: #81ecec;
+    margin-bottom: 40px;
+    transition: .5s;
+}
+
+.login-form {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.login-form span::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    color: #95a5a6;
+    transition: .5s;
+    opacity: 1;
+}
+
+#logo-input {
+    margin: 0 20px;
+    padding-right: 20px;
+    font-size: 1.5rem;
+    border-right: 2px solid #bdc3c7;
+    color: #bdc3c7;
+}
+
+.input {
+    height: 35px;
+    width: 100%;
+    border: none;
+    font-size: 1.2rem;
+    outline: none;
+    background: transparent;
+    z-index: 1;
+    color: #34495e;
+    caret-color: #00cec9;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn-submit {
+    margin: 20px 0;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    background-image: linear-gradient(50deg, #00b894, #00cec9, #55efc4);
+    background-size: 200%;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: .5s;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-position: right;
+}
+
+.focus+span::before {
+    opacity: 0;
+}
+
+.change-color {
+    color: #fff !important;
+}
+
+.alert-danger {
+    font-size: 13px;
+    background-color: #fdcb6e;
+    color: #2d3436;
+    padding: 10px;
+    margin: 0 0 20px 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+}
+.alert-success {
+    font-size: 13px;
+    background-color: #81ecec;
+    color: #2d3436;
+    padding: 10px;
+    margin: 0 0 20px 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+}

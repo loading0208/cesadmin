@@ -1,0 +1,287 @@
+{% extends 'main/main.html' %}
+
+{% block header %}
+<h1 class="m-0">Review</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title"></h3>
+          </div>
+
+          {% for detailleave in detailleave %}
+
+          <div class="card-body">
+            <div class="form-group" style="display:flex">
+              <div class="leavetype" style="margin-right:30px">
+                <div class="custom-control custom-radio">
+                  {% if detailleave.3 == 'ลากิจ' %}
+                  <input class="custom-control-input" type="radio" id="customRadio1" value="ลากิจ" name="leavetype" checked disabled>
+                  {% endif %}
+                  <label for="customRadio1" class="custom-control-label">ลากิจ</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  {% if detailleave.3 == 'ลาพักร้อน' %}
+                  <input class="custom-control-input" type="radio" id="customRadio2" value="ลาพักร้อน" name="leavetype" checked disabled>
+                  {% endif %}
+                  <label for="customRadio2" class="custom-control-label">ลาพักร้อน</label>
+                </div>
+              </div>
+              <div class="leavetype">
+                <div class="custom-control custom-radio">
+                  {% if detailleave.3 == 'ลาป่วย' %}
+                  <input class="custom-control-input" type="radio" id="customRadio3" value="ลาป่วย" name="leavetype" checked disabled>
+                  {% endif %}
+                  <label for="customRadio3" class="custom-control-label">ลาป่วย</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  {% if detailleave.3 == 'ลาอื่นๆ' %}
+                  <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" checked disabled>
+                  {% endif %}
+                  <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">วันที่ทำรายการ:</label>
+                <input type="text" class="form-control" value="{{detailleave.4}}" disabled>
+              </div>
+            </div>
+            <div class="box-dateleave" style=";border:1px solid #D3D3D3;margin-bottom:20px">
+              <h6 style="margin:15px 0 5px 10px;font-weight:bold">วันที่ต้องการลา</h6>
+              <div class="dateleave" style="display:flex;justify-content:space-around">
+                <div class="form-group" style="margin:0 20px 0 10px;width:95%">
+                  <label for="recipient-name" class="col-form-label">เรื่ม:</label>
+                  <input type="text" class="form-control" value="{{detailleave.5.strftime('%d/%m/%Y')}}" disabled>
+                </div>
+                <div class="form-group" style="width:95%;margin:0 15px 20px 0">
+                  <label for="recipient-name" class="col-form-label">สิ้นสุด:</label>
+                  <input type="text" class="form-control" value="{{detailleave.6.strftime('%d/%m/%Y')}}" disabled>
+                </div>
+              </div>
+              <div class="leavenum" style="display:flex;justify-content:space-around">
+                <div class="form-group" style="margin:0 10px 20px 10px;width:95%;">
+                  <label>จำนวน (วัน):</label>
+                  <input type="number" class="form-control" name="leavenum" value="{{detailleave.7}}" readonly>
+                </div>
+                <div class="form-group" style="margin:0 10px 20px 10px;width:95%">
+                  <label>จำนวน (ชั่วโมง):</label>
+                  <input type="number" class="form-control" name="leavenumhh" value="{{detailleave.8}}" readonly>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <label>เหตุผล:</label>
+              <textarea class="form-control" rows="3" disabled style="background-color:white">{{detailleave.9}}</textarea>
+            </div>
+            <div class="form-group" style="margin-top:15px">
+              <label for="recipient-name" class="col-form-label">เอกสารประกอบ(ถ้ามี) :</label> <br>
+              {% if detailleave.12 != '' %}
+              <a href="{{detailleave.12}}" target="_blank">{{detailleave.12[17:]}}</a>
+              {% else %}
+              <p>No file</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title"></h3>
+          </div>
+
+          {% for detailleave in detailleave %}
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th width="50%">พนักงาน</th>
+                    <td>{{detailleave.1}}</td>
+                  </tr>
+                  <tr>
+                    <th width="50%">แผนก</th>
+                    <td>{{detailleave.2}}</td>
+                  </tr>
+
+                  <tr>
+                    <th>status</th>
+                    {% if detailleave.13 == 0 %}
+                    <td><span class=" badge badge-warning">Waiting</span></td>
+                    {% elif detailleave.13 == 1 %}
+                    <td><span class="badge badge-info">Review</span></td>
+                    {% elif detailleave.13 == 2 %}
+                    <td><span class="badge badge-success">Approve</span></td>
+                    {% elif myleave.13 == 10 %}
+                    <td><span class="badge badge-success" style="background-color:red">ยกเลิก</span></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="approve-user" style="display:flex;justify-content:space-around;border:1px solid #D3D3D3;padding:15px;">
+              <div class="form-group" style="width:95%;margin-right:15px">
+                <label for="useruse" class="form-label">ทบทวนโดย:</label>
+                <input class="form-control" list="headuser" value="{{detailleave.10}}" disabled>
+              </div>
+              <div class="form-group" style="width:95%">
+                <label for="useruse" class="form-label">อนุมัติโดย:</label>
+                <input class="form-control" list="manageruser" value="{{detailleave.11}}" disabled>
+              </div>
+            </div>
+            {% if detailleave.13 != 2 %}
+            <form action="{{ url_for('admin.Headreview') }}" method="POST" enctype="multipart/form-data">
+
+              <div class="form-group">
+                <label>Additional Commitment Remark:</label>
+                <textarea class="form-control" name="remark" rows="6"></textarea>
+              </div>
+          </div>
+
+          <div class="card-footer">
+            <input class="form-control" name="manageruser" value="{{detailleave.11}}" hidden>
+
+            <input type="text" name="id" value="{{detailleave.0}}" hidden>
+            {% if detailleave.13 == 0 %}
+            <input type="text" name="nameaction" value="{{ session['fname'] }} {{ session['lname'] }}" hidden>
+            <input type="text" name="user_name_lave" value="{{detailleave.1}}" hidden>
+            <input type="text" name="user_employeeID" value="{{detailleave.14}}" hidden>
+            <input type="text" name="action" value="Review" hidden>
+            <input type="text" name="actioncancel" value="Cancel" hidden>
+            <input type="text" name="status" value="1" hidden>
+            <!--หัวหน้าแผนกรีววิวแล้วส่งค่า 1 ไป -->
+            {% elif detailleave.13 == 1 %}
+            <input type="text" name="nameaction" value="{{ session['fname'] }} {{ session['lname'] }}" hidden>
+            <input type="text" name="user_name_lave" value="{{detailleave.1}}" hidden>
+            <input type="text" name="user_employeeID" value="{{detailleave.14}}" hidden>
+            <input type="text" name="action" value="Approve" hidden>
+            <input type="text" name="actioncancel" value="Cancel" hidden>
+            <input type="text" name="status" value="2" hidden>
+            <!--managerตรวจสอบ แล้วส่งค่า 2 ไป -->
+            {% endif %}
+            <div class="btnbb btnadd" id="">
+              <button type="submit" name="cancel" class="btn btn-success btnload" id="approve">
+                Approve
+              </button>
+
+              <button type="submit" value="10" name="cancel" class="btn btn-danger" id="reject" style="margin-left:5px;">
+                Reject
+              </button>
+            </div>
+            </form>
+          </div>
+
+          <!--ส่วนของ HR -->
+          {% elif detailleave.13 == 2 %}
+          <form action="{{ url_for('admin.Hrreview') }}" method="POST" enctype="multipart/form-data" >
+            <div class="form-group">
+              <label>Additional Commitment Remark:</label>
+              <textarea class="form-control" name="remark" rows="6"></textarea>
+            </div>
+            <div class="card-footer" style="text-align:right">
+              <input type="text" name="nameaction" value="{{ session['name'] }}" hidden>
+              <input type="text" name="id" value="{{detailleave.0}}" hidden>
+              <input type="text" name="employeeid" value="{{detailleave.14}}" hidden>
+              <input type="text" name="typeleave" value="{{detailleave.3}}" hidden>
+              <input type="text" name="action" value="Checked" hidden>
+
+              <input type="text" name="status" value="5" hidden>
+              <!--HR ตรวจสอบแล้วส่งค่า 5 ไป -->
+
+              <input type="number" class="form-control" name="leavenumd" value="{{detailleave.7}}" hidden>
+              <input type="number" class="form-control" name="leavenumh" value="{{detailleave.8}}" hidden>
+
+              <button type="submit" class="btn btn-success">
+                ตรวจสอบ
+              </button>
+            </div>
+          </form>
+          <!--จบส่วน HR -->
+          {% endif %}
+
+          {% else %}
+          {% endfor %}
+        </div>
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div>
+              <h3>History</h3>
+            </div>
+
+            <div class="table-responsive">
+              <table id="history" class="table ">
+                <thead>
+                  <tr>
+                    <th scope="col">Action</th>
+                    <th scope="col">Action By</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Remark</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log in log %}
+                  <tr>
+                    {% if log.2 == 'Review' %}
+                    <td><span class=" badge badge-info">{{log.2}}</span></td>
+                    {% elif log.2 == 'Create' %}
+                    <td><span class=" badge badge-success" style="background-color:#778899">{{log.2}}</span></td>
+                    {% elif log.2 == 'Approve' %}
+                    <td><span class=" badge badge-success">{{log.2}}</span></td>
+                    {% elif log.2 == 'Checked' %}
+                    <td><span class=" badge badge-success" style="background-color:#EE82EE">{{log.2}}</span></td>
+                    {% elif log.2 == 'Cancel' %}
+                    <td><span class=" badge badge-success" style="background-color:red">{{log.2}}</span></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td>{{log.3}}</td>
+                    <td>{{log.4.strftime('%d/%m/%Y %H:%M:%S' )}}</td>
+                    <td>{{log.5}}</td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <script>
+    $('#approve').click(function() {
+      $(".box-load").addClass("loader_page");
+    });
+
+    $('#reject').click(function() {
+      $(".box-load").addClass("loader_page");
+    });
+  </script>
+
+  {% endblock %}
+</section>
+<!-- /.content -->
+
+
+
+<!-- /.content-wrapper -->

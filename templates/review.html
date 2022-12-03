@@ -1,0 +1,77 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">Review</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">
+              <i class="fas fa-th mr-1"></i>
+              รายละเอียด
+            </h3>
+          </div>
+          <div class="card-body">
+            <table id="review" class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">ทำที่ทำรายการ</th>
+                  <th scope="col">ชื่อ-สกุล</th>
+                  <th scope="col">แผนก</th>
+                  <th scope="col">วันที่ลา</th>
+                  <th scope="col">ถึงวันที่</th>
+                  <th scope="col">เอกสารประกอบ</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for myreview in myreview %}
+                <tr>
+                  <td>{{myreview.4}}</td>
+                  <td>{{myreview.1}}</td>
+                  <td>{{myreview.2}}</td>
+                  <td>{{myreview.5.strftime("%d/%m/%Y")}}</td>
+                  <td>{{myreview.6.strftime("%d/%m/%Y")}}</td>
+                  {% if myreview.12 == '' %}
+                  <td></td>
+                  {% else %}
+                  <td><a href="{{myreview.12}}" target="_blank"><button class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
+                  {% endif %}
+                  {% if myreview.13 == 0 %}
+                  <td><span class=" badge badge-warning">Waiting</span></td>
+                  {% elif myreview.13 == 1 %}
+                  <td><span class="badge badge-info">Review</span></td>
+                  {% elif myreview.13 == 2 %}
+                  <td><span class="badge badge-success">Approve</span></td>
+                  {% else %}
+                  <td></td>
+                  {% endif %}
+                  <td>
+                    <form class="" action="{{url_for('admin.Detailleave')}}" method="post">
+                      <input type="text" name="id" value="{{ myreview.0 }}" hidden>
+                      <button type="submit" class="btn btn-primary" style="float:left">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

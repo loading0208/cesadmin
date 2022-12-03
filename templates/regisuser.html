@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CES ADMIN | Register</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="static/dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition register-page">
+  <div class="register-box">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <p class="h1"><b>CES</b>ADMIN</p>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">ลงทะเบียนสมาชิกใหม่</p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for msg in messages %}
+        <div class="alert alert-danger">
+          <div class="container">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true"><i class="material-icons">X</i></span>
+            </button>
+            <b>Error Alert:</b> {{msg}}
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('user.Regisuser') }}" method="POST">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" pattern="^[a-zA-Z\s]+$" name="fname" placeholder="ชื่อ" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-users"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" pattern="^[a-zA-Z\s]+$" name="lname" placeholder="นามสกุล" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-users"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="employeeid" placeholder="รหัสพนักงาน" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-bahai"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <select class="custom-select" name="depart" required>
+              <option value="" name="depart">--------กรุณาเลือกแผนก--------</option>
+              {% for dep in dep %}
+              <option value="{{dep.1}}" name="depart">{{dep.1}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" name="email" placeholder="อีเมลล์" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="username" pattern="^[a-zA-Z\s]+$" placeholder="Username (เฉพาะ a-z, A-Z)" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" name="password" pattern="^[a-zA-Z0-9\s]+$" placeholder="Password (เฉพาะ a-z, A-Z, 0-9)" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" name="repassword" placeholder="Retype password" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-7">
+              <div class="icheck-primary">
+                <input type="checkbox" id="agreeTerms" name="terms" value="agree" required>
+                <label for="agreeTerms">
+                  I agree to the <a href="#">terms</a>
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-5" >
+              <button type="submit" class="btn btn-primary btn-block">ลงทะเบียน</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+        <a href="login" class="text-center">I already have a membership</a>
+      </div>
+      <!-- /.form-box -->
+    </div><!-- /.card -->
+  </div>
+  <!-- /.register-box -->
+
+  <!-- jQuery -->
+  <script src="static/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="static/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

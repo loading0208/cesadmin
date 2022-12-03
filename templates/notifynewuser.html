@@ -1,0 +1,54 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">Approve new user</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-body">
+            <table id="review" class="table table-bordered table-hover">
+              <thead style="background-color:#40E0D0">
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">ชื่อ-นามสกุล</th>
+                  <th scope="col">แผนก</th>
+                  <th scope="col">E-Mail</th>
+                  <th scope="col" style="width: 100px">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for newuser in newuser %}
+                <tr>
+                  <td class="noid">{{newuser.0}}</td>
+                  <td>{{newuser.1}} {{newuser.2}}</td>
+                  <td>{{newuser.7}}</td>
+                  <td>{{newuser.6}}</td>
+                  <td class="btact">
+                    <form class="" action="{{url_for('user.Approvenewuser')}}" method="post">
+                      <input type="text" name="id" value="{{ newuser.0 }}" hidden>
+                      <button type="submit" class="btn btn-primary" style="float:left">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+
+
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

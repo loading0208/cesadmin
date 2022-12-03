@@ -1,0 +1,93 @@
+{% extends 'main/main.html' %}
+
+
+<section class="content">
+  {% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+          <h3 class="text-primary"><i class="fas fa-paint-brush"></i> CES หามาเล่า</h3><br>
+
+          <div class="row">
+            {% for post in post %}
+            <div class="card" style="width:100%;">
+              <div class="card-header">
+                <h1 class="card-title">
+                  {{post.1}}
+                </h1><br>
+                <p style="font-size:10px">Shared publicly- {{post.4.strftime('%d/%m/%Y')}}</p>
+
+              </div>
+              <div class="card-body post-body">
+                {{post.2}}
+              </div>
+              <div class="card-footer">
+                <form action="/news" method="post" style="display:flex;justify-content:center">
+                  <input type="text" name="id" value="{{post.0}}" hidden>
+                  <button type="submit" class="link-black text-sm post" style="border-radius:5px;border:none;margin-left:20px;padding:5px;background:none;">อ่านต่อ</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+          <h3 class="text-primary "><i class="fas fa-paint-brush"></i> บทความแนะนำ</h3>
+          <br>
+          <div class="text-muted row ">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-film"></i> แนะนการใช้งานโปรแกรม
+                  </h3>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body post-body">
+
+                  <video style="width:100%;height:auto" controls>
+                    <source src="static\vdo\ces admin.mp4" type="video/mp4">
+                    <source src="movie.ogg" type="video/ogg">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+            <div class="col-md-12">
+              {% for guidenew in guidenew %}
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-screencast"></i>
+                    {{guidenew.1}}
+                  </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body post-body">
+                  {{guidenew.2}}
+                </div>
+                <form action="/news" method="post" style="padding:5px;text-align:center">
+                  <input type="text" name="id" value="{{guidenew.0}}" hidden>
+                  <button type="submit" class="link-black text-sm" style="border:none;border-radius:5px;width:100%;margin:15px 0 5px 0"></i> อ่านต่อ</button>
+                </form>
+              </div>
+              {% endfor %}
+              <!-- /.card -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- /.card-body -->
+
+
+  </div>
+  {% endblock %}
+</section>
+<!-- /.content -->

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CES ADMIN</title>
+  <!--date picker-->
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" />
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!--jQuery CDN-->
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <!--sweetalert flash-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <!-- Select2 -->
+  <link rel="stylesheet" href="static/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="static/plugins/fullcalendar/main.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="static/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="static/dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="static/plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="static/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="static/plugins/toastr/toastr.min.css">
+
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+    }
+
+    .btnadd {
+      display: none;
+    }
+
+    .btnbb {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .swal-button {
+      background-color: #4962B3;
+    }
+    .active {
+      background-color: #5E6668 !important
+    }
+  </style>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+  <div class="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="static/dist/img/Logoces.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-dark">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        {% block search %}
+
+        {% endblock %}
+
+        {% block iconmenu %}
+
+        {% endblock %}
+
+        {% if session['level'] == 'admin' %}
+        <li>
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#report" data-whatever="@fat">
+            <i class="nav-icon fas fa-file"></i>
+          </a>
+        </li>
+
+        {% endif %}
+        <li>
+          <a class="nav-link" href="#" title="แจ้งซ่อม IT" data-toggle="modal" data-target="#helpdesk" data-whatever="@fat">
+            <i class="nav-icon fa-solid fa-screwdriver-wrench"></i>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="contact" title="contact">
+            <i class="nav-icon fa fa-address-card"></i>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="leave" title="ลางาน">
+            <i class="nav-icon fa-regular fa-calendar-plus"></i>
+          </a>
+        </li>
+        <!--notification-->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            {% if notification.0 == '0' %}
+            {% else %}
+            <span class="badge badge-danger navbar-badge">{{notification.0}}</span>
+            {% endif %}
+          </a>
+          <!--เช็คว่ามีแจ้งเตือนมาหรือไม่ -->
+          <!--ถ้าไม่มี -->
+          {% if notification.0 == '0' %}
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item">
+              ไม่มีรายการแจ้งเตือน
+            </a>
+          </div>
+          {% else %}
+          <!--ถ้ามี -->
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            {% if notification.1 != 0 %}
+            <a href="leavereview" class="dropdown-item">
+              <i class="fa-regular fa-calendar-plus mr-2"></i> {{notification.1}} รายการลางาน
+            </a>
+            {% else %}
+            {% endif %}
+            <!--noti helpdesk-->
+            {% if notification.2 != 0 %}
+            <a href="notifyhelpdesk" class="dropdown-item">
+              <i class="fa-solid fa-screwdriver-wrench mr-2"></i> {{notification.2}} รายการแจ้งซ่อมใหม่
+            </a>
+            {% else %}
+            {% endif %}
+            {% if notification.3 != 0 %}
+            <a href="notifywaithelpdesk" class="dropdown-item">
+              <i class="fa-solid fa-screwdriver-wrench mr-2"></i> {{notification.3}} รายการรอซ่อม
+            </a>
+            {% else %}
+            {% endif %}
+            {% if notification.4 != 0 %}
+            <a href="newuser" class="dropdown-item">
+              <i class="fa-solid fa-person-through-window mr-2"></i> {{notification.4}} สมาชิกใหมรอการอนุมัติ
+            </a>
+            {% else %}
+            {% endif %}
+            <!--noti booking room-->
+            {% if notification.5 != 0 %}
+            <a href="notifybooking" class="dropdown-item">
+              <i class="fa-solid fa-link mr-2"></i> {{notification.5}} รายการจองห้องประชุม
+            </a>
+            {% else %}
+            {% endif %}
+            <!--noti booking room-->
+          </div>
+          {% endif %}
+
+
+
+        </li>
+        <!--end notification-->
+
+        <li>
+          <a class="nav-link" href="/logoff">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="/home" class="brand-link">
+        <img src="static/dist/img/Logoces.png" alt="CES" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">CES ADMIN</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            {% for employee in employee %}
+            {% if employee.17 == '' %}
+            <img src="static/imgprofile/header.png" class="img-circle elevation-2" alt="User Image">
+            {% else %}
+            <img src="{{employee.17}}" class="img-circle elevation-2" alt="User Image">
+            {% endif %}
+
+            {% endfor %}
+
+          </div>
+          <div class="info">
+            <a href="/profile" class="d-block" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ session['name'] }}</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- <li class="nav-header ">สำหรับแผนก IT</li>
+            Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            {% if session['department'] != 'IT Support' %}
+            {% else %}
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-computer"></i>
+                <p>
+                  ทรัพย์สินแผนก IT
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="dashboardgoods" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="goods" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>ทรัพย์สินแผนก IT</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="borrowlist" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>รายการเบิก-ยืม</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            {% endif %}
+            <li class="nav-item clearfix">
+              <a href="/helpdesk" class="nav-link">
+                <i class="nav-icon fa-solid fa-screwdriver-wrench"></i>
+                <p>
+                  แจ้งซ่อม IT
+                </p>
+              </a>
+            </li>
+            {% if part == "bookingroom" %}
+            <li class="nav-item">
+              <a href="/bookingroom" class="nav-link active">
+                <i class="nav-icon fa fa-link"></i>
+                <p>
+                  จองห้องประชุม
+                </p>
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a href="/bookingroom" class="nav-link">
+                <i class="nav-icon fa fa-link"></i>
+                <p>
+                  จองห้องประชุม
+                </p>
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a href="/checkmyscan" class="nav-link">
+                <i class="nav-icon fas fa-clock"></i>
+                <p>
+                  เช็คเวลาสแกนนิ้ว
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/leave" class="nav-link">
+                <i class="nav-icon fa-regular fa-calendar-plus"></i>
+                <p>
+                  ระบบลางาน
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link">
+                <i class="nav-icon fa fa-address-card"></i>
+                <p>
+                  Contact
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/comments" class="nav-link">
+                <i class="nav-icon fa-sharp fa-solid fa-comments"></i>
+                <p>
+                  แสดงความคิดเห็น
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/commentinbox" class="nav-link">
+                <i class="nav-icon fa-solid fa-inbox"></i>
+                <p>
+                  Comment in box
+                  {% if notification.6 == 0 %}
+                  {% else %}
+                  <span class="right badge badge-danger">{{notification.6}}</span>
+                  {% endif %}
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/writenews" class="nav-link">
+                <i class="nav-icon fa-sharp fa-solid fa-pen"></i>
+                <p>
+                  เขียนบทความ
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              {% block header %}
+
+              {% endblock %}
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <section class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flashes">
+          {% for category, msg in messages %}
+          {% if msg == 'กรุณาเช็ควันที่' or msg == 'เกิดข้อมผิดพลาด ไม่สามารถดูข้อมูลได้ กรุณาติดต่อ IT Support โทร 147'  %}
+          <script type="text/javascript">
+            swal({
+              position: 'center',
+              icon: 'error',
+              title: '{{msg}}',
+              showConfirmButton: true,
+              timer: 2500
+            })
+          </script>
+          {% elif msg == '' %}
+          <script type="text/javascript">
+            swal({
+              position: 'center',
+              icon: 'success',
+              title: '{{msg}}',
+              showConfirmButton: true,
+              timer: 2500
+            })
+          </script>
+          {% elif msg == 'Login successfully, welcome' %}
+          <script type="text/javascript">
+            swal({
+              position: 'center',
+              icon: 'success',
+              title: '{{msg}} {{session['
+              name ']}}',
+              showConfirmButton: true,
+              timer: 2500
+            })
+          </script>
+          {% else %}
+          <script type="text/javascript">
+            swal({
+              position: 'center',
+              icon: 'success',
+              title: '{{msg}}',
+              showConfirmButton: true,
+              timer: 2500
+            })
+          </script>
+          {% endif %}
+
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}
+
+
+        {% endblock %}
+        <div class="modal fade" id="helpdesk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">แจ้งซ่อม IT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="{{ url_for('helpdesk.addrepair') }}" method="POST" enctype="multipart/form-data" id="quickForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">ชื่อ:</label>
+                    <input type="text" class="form-control" name="fname" value="{{ session['fname'] }}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">นามสกุล:</label>
+                    <input type="text" class="form-control" name="lname" value="{{ session['lname'] }}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">แผนก:</label>
+                    <input type="text" class="form-control" name="depart" value="{{ session['department'] }}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">E-MAil:</label>
+                    <input type="email" class="form-control" name="email" value="{{ session['email'] }}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">เบอร์โต๊ะ:</label>
+                    <input type="text" pattern="[0-9\s]*" title="กรุณาใส่เบอร์โทรภายใน" class="form-control" name="telin" value="" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">ประเภทอุปกรณ์:</label>
+                    <select class="custom-select showinput" name="goods" title="" required>
+                      <option value="">--กรุณาระบุประเภทอุปกรณ์--</option>
+                      <option value="pc">PC</option>
+                      <option value="notebook">Notebook</option>
+                      <option value="phone">Phone</option>
+                      <option value="network">Network</option>
+                      <option value="Printer">Printer/Scan</option>
+                      <option value="other">อื่นๆ/โปรดระบุ</option>
+                    </select>
+                  </div>
+                  <div class="form-group error">
+                    <input id="show" type="text" class="form-control " name="goodsohter" value="" placeholder="กรุณาใส่ประเภทอุปกรณ์" title="กรุณาใส่ข้อมูล" style="display:none">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">รหัสทะเบียนอุปกรณ์:</label>
+                    <input type="text" class="form-control" name="code" placeholder="ถ้าไม่ทราบให้ใส่ -" title="กรุณาใส่ข้อมูล หากไม่ทราบให้ใส่ -" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">อาการเสีย:</label>
+                    <textarea id="deteil" type="deteil" class="form-control" name="detail" rows="2" cols="63" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <input type="file" class="form-control" name="file" accept="image/x-png,image/gif,image/jpeg" onchange="readURL(this);">
+                    <img id="blah" src="" alt="" class="img-thumbnail" />
+                  </div>
+                  <input type="text" class="form-control" name="jobstatus" value="0" hidden>
+                  <input type="text" name="myemployeeID" value="{{session['employeeID']}}" hidden>
+              </div>
+              <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Report IT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="{{ url_for('helpdesk.Report') }}" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">เดือน:</label>
+                    <select class="custom-select showinput" name="months" required>
+                      <option value="{{month}}">{{month}}</option>
+                      <option value="มกราคม">มกราคม</option>
+                      <option value="กุมภาพันธ์">กุมภาพันธ์</option>
+                      <option value="มีนาคม">มีนาคม</option>
+                      <option value="เมษายน">เมษายน</option>
+                      <option value="พฤษภาคม">พฤษภาคม</option>
+                      <option value="มิถุนายน">มิถุนายน</option>
+                      <option value="กรกฎาคม">กรกฎาคม</option>
+                      <option value="สิงหาคม">สิงหาคม</option>
+                      <option value="กันยายน">กันยายน</option>
+                      <option value="ตุลาคม">ตุลาคม</option>
+                      <option value="พฤษจิกายน">พฤษจิกายน</option>
+                      <option value="ธันวาคม">ธันวาคม</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">วันที่:</label>
+                    <input type="date" class="form-control" name="dstart" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">ถึงวันที่:</label>
+                    <input type="date" class="form-control" name="dend" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">OK</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="booking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">จองห้องประชุม</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="{{ url_for('booking.Addbooking') }}" method="POST">
+                  <input type="text" name="name" value="{{session['name']}}" hidden>
+                  <input type="text" name="employeeid" value="{{session['employeeID']}}" hidden>
+                  <input type="email" name="email" value="{{session['email']}}" hidden>
+                  <input type="text" name="depart" value="{{session['department']}}" hidden>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">ห้องประชุมที่ต้องการ:</label>
+                    <select class="custom-select" name="room" required>
+                      <option value="">กรุณาเลือกห้องประชุม</option>
+                      <option value="Malakul">Malakul</option>
+                      <option value="Chadjew">Chadjew</option>
+                      <option value="Thanasriporn">Thanasriporn</option>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label for="recipient-name" class="col-form-label">วันที่:</label>
+                      <input type="datetime-local" class="form-control" name="date" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="recipient-name" class="col-form-label">ถึงวันที่:</label>
+                      <input type="datetime-local" class="form-control" name="dateend" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">ความต้องการเพื่มเติม:</label>
+                    <textarea id="deteil" type="deteil" class="form-control" name="other" rows="2" cols="63" required></textarea>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">OK</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2022 By IT Support</strong>
+      <div class="float-right d-none d-sm-inline-block">
+      </div>
+    </footer>
+
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+
+
+  <!-- ./wrapper -->
+  <script src="https://kit.fontawesome.com/6ec1ba2f25.js" crossorigin="anonymous"></script>
+  <!-- jQuery -->
+  <script src="static/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="static/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="static/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Select2 -->
+  <script src="static/plugins/select2/js/select2.full.min.js"></script>
+  <!-- ChartJS -->
+  <script src="static/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="static/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="static/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="static/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="static/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="static/plugins/moment/moment.min.js"></script>
+  <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="static/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="static/dist/js/adminlte.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="static/dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="static/dist/js/pages/dashboard.js"></script>
+  <!-- jquery-validation -->
+  <script src="static/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="static/plugins/jquery-validation/additional-methods.min.js"></script>
+
+
+  <script src="static/plugins/sweetalert2/sweetalert2.min.js"></script>
+  <script src="static/plugins/toastr/toastr.min.js"></script>
+  <script src="static/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="static/plugins/jszip/jszip.min.js"></script>
+  <script src="static/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="static/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".showinput").change(function() {
+        console.log("selected: " + $(".showinput").val());
+        if ($(this).val() == "other")
+          $("#show").fadeIn();
+        else {
+          $("#show").hide();
+        }
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+  </script>
+
+  <script>
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
+  <!--โชว์รูป-->
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#blah')
+            .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  <!--end-->
+  <!--date picker-->
+  <script>
+    $(document).ready(function() {
+      $('input[id$=leavestart]').datepicker({
+        dateFormat: 'dd/mm/yy' // Date Format "dd/mm/yy"
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('input[id$=leaveend]').datepicker({
+        dateFormat: 'dd/mm/yy' // Date Format "dd/mm/yy"
+      });
+    });
+  </script>
+  <!--end-->
+
+  <script>
+    $(function() {
+      $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#review,#profile,#goods,#borrow').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+
+  <script>
+    $(function() {
+      $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#level,borrowit').DataTable({
+        "paging": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+
+  <script>
+    $(function() {
+      $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#history').DataTable({
+        "paging": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+
+    $(function() {
+      $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#goodsindep').DataTable({
+        "paging": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+  <!--ลบ class เพื่อซ่อนปุ่ม--->
+  <script>
+    $('#btn').click(function() {
+      $(this).removeClass("btnbb");
+
+    });
+  </script>
+  <script>
+    $(function() {
+      $('#quickForm').validate({
+        rules: {
+          goodsohter: {
+            required: true,
+          },
+        },
+        messages: {
+          goodsohter: {},
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

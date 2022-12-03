@@ -1,0 +1,58 @@
+{% extends 'main/main.html' %}
+
+
+
+{% block header %}
+<h1 class="m-0">ระบบแสดงความคิดเห็น</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="card">
+    <div class="card-body row">
+      <div class="col-5 text-center d-flex align-items-center justify-content-center">
+        <div class="">
+          <img class="img-size-50 mr-3 img-circle" src="static\img\Logo CES-IT.png" alt="" style="width: 150px">
+          <h5><strong>CES. ENGINEERING & MAINTENANCE SERVICES CO.,LTD.</strong></h5>
+          <p class="lead mb-5" style="font-size:18px">“ทุกความคิดเห็นของท่านมีประโยชน์ต่อการพัฒนาคุณภาพของเพื่อนพนักงานและบริษัทของเรา”<br>
+            “กรุณาแสดงความคิดเห็นด้วยความสุภาพ” <br>
+          </p>
+        </div>
+      </div>
+      <div class="col-7">
+        <form action="{{ url_for('admin.Sendcomment') }}" method="post" enctype="multipart/form-data" id="quickForm">
+          <div class="form-group" hidden>
+            <label for="inputName">Name</label>
+            <input type="text" id="inputName" class="form-control" value="{{session['name']}}" name="name" />
+          </div>
+          <div class="form-group" hidden>
+            <label for="inputEmail">employeeid</label>
+            <input type="text" id="inputEmail" class="form-control" value="{{session['employeeID']}}" name="employeeid" />
+          </div>
+          <div class="form-group">
+            <label for="inputSubject">Subject</label>
+            <input type="text" id="inputSubject" class="form-control" name="subject" required />
+          </div>
+          <div class="form-group">
+            <label for="inputMessage">Message</label>
+            <textarea id="inputMessage" class="form-control" rows="4" name="message" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="customFile">เอกสารประกอบ(ถ้ามี)</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" accept="image/x-png,image/gif,image/jpeg,application/pdf" name="file">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Send message">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

@@ -1,0 +1,113 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">รายการรอซ่อม</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-body">
+            <table id="review" class="table table-bordered table-hover">
+              <thead style="background-color:#40E0D0">
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">ชื่อ-นามสกุล</th>
+                  <th scope="col">เบอร์โต๊ะ</th>
+                  <th scope="col">อุปกรณ์</th>
+                  <th scope="col">วันที่แจ้ง</th>
+                  <th scope="col">อาการเสีย</th>
+                  <th scope="col">รูปประกอบ</th>
+                  <th scope="col">สถานะ</th>
+                  <th scope="col">Acction</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in datas %}
+                <tr>
+                  <td class="noid">{{ row.0 }}</td>
+                  <td>{{ row.1 }} {{ row.2 }}</td>
+                  <td>{{ row.15 }}</td>
+                  <td>{{ row.5 }}</td>
+                  <td>{{ row.7.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                  <td>{{ row.8 }}</td>
+                  <td style="width:100px;height:10px"><a href="{{ row.12 }}" target="_blank"> <img src="{{ row.12 }}" style="width:100%;object-fit:cover"></a></td>
+                  <td>{{row.9}}</td>
+                  <td>
+                    <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#waithelpdesk{{row.0}}" data-whatever="@fat">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </td>
+                </tr>
+                <!--model waithelpdesk -->
+                <div class="modal fade" id="waithelpdesk{{row.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">แจ้งผลการซ่อม</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="{{ url_for('helpdesk.Ithelpdesk') }}" method="POST">
+                          <input type="text" class="form-control" name="id" value="{{ row.0 }}" hidden>
+                          <input type="email" class="form-control" name="email" value="{{ row.4 }}" hidden>
+                          <input class="form-control" value="{{row.1}}" name="nameuser" hidden>
+                          <input type="text" class="form-control" style="background:none" value="{{row.8}}" name="detail" hidden>
+
+                          <div class="form-group">
+                            <label for="message-text" class="col-form-label">การแก้ไข:</label>
+                            <textarea id="deteil" type="deteil" class="form-control" name="feedback" rows="2" cols="63" required></textarea>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">การดำเนินการ:</label>
+                            <select class="custom-select" name="jobstatus" id="type-acction" required>
+                              <option value="">--เลือกการดำเนินการ--</option>
+                              <option value="2">อัพเดทงาน</option>
+                              <option value="3">ส่งงาน</option>
+                            </select>
+                          </div>
+                          <input type="text" class="form-control" value="{{now}}" name="Dateaccept" hidden>
+                          <input type="text" class="form-control" value="{{ session['fname'] }}" name="ituser" hidden>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary helpdesk-loader-page">Send message</button>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!--End model waithelpdesk -->
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  <script>
+    $('.helpdesk-loader-page').click(function() {
+      const deteil = document.getElementById('deteil')
+      const acction = document.getElementById('type-acction')
+      if (deteil.value, acction.value === '') {
+
+      } else {
+        $(".box-load").addClass("loader_page");
+      }
+    });
+  </script>
+
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

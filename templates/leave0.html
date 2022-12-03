@@ -1,0 +1,237 @@
+{% extends 'main/main.html' %}
+
+{% block header %}
+<h1 class="m-0">ระบบลางาน</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-8">
+        <!-- general form elements -->
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">กรุณาทำรายการ</h3>
+          </div>
+          <form action="{{ url_for('admin.Addleave') }}" method="POST" enctype="multipart/form-data" id="quickForm" name="leave">
+            <input type="text" name="name" value="{{ session['name'] }}" hidden>
+            <input type="text" name="dep" value="{{ session['department'] }}" hidden>
+            <div class="card-body">
+              <div class="form-group" style="display:flex;width:100%;">
+                <div class="leavetype" style="margin-right:30px;width:20%">
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio1" value="ลากิจ" name="leavetype" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                    <label for="customRadio1" class="custom-control-label">ลากิจ</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio2" value="ลาพักร้อน" name="leavetype" required>
+                    <label for="customRadio2" class="custom-control-label">ลาพักร้อน</label>
+                  </div>
+                </div>
+                <div class="leavetype" style="width:30%">
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio3" value="ลาป่วย" name="leavetype" required>
+                    <label for="customRadio3" class="custom-control-label">ลาป่วย</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" required>
+                    <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">วันที่ทำรายการ:</label>
+                  <input type="text" class="form-control" name="datecreate" value="{{datenow}}" title="กรุณาใส่ข้อมูลให้ครบ" readonly>
+                </div>
+              </div>
+              <div class="box-dateleave" style=";border:1px solid #D3D3D3;margin-bottom:20px">
+                <h6 style="margin:15px 0 5px 10px;font-weight:bold">วันที่ต้องการลา</h6>
+                <div class="dateleave" style="display:flex;justify-content:space-around">
+                  <div class="form-group" style="margin:0 20px 0 10px;width:95%">
+                    <label for="recipient-name" class="col-form-label">เรื่ม:</label>
+                    <input type="text" class="form-control" name="leavestart" id='dateleavestart' autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                  </div>
+                  <div class="form-group" style="width:95%;margin:0 15px 20px 0">
+                    <label for="recipient-name" class="col-form-label">สิ้นสุด:</label>
+                    <input type="text" class="form-control" name="leaveend" id='dateleaveend' autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                  </div>
+                </div>
+                <div class="leavenum" style="display:flex;justify-content:space-around">
+                  <div class="form-group" style="margin:0 10px 20px 10px;width:95%;">
+                    <label>จำนวน (วัน):</label>
+                    <input type="number" class="form-control" min="0" max="100" id="leavenumd" step="1" name="leavenumd" title="กรุณาใส่ข้อมูลให้ครบ" OnChange="checkdateleave()" required>
+                  </div>
+                  <div class="form-group" style="margin:0 10px 20px 10px;width:95%">
+                    <label>จำนวน (ชั่วโมง):</label>
+                    <input type="number" class="form-control" name="leavenumh" id="leavenumh" step="0.5" min="0" max="8" title="กรุณาใส่ข้อมูลให้ครบ" OnChange="checkdateleave()" required> </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>เหตุผล:</label>
+                <textarea class="form-control" rows="3" name="causedetail" id="causedetail" title="กรุณาใส่ข้อมูลให้ครบ" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>ทบทวนโดย:</label>
+                      <select class="form-control select2bs4" style="width: 100%;" name="headuser" id="headuser" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                        <option value=""></option>
+                        {% for user in user %}
+                        <option value="({{user.0}},{{user.1}})" name="headuser">{{user.0}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>อนุมัติโดย:</label>
+                      <select class="form-control select2bs4" style="width: 100%;" name="manageruser" id="manageruser" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                        <option></option>
+                        {% for user in user %}
+                        <option value="({{user.0}},{{user.1}})" name="manageruser">{{user.0}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+
+              <div class="form-group" style="margin-top:15px">
+                <label for="recipient-name" class="col-form-label">เอกสารประกอบ(ถ้ามี) :</label>
+                <input type="file" class="form-control" name="file" accept="image/x-png,image/gif,image/jpeg,application/pdf" onchange="readURL(this);">
+                <img style="margin-top:15px" id="blah" src="" alt="" class="img-thumbnail" />
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <input type="text" name="employeeid" value="{{session['employeeID']}}" hidden>
+              <input type="text" name="createlog" value="Create" hidden>
+              <button type="submit" class="btn btn-info btnloader">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="sticky-top">
+          <!-- general form elements -->
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">สรุปวันลาคงเหลือ</h3>
+            </div>
+            <div class="card-body">
+              {% for employee in employee %}
+              <div class="col-md-12 col-sm-12 col-12">
+                <div class="info-box shadow-none">
+                  <span class="info-box-icon bg-primary"><i class="far fa-calendar-plus"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">ลากิจคงเหลือ</span>
+                    <span class="info-box-number" style="text-align:end">{{employee.8}} วัน {{employee.9}} ชั่วโมง</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <hr>
+              <div class="col-md-12 col-sm-12 col-12">
+                <div class="info-box shadow-none">
+                  <span class="info-box-icon bg-info"><i class="far fa-calendar-plus"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">ลาพักร้อนคงเหลือ</span>
+                    <span class="info-box-number" style="text-align:end">{{employee.10}} วัน {{employee.11}} ชั่วโมง</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <hr>
+              <div class="col-md-12 col-sm-12 col-12">
+                <div class="info-box shadow-none">
+                  <span class="info-box-icon bg-danger"><i class="far fa-plus"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">ลาป่วยคงเหลือ</span>
+                    <span class="info-box-number" style="text-align:end">{{employee.12}} วัน {{employee.13}} ชั่วโมง</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <hr>
+              <div class="col-md-12 col-sm-12 col-12">
+                <div class="info-box shadow-none">
+                  <span class="info-box-icon bg-success"><i class="fa-solid fa-bolt"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">ลาอื่นๆที่ใช้ไป</span>
+                    <span class="info-box-number" style="text-align:end">{{employee.14}} วัน {{employee.15}} ชั่วโมง</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button type="button" class="btn btn-warning swalDefaultWarning">
+      Launch Warning Toast
+    </button>
+
+  </div><!-- /.container-fluid -->
+
+  <script language="JavaScript">
+    function checkdateleave() {
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+      
+      c = parseFloat(document.leave.leavenumd.value) + parseFloat(document.leave.leavenumh.value);
+      if (c === 0.5) {
+        Toast.fire();
+        document.leave.leavenumd.value = '';
+        document.leave.leavenumh.value = '';
+      } else if (c === 0) {
+        alert("กรุณาไส่จำนวนวันลา");
+        document.leave.leavenumd.value = '';
+        document.leave.leavenumh.value = '';
+      } else {
+
+      };
+
+
+
+      $('.swalDefaultWarning').click(function() {
+        Toast.fire({
+          icon: 'warning',
+          title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+    }
+  </script>
+  {% endblock %}
+</section>
+<!-- /.content -->
+
+
+<!-- /.content-wrapper -->

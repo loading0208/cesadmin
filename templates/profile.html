@@ -1,0 +1,539 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">Profile</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+
+
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-primary">
+          {% for employee in employee %}
+          <div class="inner">
+            <h4>ลากิจคงเหลือ</h4>
+            <h5 style="margin-top:32px">{{employee.8}} วัน {{employee.9}} ชั่วโมง</h5>
+
+          </div>
+
+          <div class="icon">
+            <i class="ion fa-regular fa-calendar-plus"></i>
+          </div>
+          <p href="#" class="small-box-footer"><i class="fas fa-arrows-spin"></i></p>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h4>ลาพักร้อนคงเหลือ</h4>
+            <h5 style="margin-top:32px">{{employee.10}} วัน {{employee.11}} ชั่วโมง</h5>
+
+          </div>
+          <div class="icon">
+            <i class="ion fa-regular fa-calendar-plus"></i>
+          </div>
+          <p href="#" class="small-box-footer"><i class="fas fa-arrows-spin"></i></p>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h4>ลาป่วยคงเหลือ</h4>
+            <h5 style="margin-top:32px">{{employee.12}} วัน {{employee.13}} ชั่วโมง</h5>
+          </div>
+          <div class="icon">
+            <i class="icon fa-solid fa-plus"></i>
+          </div>
+          <p href="#" class="small-box-footer"><i class="fas fa-arrows-spin"></i></p>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h4>ลาอื่นๆ</h4>
+            <h5 style="margin-top:32px">{{employee.14}} วัน {{employee.15}} ชั่วโมง</h5>
+          </div>
+          <div class="icon">
+            <i class="ion fa-solid fa-bolt"></i>
+          </div>
+          <p href="#" class="small-box-footer"><i class="fas fa-arrows-spin"></i></p>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- ./col -->
+    </div>
+    <!-- /.row -->
+    <!-- Main row -->
+    <!-- Left col -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                {% for employee in employee %}
+                <div class="text-center">
+                  {% if employee.17 == '' %}
+                  <img src="static/imgprofile/header.png" class="profile-user-img img-fluid img-circle" alt="User Image">
+                  {% else %}
+                  <img class="profile-user-img img-fluid img-circle" src="{{employee.17}}" alt="User profile picture">
+                  {% endif %}
+                </div>
+
+                <h3 class="profile-username text-center">{{ session['name'] }}</h3>
+
+                <p class="text-muted text-center">{{ session['department'] }}</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>วันที่เรื่มทำงาน</b> <a class="float-right">{{employee.18.strftime('%d/%m/%Y')}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>อายุงาน</b> <a class="float-right">{{aeg}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>รหัสพนักงาน</b> <a class="float-right">{{employee.7}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>วันลากิจทั้งหมด</b> <a class="float-right">{{employee.8}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>วันลาพักร้อนทั้งหมด</b> <a class="float-right">{{employee.10}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>วันลาป่วยทั้งหมด</b> <a class="float-right">{{employee.12}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>วันลาอื่นๆ</b> <a class="float-right">{{employee.14}}</a>
+                  </li>
+
+                </ul>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">About Me</h3>
+              </div>
+              <div class="card-body">
+                <strong><i class="fa fa-phone" aria-hidden="true"></i> Telephone</strong>
+
+                <p class="text-muted">
+                  {{employee.3}}
+                </p>
+
+                <hr>
+                <strong><i class="fa fa-envelope" aria-hidden="true"></i> E-Mail</strong>
+                <p class="text-muted">{{employee.4}}</p>
+                <hr>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            {% if smyhelpdesk == 0 %}
+            {% else %}
+            <div class="card card-gray">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fa fa-screwdriver-wrench" aria-hidden="true"></i>
+                  ประวัติการแจ้งซ่อม
+                </h3>
+                <!-- card tools -->
+              </div>
+              <div class="card-body">
+                <table id="profile" class="table ">
+                  <thead>
+                    <tr>
+                      <th scope="col">เลขที่</th>
+                      <th scope="col">วันที่แจ้ง</th>
+                      <th scope="col">อุปกรณ์</th>
+                      <th scope="col">อาการเสีย</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for myhelpdesk in myhelpdesk %}
+                    <tr>
+                      <td>{{myhelpdesk.0}}</td>
+                      <td>{{myhelpdesk.7.strftime("%d/%m/%Y %H:%M")}}</td>
+                      <td>{{myhelpdesk.5}}</td>
+                      <td>{{myhelpdesk.8}}</td>
+                      {% if myhelpdesk.13 == 0 %}
+                      <td><span class="badge badge-warning" style="padding:5px">In progress</span></td>
+                      {% elif myhelpdesk.13 == 2 %}
+                      <td><span class="badge badge-warning" style="padding:5px">Waiting</span></td>
+                      {% elif myhelpdesk.13 == 3 %}
+                      <td><span class="badge badge-success" style="padding:5px">Completed</span></td>
+                      {% endif %}
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#myhelpdesk{{myhelpdesk.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      <!--model myhelpdesk -->
+                      <div class="modal fade" id="myhelpdesk{{myhelpdesk.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">รายละเอียด</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">การดำเนินการ:</label>
+                                <textarea class="form-control" rows="3" readonly>{{myhelpdesk.9}}</textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">ผู้ดำเนินการ:</label>
+                                <input class="form-control" type="text" value="{{myhelpdesk.10}}" readonly>
+                              </div>
+                              <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">วันที่:</label>
+                                <input class="form-control" type="text" value="{{myhelpdesk.14}}" readonly>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--End model myhelpdesk -->
+                      {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% endif %}
+
+            {% if sbooking == 0 %}
+            {% else %}
+            <div class="card card-gray">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fa-solid fa-link"></i>
+                  ประวัติการจองห้องประชุม
+                </h3>
+                <!-- card tools -->
+              </div>
+              <div class="card-body">
+                <table id="profile" class="table ">
+                  <thead>
+                    <tr>
+                      <th scope="col">วันที่ทำรายการ</th>
+                      <th scope="col">ห้อง</th>
+                      <th scope="col">สถานะ</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for booking in booking %}
+                    <tr>
+                      <td>{{booking.12.strftime("%d/%m/%Y")}}</td>
+                      <td>{{booking.5}}</td>
+                      {% if booking.9 == 0 %}
+                      <td><span class="badge badge-warning" style="padding:5px;font-size:15px">รอการอนุมัติ</span></td>
+                      <td>
+                        <div class="row">
+                          <div class="" style="margin-right:5px">
+                            <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </div>
+                          <div class="">
+                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modal-default"> <i class="fa fa-close"></i></button>
+                          </div>
+                        </div>
+                        <div class="modal fade" id="modal-default">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                <form action="{{ url_for('booking.Updatestatus') }}" method="POST">
+                                  <input type="text" name="id" value="{{booking.0}}" hidden>
+                                  <input type="text" name="status" value="8" hidden>
+                                  <!--ยกเลิกโดยผู้ผู้ทำรายการ-->
+                                  <input type="text" name="room" value="{{booking.5}}" hidden>
+                                  <input type="email" name="email" value="{{booking.4}}" hidden>
+                                  <input type="text" name="actionby" value="{{session['name']}}" hidden>
+                                  <center>
+                                    <img src="static\img\warningpic.png" alt="">
+                                    <h3>ต้องการยกเลิกรายนี้ ?</h3>
+                                  </center>
+
+                              </div>
+                              <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                                <button type="submit" class="btn btn-danger">Yes</button>
+                              </div>
+                              </form>
+                            </div>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+
+
+                        <form action="{{ url_for('booking.Updatestatus') }}" method="POST">
+                          <input type="text" name="id" value="{{booking.0}}" hidden>
+                          <input type="text" name="status" value="8" hidden>
+                          <!--ยกเลิกโดยผู้ผู้ทำรายการ-->
+                          <input type="text" name="room" value="{{booking.5}}" hidden>
+                          <input type="email" name="email" value="{{booking.4}}" hidden>
+                          <input type="text" name="actionby" value="{{session['name']}}" hidden>
+                        </form>
+                      </td>
+                      {% elif booking.9 == 1 %}
+                      <td><span class="badge badge-success" style="display:flex;align-items:center;padding:5px;border-radius:5px;">สามารถใช้ห้องได้</span></td>
+                      <td>
+                        <div class="row">
+                          <div class="" style="margin-right:5px">
+                            <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </div>
+                          <div class="">
+                            <form action="{{ url_for('booking.Updatestatus') }}" method="POST">
+                              <input type="text" name="id" value="{{booking.0}}" hidden>
+                              <input type="text" name="status" value="2" hidden>
+                              <!--ปิดห้องโดยผู้ทำรายการ-->
+                              <input type="text" name="room" value="{{booking.5}}" hidden>
+                              <input type="email" name="email" value="{{booking.4}}" hidden>
+                              <input type="text" name="actionby" value="{{session['name']}}" hidden>
+                              <button type="submit" class="btn btn-danger"> <i class="fa fa-power-off"></i></button>
+                            </form>
+                          </div>
+                        </div>
+                      </td>
+                      {% elif booking.9 == 2 %}
+                      <td><span class="badge badge-warning" style="padding:5px;font-size:15px">รอผู้ดูแลตรวจเช็คห้อง</span></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      {% elif booking.9 == 3 %}
+                      <td><span class="badge" style="padding:5px;background-color:#ee82ee;color:#ffffff;font-size:15px">ผู้ดูแลตรวจเช็คห้องแล้ว</span></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      {% elif booking.9 == 8 %}
+                      <td>
+                        <span class="badge badge-info" style="padding:5px;font-size:15px">ยกเลิกโดยผู้ทำรายการ</span>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      {% elif booking.9 == 9 %}
+                      <td><span class="badge badge-info" style="padding:5px;font-size:15px">ยกเลิกโดยผู้ดูแล</span></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      {% elif booking.9 == 10 %}
+                      <td><span class="badge badge-info" style="padding:5px;font-size:15px">ผู้ดูแลตรวจเช็คห้องแล้ว</span></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#bookingview{{booking.0}}" data-whatever="@fat">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </td>
+                      {% else %}
+                      {% endif %}
+                    </tr>
+                    <!--model bookingview -->
+                    <div class="modal fade" id="bookingview{{booking.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">รายละเอียดการจองห้องประชุม</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="form-group col-6">
+                                <label for="recipient-name" class="col-form-label">วันที่:</label>
+                                <input type="text" class="form-control" value="{{booking.6.strftime("%d/%m/%Y %H:%M")}}" readonly>
+                              </div>
+                              <div class="form-group col-6">
+                                <label for="recipient-name" class="col-form-label">ถึงวันที่:</label>
+                                <input type="text" class="form-control" value="{{booking.7.strftime("%d/%m/%Y %H:%M")}}" readonly>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="recipient-name" class="col-form-label">ห้อง:</label>
+                              <input type="text" class="form-control" value="{{booking.5}}" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="recipient-name" class="col-form-label">สถานะ:</label>
+                              {% if booking.9 == 0 %}
+                              <input type="text" class="form-control" value="Wait approve" readonly style="background-color:#ffc107">
+                              {% elif booking.9 == 1 %}
+                              <input type="text" class="form-control" value="สามารถใช้ห้องได้" readonly style="background-color:#28A745;color:#ffffff;">
+                              {% elif booking.9 == 2 %}
+                              <input type="text" class="form-control" value="รอผู้ดูแลตรวจเช็คห้อง" readonly style="background-color:#ffc107">
+                              {% elif booking.9 == 3 %}
+                              <input type="text" class="form-control" value="ตรวจเช็คห้องแล้ว" readonly style="background-color:#ee82ee;color:#ffffff">
+                              {% elif booking.9 == 8 %}
+                              <input type="text" class="form-control" value="ยกเลิกโดยผู้ทำรายการ" readonly style="background-color:#17a2b8;color:#ffffff">
+                              {% elif booking.9 == 9 %}
+                              <input type="text" class="form-control" value="ยกเลิกโดยผู้ดูแล" readonly style="background-color:#17a2b8;color:#ffffff">
+                              {% elif booking.9 == 10 %}
+                              <input type="text" class="form-control" value="ผู้ดูแลตรวจเช็คห้องแล้ว" readonly style="background-color:#17a2b8;color:#ffffff">
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--End model bookingview -->
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- /.card-body-->
+
+              </div>
+            </div>
+            {% endif %}
+
+            {% if smyleave == 0 %}
+            {% else %}
+            <div class="card card-info card-outline">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fa fa-align-justify" aria-hidden="true"></i>
+                  ประวัติการลางาน
+                </h3>
+                <!-- card tools -->
+              </div>
+              <div class="card-body">
+                <table id="level" class="table ">
+                  <thead>
+                    <tr>
+                      <th scope="col">วันที่ลา</th>
+                      <th scope="col">ถึงวันที่</th>
+                      <th scope="col">ประเภทการลา</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for myleave in myleave %}
+                    <tr>
+                      <td>{{myleave.5.strftime("%d/%m/%Y")}}</td>
+                      <td>{{myleave.6.strftime("%d/%m/%Y")}}</td>
+                      <td>{{myleave.3}}</td>
+                      {% if myleave.13 == 0 %}
+                      <td><span class=" badge badge-warning">Waiting</span></td>
+                      {% elif myleave.13 == 1 %}
+                      <td><span class="badge badge-info">Review</span></td>
+                      {% elif myleave.13 == 2 %}
+                      <td><span class="badge badge-success">Approve</span></td>
+                      {% elif myleave.13 == 5 %}
+                      <td><span class="badge badge-success" style="background-color:#EE82EE">Checked</span></td>
+                      {% elif myleave.13 == 10 %}
+                      <td><span class="badge badge-success" style="background-color:red">Rejected</span></td>
+                      {% else %}
+                      <td></td>
+                      {% endif %}
+                      <td>
+                        <form class="" action="{{url_for('admin.Mydetailleave')}}" method="post">
+                          <input type="text" name="id" value="{{ myleave.0 }}" hidden>
+                          <input type="text" name="view" value="0" hidden>
+                          <button type="submit" class="btn btn-primary" style="float:left">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body-->
+            </div>
+            {% endif %}
+
+            {% if sborrow == 0 %}
+            {% else %}
+            <div class="card card-info card-outline">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fa-solid fa-display"></i>
+                  ประวัติการยืมอุปกรณ์ IT
+                </h3>
+                <!-- card tools -->
+              </div>
+              <div class="card-body">
+                <table id="borrowit" class="table ">
+                  <thead>
+                    <tr>
+                      <th scope="col">วันที่ยืม</th>
+                      <th scope="col">ประเภทอุปกรณ์</th>
+                      <th scope="col">ยี้ห้อ</th>
+                      <th scope="col">Serial number</th>
+                      <th scope="col">IT Code</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for borrow in borrow %}
+                    <tr>
+                      <td>{{borrow.9}}</td>
+                      <td>{{borrow.3}}</td>
+                      <td>{{borrow.4}}</td>
+                      <td>{{borrow.5}}</td>
+                      <td>{{borrow.6}}</td>
+                      <td>
+                        <form class="" action="{{url_for('admin.Mydetailleave')}}" method="post,get">
+                          <input type="text" name="id" value="{{ myleave.0 }}" hidden>
+                          <input type="text" name="view" value="0" hidden>
+                          <button type="submit" class="btn btn-primary" style="float:left">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- /.card-body-->
+
+              </div>
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+    </section>
+  </div><!-- /.container-fluid -->
+
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

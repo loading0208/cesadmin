@@ -1,0 +1,82 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">รายการเบิก-ยืม IT</h1>
+{% endblock %}
+{% block iconmenu %}
+<li>
+  <a class="nav-link" href="addgoods" title="add goods">
+    <i class="nav-icon fa-solid fa-square-plus"></i>
+  </a>
+</li>
+
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">
+            </h3>
+          </div>
+          <div class="card-body">
+            <table id="borrow" class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th width="5">No.</th>
+                  <th scope="col">ชื่อ</th>
+                  <th scope="col">แผนก</th>
+                  <th scope="col">ประเภท</th>
+                  <th scope="col">ยี่ห้อ</th>
+                  <th scope="col">S/N</th>
+                  <th scope="col">IT-Code</th>
+                  <th scope="col">วันที่เบิก</th>
+                  <th scope="col">การจัดการ</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for borrowlist in borrowlist %}
+                <tr>
+                  <td style="text-align:center">{{ borrowlist.0 }}</td>
+                  <td>{{ borrowlist.1 }}</td>
+                  <td>{{ borrowlist.2 }}</td>
+                  <td>{{ borrowlist.3 }}</td>
+                  <td>{{ borrowlist.4 }}</td>
+                  <td>{{ borrowlist.5 }}</td>
+                  <td>{{ borrowlist.6 }}</td>
+                  <td>{{ borrowlist.9 }}</td>
+                  <td>
+                    <form class="" action="{{url_for('propertyregister.Borrowing')}}" method="post">
+                      <input type="text" name="id" value="{{ borrowlist.0 }}" hidden>
+                      <button type="submit" class="btn btn-primary" style="float:left;margin-right:10px;">
+                        <i class="fa fa-print"></i>
+                      </button>
+                    </form>
+                    {% if borrowlist.11 == 1 %}
+
+                    <form class="" action="{{url_for('propertyregister.Returngoods')}}" method="post">
+                      <input type="text" name="id" value="{{ borrowlist.0 }}" hidden>
+                      <button type="submit" class="btn btn-warning" style="float:left;margin-right:10px;">
+                        <i class="fas fa-undo"></i>
+                      </button>
+                    </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+
+  {% endblock %}
+</section>

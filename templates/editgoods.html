@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="static/img/Logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>IT Support | ทะเบียนทรัพย์สิน IT</title>
+
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+  <link href="static/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="static/sb/css/sb-admin-2.min.css" rel="stylesheet">
+  <style media="screen">
+    body {
+      display: block;
+      background-color: #D1EAF5
+    }
+
+    .input-goods {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3 style="text-align:center;margin-top:2rem">แก้ไขข้อมูลทรัพย์สิน</h3>
+    <hr>
+    {% for datas in datas %}
+    <div class="input-goods">
+      <form class="row g-3" action="{{url_for('propertyregister.Goodedit')}}" method="POST" enctype="multipart/form-data">
+        <input type="text" name="id" value="{{datas.0}}" hidden>
+        <div class="col-md-2">
+          <label class="form-label">วันที่ซื้อ</label>
+          <input type="date" class="form-control" value="{{datas.1}}" disabled>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">PO No.</label>
+          <input type="text" class="form-control" value="{{datas.2}}" disabled>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">ราคา</label>
+          <input type="number" class="form-control" value="{{datas.3}}" disabled>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Link PO.</label>
+          <input type="text" class="form-control" name="linkpo" value="{{datas.18}}" required>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">ประเภท</label>
+          <input type="text" class="form-control" value="{{datas.4}}" disabled>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">ยี้ห้อ/รุ่น</label>
+          <input type="text" class="form-control" value="{{datas.5}}" disabled>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label">Serial Number</label>
+          <input type="text" class="form-control" value="{{datas.6}}" disabled>
+        </div>
+        <div class="col-12">
+          <label class="form-label">ทะเบียนทรัพย์สิน IT</label>
+          <input type="text" class="form-control" value="{{datas.7}}" disabled>
+        </div>
+        <div class="col-6">
+          <label class="form-label">ผู้ใช้งาน</label>
+          <input type="text" class="form-control" name="useruse" value="{{datas.8}}" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">แผนก</label>
+          <select class="custom-select" name="department" required>
+            <option value="{{datas.9}}" name="department">{{datas.9}}</option>
+            {% for dep in dep %}
+            <option value="{{dep.1}}">{{dep.1}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group" style="width:100%">
+          <label for="exampleFormControlTextarea1" class="form-label">หมายเหตุ</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="note">{{datas.10}}</textarea>
+        </div>
+
+        <div class="col-md-12" style="padding:1rem">
+          <img src="{{datas.11}}" class="rounded mx-auto d-block" alt="" style="width:70%">
+        </div>
+
+        <div class="col-md-6" hidden>
+          <label class="form-label">ผู้ทำการบันทึก/แก้ไข</label>
+          <input type="text" class="form-control" name="itupdate" value="{{ session['fname'] }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">สถานะ</label>
+          <select class="custom-select" name="statusgoods" required>
+            <option value="{{datas.14}}">{{datas.14}}</option>
+            <option value="ใช้งานได้">ใช้งานได้</option>
+            <option value="รอซ่อม">รอซ่อม</option>
+            <option value="เสีย/จำหน่าย">เสีย/จำหน่าย</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">สถานะเบิก-ยืม</label>
+          <select class="custom-select" name="status" required>
+            <option value="1">เบิก-ยืมได้</option>
+            <option value="2">เฉพาะเจ้าหน้าที่</option>
+          </select>
+        </div>
+        <input type="text" name="lastupdate" value="{{now}}" hidden>
+        <div class="col-12" style="margin-top:1rem">
+          <button type="submit" class="btn btn-success">บันทึก</button>
+          <a type="button" class="btn btn-primary" href="/goods">กลับหน้าเมนู</a>
+        </div>
+      </form>
+
+    </div>
+    {% endfor %}
+    <br>
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-inline">
+        {{ session['fname'] }} {{ session['lname'] }}
+      </div>
+      <strong>Copyright &copy; 2020 IT Support CES
+    </footer>
+    <br>
+  </div>
+  <script src="static/plugins/jquery/jquery.min.js"></script>
+  <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="static/dist/js/adminlte.min.js"></script>
+  <script src="static/dist/js/demo.js"></script>
+
+
+  <!--โชว์รูป-->
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#blah')
+            .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  <!--end-->
+
+</body>
+
+</html>

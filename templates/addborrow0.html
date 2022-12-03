@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="static/img/Logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>IT Support | ทะเบียนทรัพย์สิน IT</title>
+
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+  <link href="static/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="static/sb/css/sb-admin-2.min.css" rel="stylesheet">
+  <style media="screen">
+    body {
+      display: block;
+      background-color: #D1EAF5
+    }
+
+    .input-goods {
+      margin-top: 2rem;
+    }
+
+    datalist {
+      display: none;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3 style="text-align:center;margin-top:2rem">ทำรายการยืม</h3>
+    <hr>
+    {% for datas in datas %}
+    <div class="input-goods">
+      <form class="row g-3" action="{{url_for('propertyregister.Addborrow')}}" method="POST" enctype="multipart/form-data">
+        <div class="col-md-12" style="padding:1rem">
+          <img src="{{datas.11}}" class="rounded mx-auto d-block" alt="" style="width:70%">
+        </div>
+        <input type="text" name="id" value="{{datas.0}}" hidden>
+        <div class="col-6">
+          <label for="useruse" class="form-label">ผู้ขอยืม</label>
+          <input class="form-control" list="browsers" name="useruse" id="browser">
+          <datalist id="browsers">
+            {% for useruse in useruse %}
+            <option value="{{useruse.1}}">
+              {% endfor %}
+          </datalist>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">แผนก</label>
+          <select class="custom-select" name="depborrow" required>
+            <option value="" name="department">ระบุแผนก</option>
+            {% for dep in dep %}
+            <option value="{{dep.1}}">{{dep.1}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <input type="text" name="st" value="0" hidden>
+
+        <div class="col-md-3">
+          <label class="form-label">ประเภท</label>
+          <input type="text" class="form-control" name="type" value="{{datas.4}}" readonly>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">ยี้ห้อ/รุ่น</label>
+          <input type="text" class="form-control" name="brand" value="{{datas.5}}" readonly>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label">Serial Number</label>
+          <input type="text" class="form-control" name="serialnumber" value="{{datas.6}}" readonly>
+        </div>
+        <div class="col-12">
+          <label class="form-label">ทะเบียนทรัพย์สิน IT</label>
+          <input type="text" class="form-control" name="itcode" value="{{datas.7}}" readonly>
+        </div>
+        <div class="form-group" style="width: 100%">
+          <label for="exampleFormControlTextarea1" class="form-label">หมายเหตุ</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="note"></textarea>
+        </div>
+        <div class="form-group" style="width: 100%">
+          <label for="exampleFormControlTextarea1" class="form-label">หมายเหตุสำหรับ IT</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="noteit" required>{{datas.10}}</textarea>
+        </div>
+        <div class="col-md-6" hidden>
+          <label class="form-label">เจ้าหน้าที่ทำรายการ</label>
+          <input type="text" class="form-control" name="itadd" value="{{ session['fname'] }}">
+        </div>
+        <input type="text" name="dateborrow" value="{{now}}" hidden>
+        <input type="text" name="idgoods" value="{{datas.0}}" hidden>
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label"> ลายเซ็น :</label>
+          <input type="file" class="form-control" name="file" accept="image/x-png,image/gif,image/jpeg,application/pdf" placeholder="Required" onchange="readURL(this);" required>
+          <img id="blah" src="" alt="" class="img-thumbnail" />
+        </div>
+        <div class="col-12" style="margin-top:1rem">
+          <a type="button" class="btn btn-secondary" href="/signature" target="_blank">สร้างลายเซ็น</a>
+          <button type="submit" class="btn btn-success">บันทึก</button>
+          <a type="button" class="btn btn-primary" href="/goods">กลับหน้าเมนู</a>
+        </div>
+      </form>
+    </div>
+    {% endfor %}
+    <br>
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-inline">
+        {{ session['fname'] }} {{ session['lname'] }}
+      </div>
+      <strong>Copyright &copy; 2020 IT Support CES
+    </footer>
+    <br>
+  </div>
+  <script src="static/dashboard/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+  <!--โชว์รูป-->
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#blah')
+            .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  <!--end-->
+
+</body>
+
+</html>

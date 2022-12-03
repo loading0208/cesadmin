@@ -1,0 +1,72 @@
+.box-load {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.dots-10 {
+  width: 15px;
+  aspect-ratio: 1;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.dots-10::before,
+.dots-10::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #000;
+}
+
+.dots-10::before {
+  box-shadow: -26px 0;
+  animation: d10-1 1.5s infinite linear;
+}
+
+.dots-10::after {
+  transform: rotate(0deg) translateX(26px);
+  animation: d10-2 1.5s infinite linear;
+}
+
+@keyframes d10-1 {
+  50% {
+    transform: translateX(26px)
+  }
+}
+
+@keyframes d10-2 {
+  100% {
+    transform: rotate(-360deg) translateX(26px)
+  }
+}
+
+.loader_page {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hide-btn {
+  display: none
+}
+
+/*css for time
+.time {
+  font-size: 2rem;
+  color:#fff;
+  display: flex ;
+  justify-content: center ;
+  width: 100%;
+}
+*/

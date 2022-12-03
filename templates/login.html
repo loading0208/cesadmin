@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOG IN</title>
+  <link rel="stylesheet" href="static/mycss/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+
+<body>
+  <form action="{{ url_for('user.Checklogin') }}" class="card" method="POST">
+    <div class="sign-in">ces e-service</div>
+    <i id="logo" class="fa-solid fa-circle-user"></i>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for msg in messages %}
+    {% if status == "wait" %}
+    <div class="alert-success">
+      <p>{{msg}}</p>
+    </div>
+    {% else %}
+    <div class="alert-danger">
+      <p>{{msg}}</p>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="login-form">
+      <i class="fa-solid fa-user" id="logo-input"></i>
+      <input type="text" class="input" id="username" name="username" required>
+      <span data-placeholder="user"></span>
+    </div>
+    <div class="login-form">
+      <i class="fa-solid fa-lock" id="logo-input"></i>
+      <input type="password" class="input" id="password" name="password" required>
+      <span data-placeholder="password"></span>
+    </div>
+    <p>Don't have account? <a href="/formregis">Signup</a></p>
+    <input type="submit" class="btn-submit" value="login">
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".input").on("focus", function() {
+        $(this).addClass("focus");
+      });
+
+      $(".input").on("blur", function() {
+        if ($(this).val() == "")
+          $(this).removeClass("focus");
+
+        if ($("#username").val() != "" && $("#password").val() != "")
+          $("#logo").addClass("change-color");
+        else
+          $("#logo").removeClass("change-color");
+
+      });
+
+    });
+  </script>
+</body>
+
+</html>

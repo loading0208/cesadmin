@@ -1,0 +1,138 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<h1 class="m-0">รายการทรัพย์สินของแผนก IT</h1>
+{% endblock %}
+{% block iconmenu %}
+<li>
+  <a class="nav-link" href="addgoods" title="add goods">
+    <i class="nav-icon fa-solid fa-square-plus"></i>
+  </a>
+</li>
+
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">
+            </h3>
+          </div>
+          <div class="card-body">
+            <table id="goods" class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th width="5">No.</th>
+                  <th scope="col">วันที่ซื้อ</th>
+                  <th scope="col">PO No.</th>
+                  <th scope="col">ยี่ห้อ/รุ่น</th>
+                  <th scope="col">ทะเบียนทรัพย์สิน</th>
+                  <th scope="col">Serial Number</th>
+                  <th scope="col">ประเภท</th>
+                  <th scope="col">ผู้ใช้งาน</th>
+                  <th scope="col">แผนก</th>
+                  <th scope="col">การจัดการ</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for propertyregister in propertyregister %}
+                <tr>
+                  <td>{{ propertyregister.0 }}</td>
+                  <td>{{ propertyregister.1 }}</td>
+                  {% if propertyregister.18 == 'nolink' %}
+                  <td>{{ propertyregister.2 }}</td>
+                  {% else %}
+                  <td><a href="{{ propertyregister.18 }}" target="_blank">{{ propertyregister.2 }}</a></td>
+                  {% endif %}
+                  <td>{{ propertyregister.5 }}</td>
+                  <td>{{ propertyregister.7 }}</td>
+                  <td>{{ propertyregister.6 }}</td>
+                  <td>{{ propertyregister.4 }}</td>
+                  <td>{{ propertyregister.8 }}</td>
+                  <td>{{ propertyregister.9 }}</td>
+                  <td>
+                    <form class="" action="{{url_for('propertyregister.Detail')}}" method="post">
+                      <input type="text" name="id" value="{{ propertyregister.0 }}" hidden>
+                      <button type="submit" class="btn btn-primary" style="float:left">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Coppy')}}" method="post">
+                      <input type="text" name="id" value="{{ propertyregister.0 }}" hidden>
+                      <button type="submit" class="btn btn-info" style="float:left">
+                        <i class="far fa-clone"></i>
+                      </button>
+                    </form>
+                    {% if propertyregister.17 == 0  %}
+                    <form class="" action="{{url_for('propertyregister.Editgoods')}}" method="post">
+                      <input type="text" name="id" value="{{ propertyregister.0 }}" hidden>
+                      <button type="submit" class="btn btn-warning" style="float:left;width:40px" hidden>
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Borrow')}}" method="post" hidden>
+                      <input name="id" value="{{propertyregister.0}}" hidden>
+                      <button type="submit" class="btn btn-success" name="button" style="float:left">
+                        <i class="fa fa-hand-point-left"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Deletegoods')}}" method="post">
+                      <input name="id" value="{{propertyregister.0}}" hidden>
+                      <button type="submit" class="btn btn-danger" name="button" style="float:left;color:white" onclick="alertdelete" hidden>
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </form>
+                    {% elif propertyregister.17 == 2 %}
+                    <form class="" action="{{url_for('propertyregister.Editgoods')}}" method="post">
+                      <input type="text" name="id" value="{{ propertyregister.0 }}" hidden>
+                      <button type="submit" class="btn btn-warning" style="float:left;width:40px">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Deletegoods')}}" method="post">
+                      <input name="id" value="{{propertyregister.0}}" hidden>
+                      <button type="submit" class="btn btn-danger" name="button" style="float:left;color:white" onclick="alertdelete">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </form>
+                    {% else %}
+                    <form class="" action="{{url_for('propertyregister.Editgoods')}}" method="post">
+                      <input type="text" name="id" value="{{ propertyregister.0 }}" hidden>
+                      <button type="submit" class="btn btn-warning" style="float:left;width:40px">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Borrow')}}" method="post">
+                      <input name="id" value="{{propertyregister.0}}" hidden>
+                      <button type="submit" class="btn btn-success" name="button" style="float:left;color:white">
+                        <i class="fa fa-hand-point-left"></i>
+                      </button>
+                    </form>
+                    <form class="" action="{{url_for('propertyregister.Deletegoods')}}" method="post">
+                      <input name="id" value="{{propertyregister.0}}" hidden>
+                      <button type="submit" class="btn btn-danger" name="button" style="float:left;color:white" onclick="alertdelete">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="static/img/Logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>IT Support | ทะเบียนทรัพย์สิน IT</title>
+
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+  <link href="static/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="static/sb/css/sb-admin-2.min.css" rel="stylesheet">
+  <style media="screen">
+    body {
+      display: flex;
+    }
+
+    .input-goods {
+      margin-top: 2rem;
+      width: 48%;
+      float: left;
+      padding: 1rem;
+    }
+
+    .table-category {
+      margin: 2rem 0 0 1rem;
+      width: 48%;
+      float: left;
+      padding: 1rem
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3 style="text-align:center;margin-top:2rem">เพื่มหมวดหมู่</h3>
+    <hr>
+    <div class="input-goods">
+      <form class="row g-3" action="{{url_for('propertyregister.Addcategory')}}" method="POST">
+        <div class="col-md-12">
+          <label class="form-label">Category name</label>
+          <input type="text" class="form-control" name="category" required>
+          <input type="datetime-local" class="form-control" name="date" required>
+          <br>
+          <button class="btn btn-success" type="submit" name="button">เพื่ม</button>
+          <a href="/goods" type="button" class="btn btn-primary">Back</a>
+        </div>
+        <br>
+      </form>
+    </div>
+    <div class="table-category">
+      <div class="row">
+        <div class="col-md-12">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead style="background-color:#FFC0CB;color:black">
+              <tr style="background:#FF6600">
+                <th scope="col">ลำดับที่</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for category in category %}
+                <td>{{category.0}}</td>
+                <td>{{category.1}}</td>
+                <td>
+                  <form action="{{url_for('propertyregister.Deletecategory')}}" method="post">
+                    <input type="hidden" name="id" value="{{category.0}}">
+                    <button type="submit" class="btn btn-danger">ลบ</button>
+                  </form>
+
+                </td>
+              </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+{% extends 'main/main.html' %}
+
+{% block header %}
+<h1 class="m-0">ระบบเช็คเวลาสแกนนิ้ว</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+
+      <div class="col-lg-4 col-6">
+        <form action="{{ url_for('scan.Research') }}" method="POST">
+          <!-- small box -->
+          <div class="small-box bg-gradient-info">
+            <div class="inner">
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">เรื่ม:</label>
+                <input type="date" class="form-control" name="dstart" required>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">สิ้นสุด:</label>
+                <input type="date" class="form-control" name="dend" required>
+              </div>
+            </div>
+            <button style="border:none; background:none;width:100%;padding-bottom: 10px ;margin-top:-18px" type="submit" class="small-box-footer">ค้นหา</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-lg-4 col-6">
+        <form action="{{ url_for('scan.Researchdep') }}" method="POST">
+          <!-- small box -->
+          <div class="small-box bg-gradient-success">
+            <div class="inner">
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">ค้นหาตามแผนก:</label>
+                <input type="text" class="form-control" name="dep" required>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">เรื่ม:</label>
+                <input type="date" class="form-control" name="dstart" required>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">สิ้นสุด:</label>
+                <input type="date" class="form-control" name="dend" required>
+              </div>
+            </div>
+            <button style="border:none; background:none;width:100%;padding-bottom: 10px ;margin-top:-18px" type="submit" class="small-box-footer">ค้นหา</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Left col -->
+      <section class="col-lg-12 connectedSortable">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">
+              <i class="fas fa-th mr-1"></i>
+              รายละเอียด
+            </h3>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ชื่อ-สกุล</th>
+                  <th scope="col">แผนก</th>
+                  <th scope="col">เวลาสแกน</th>
+                  <th scope="col">หมายเหตุ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in row %}
+                <tr>
+                  <td>{{row.0}}</td>
+                  <td>{{row.1}}</td>
+                  <td>{{row.2}}</td>
+                  {% if row.3 == '0' %}
+                  <td>พักเที่ยง</td>
+                  {% elif row.3 == '1' %}
+                  <td>ทำงานบริษัท</td>
+                  {% elif row.3 == '2' %}
+                  <td>ทำธุระส่วนตัว</td>
+                  {% elif row.3 == '3' %}
+                  <td>เอารถไปเก็บที่จอดรถ</td>
+                  {% else %}
+                  <td>ติดต่อพนักงาน</td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

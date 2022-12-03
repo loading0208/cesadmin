@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="static/img/Logoces.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>IT Support | ทะเบียนทรัพย์สิน IT</title>
+
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <!-- Custom styles for this template-->
+  <style media="screen">
+    body {
+      display: block;
+      background-color: #D1EAF5
+    }
+
+    .input-goods {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3 style="text-align:center;margin-top:2rem">เพื่มทรัพย์สิน</h3>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-danger">
+      <div class="container">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="material-icons">X</i></span>
+        </button>
+        <center>{{msg}}</center>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="input-goods">
+      <form class="row g-3" action="{{url_for('propertyregister.Addgoodsf')}}" method="POST" enctype="multipart/form-data">
+        {% for datas in datas %}
+        <div class="col-md-2">
+          <label class="form-label">วันที่ซื้อ</label>
+          <input type="date" class="form-control" name="purchase_date" value="{{datas.1}}" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">PO No.</label>
+          <input type="text" class="form-control" name="po_no" value="{{datas.2}}" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">ราคา</label>
+          <input type="number" class="form-control" name="price" value="{{datas.3}}" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Link PO.</label>
+          <input type="text" class="form-control" name="linkpo" value="{{datas.18}}" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">ประเภท</label>
+          <select class="custom-select" name="typegoods" required>
+            <option value="{{datas.4}}" name="category">{{ datas.4 }}</option>
+            {% for category in category %}
+            <option value="{{ category.1 }}" name="category">{{ category.1 }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">ยี้ห้อ/รุ่น</label>
+          <input type="text" class="form-control" name="brand" value="{{datas.5}}" required>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label">Serial Number</label>
+          <input type="text" class="form-control" name="serialnumber" value="{{datas.6}}" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">ทะเบียนทรัพย์สิน IT</label>
+          <input type="text" class="form-control" name="itcode" value="{{datas.7}}" required>
+        </div>
+        <div class="col-6">
+          <label class="form-label">ผู้ใช้งาน</label>
+          <input class="form-control" list="browsers" name="useruse" id="browser">
+          <datalist id="browsers">
+            {% for useruse in useruse %}
+            <option value="{{useruse.1}}">
+              {% endfor %}
+          </datalist>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">แผนก</label>
+          <select class="custom-select" name="department" required>
+            <option value="" name="department">ระบุแผนก</option>
+            {% for dep in dep %}
+            <option value="{{dep.1}}">{{dep.1}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-12">
+          <label for="exampleFormControlTextarea1" class="form-label">หมายเหตุ</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="note" >{{datas.10}}</textarea>
+        </div>
+
+        <div class="col-md-12">
+          <label for="recipient-name" class="col-form-label"> ไฟร์ประกอบ :</label>
+          <input type="file" class="form-control" name="file" accept="image/x-png,image/gif,image/jpeg,application/pdf" placeholder="Required" onchange="readURL(this);" required>
+          <img id="blah" src="" alt="" class="img-thumbnail" />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">ผู้ทำการบันทึก/แก้ไข</label>
+          <input type="text" class="form-control" name="itadmin" value="{{ session['fname'] }}" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">สถานะ</label>
+          <select class="custom-select" name="statusgoods" required>
+            <option value="ใช้งานได้">ใช้งานได้</option>
+            <option value="รอซ่อม">รอซ่อม</option>
+            <option value="เสีย/จำหน่าย">เสีย/จำหน่าย</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">สถานะเบิก-ยืม</label>
+          <select class="custom-select" name="status" required>
+            <option value="1">เบิก-ยืมได้</option>
+            <option value="2">เฉพาะเจ้าหน้าที่</option>
+          </select>
+        </div>
+        {% endfor %}
+        <div class="col-12" style="margin-top:1rem">
+          <button type="submit" class="btn btn-success">บันทึก</button>
+          <a href="/category" type="button" class="btn btn-warning">เพื่มประเภท</a>
+          <a type="button" class="btn btn-primary bmenu" href="/goods">กลับหน้าเมนู</a>
+        </div>
+      </form>
+    </div>
+    <br>
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-inline">
+        {{ session['fname'] }} {{ session['lname'] }}
+      </div>
+      <strong>Copyright &copy; 2020 IT Support CES
+    </footer>
+    <br>
+  </div>
+
+  <script src="static/dashboard/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+  <!--โชว์รูป-->
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#blah')
+            .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  <!--end-->
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{% extends 'main/main.html' %}
+<section class="content">
+  {% block content %}
+  <div class="card-body">
+    <div class="row" style="display:flex;justify-content:center">
+      <div class="col-12">
+        {% for row in row %}
+        <div class="card">
+          <div class="card-header">
+            <h3>{{row.1}}</h3>
+            <p style="font-size:10px">Shared publicly- {{row.4.strftime('%d/%m/%Y')}}</p>
+          </div>
+          <div class="card-body img-post">
+            {{row.3 | safe}}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- /.card-body -->
+  {% endblock %}
+</section>
+<!-- /.content -->
+<!-- /.content-wrapper -->

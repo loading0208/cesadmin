@@ -1,0 +1,257 @@
+{% extends 'main/main.html' %}
+
+{% block header %}
+<h1 class="m-0">Add Contact</h1>
+{% endblock %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for msg in messages %}
+<div class="alert alert-danger">
+  <div class="container">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true"><i class="material-icons">X</i></span>
+    </button>
+    <b>Error Alert:</b> {{msg}}
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-lg-4">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">รายละเอียดส่วนตัว</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form action="{{ url_for('contacts.Addcontact') }}" method="POST" enctype="multipart/form-data" >
+          {% for newuser in newuser %}
+          <div class="card-body">
+            <center><img id="blah" src="" alt="" class="img-thumbnail" /> </center>
+            <div class="form-group">
+              <label for="email">Profile picture:</label>
+              <input type="file" class="form-control" name="file" accept="image/x-png,image/gif,image/jpeg" onchange="readURL(this);">
+            </div>
+            <br>
+            <div class="form-group">
+              <label>ชื่อ-สกุล:</label>
+              <input type="text" class="form-control" name="name" value="{{newuser.1}} {{newuser.2}}">
+            </div>
+            <input type="text" name="id" value="{{newuser.0}}" hidden>
+            <div class="form-group">
+              <label for="phone">เบอร์โทรศัพท์มือถือ:</label>
+              <input type="text" class="form-control" id="phone" pattern="[0-9\s]*" maxlength="10" minlength="10" name="phone">
+            </div>
+            <div class="form-group">
+              <label>ตำแหน่ง:</label>
+              <input type="text" class="form-control" name="position" title="กรุณาใส่ข้อมูลให้ครบ" required>
+            </div>
+            <div class="form-group">
+              <label for="useruse" class="form-label">แผนก:</label>
+              <select class="custom-select" name="department" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                <option value="{{newuser.7}}" name="department">{{newuser.7}}</option>
+                {% for dep in dep %}
+                <option value="{{dep.1}}" name="department">{{dep.1}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="useruse" class="form-label">สังกัด:</label>
+              <select class="custom-select" name="linegroup" required>
+                <option value="" name="linegroup">Please Select</option>
+                {% for linegroup in linegroup %}
+                <option value="{{linegroup.0}}" name="linegroup">{{linegroup.1}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="phone">เบอร์ติดต่อภายใน:</label>
+              <input type="text" class="form-control" id="phone" pattern="[0-9\s]*" name="telin">
+            </div>
+            <div class="form-group">
+              <label for="email">E-Mail:</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{newuser.6}}">
+            </div>
+
+          </div>
+          <!-- /.card-body -->
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <!-- general form elements -->
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">ประวัติการเข้าทำงาน</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div class="card-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1">วันที่เรื่มเข้าทำงาน</label>
+            <input type="date" class="form-control" name="datestart" required>
+          </div>
+
+          <div class="form-group">
+            <label>รหัสพนักงาน:</label>
+            <input type="text" class="form-control" pattern="[0-9\s]*" name="employeeid" value="{{newuser.10}}">
+          </div>
+          {% endfor %}
+          <label>จำนวนวันลากิจ:</label>
+          <div class="form-group col-8" style="display:flex;">
+            <div class="">
+              <p>วัน:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" name="prosonal_leave" required>
+            </div>
+            <div class="" style="margin-left:20px">
+              <p>ชั่วโมง:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" max="8" name="prosonal_leaveh">
+            </div>
+          </div>
+          <label>จำนวนวันลาพักร้อน:</label>
+          <div class="form-group col-8" style="display:flex;">
+            <div class="">
+              <p>วัน:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" name="vacation_leave">
+            </div>
+            <div class="" style="margin-left:20px">
+              <p>ชั่วโมง:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" max="8" step="0.5" name="vacation_leaveh">
+            </div>
+          </div>
+          <label>จำนวนวันลาป่วย:</label>
+          <div class="form-group col-8" style="display:flex;">
+            <div class="">
+              <p>วัน:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" name="sick_leave">
+            </div>
+            <div class="" style="margin-left:20px">
+              <p>ชั่วโมง:</p>
+              <input type="text" class="form-control" pattern="[0-9\s]*" name="sick_leaveh">
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <!-- general form elements -->
+      <div class="card card-danger">
+        <div class="card-header">
+          <h3 class="card-title">Permission</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div class="card-body">
+          <div class="row" style="border-bottom: 1px solid red ;padding:2px;margin-bottom: 10px">
+            <div class="col-sm-12">
+              <h5>Level</h5>
+            </div>
+            <div class="col-sm-4">
+              <!-- radio -->
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input custom-control-input-danger" type="radio" id="customRadio4" name="level" value="admin">
+                  <label for="customRadio4" class="custom-control-label">Admin</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <!-- radio -->
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input custom-control-input-danger custom-control-input-outline" type="radio" id="customRadio5" name="level" value="สมาชิกทั่วไป" checked>
+                  <label for="customRadio5" class="custom-control-label">สมาชิกทั่วไป</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+              <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1">
+              <label class="custom-control-label" for="activated">activated</label>
+            </div>
+
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+              <input type="checkbox" class="custom-control-input" id="activated0" name="status" value="0" checked>
+              <label class="custom-control-label" for="activated0">activated</label>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+              <input type="checkbox" class="custom-control-input" id="check" name="check" value="1">
+              <label class="custom-control-label" for="check">ตรวจสอบใบลางาน</label>
+            </div>
+
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+              <input type="checkbox" class="custom-control-input" id="check0" name="check" value="0" checked>
+              <label class="custom-control-label" for="check0">ตรวจสอบใบลางาน</label>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+              <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1">
+              <label class="custom-control-label" for="headreview">Review การขอลางาน</label>
+            </div>
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+              <input type="checkbox" class="custom-control-input" id="headreview0" name="reviewleave" value="0" checked>
+              <label class="custom-control-label" for="headreview0">Review การขอลางาน</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+              <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1">
+              <label class="custom-control-label" for="managerapprove">Approve การขอลางาน</label>
+            </div>
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+              <input type="checkbox" class="custom-control-input" id="managerapprove0" name="approveleave" value="0" checked>
+              <label class="custom-control-label" for="managerapprove0">Approve การขอลางาน</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+              <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1">
+              <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+            </div>
+            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+              <input type="checkbox" class="custom-control-input" id="write_post0" name="write_post" value="0" checked>
+              <label class="custom-control-label" for="write_post0">เขียนบทความ</label>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}
+<!-- /.content -->
+
+
+<!-- /.content-wrapper -->
