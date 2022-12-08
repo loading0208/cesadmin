@@ -43,7 +43,7 @@
               <div class="form-group">
                 <div class="form-group">
                   <label for="recipient-name" class="col-form-label">วันที่ทำรายการ:</label>
-                  <input type="text" class="form-control" name="datecreate" value="{{datenow}}" title="กรุณาใส่ข้อมูลให้ครบ" readonly>
+                  <input style="background:none" type="text" class="form-control" name="datecreate" value="{{datenow}}" title="กรุณาใส่ข้อมูลให้ครบ" readonly>
                 </div>
               </div>
               <div class="box-dateleave" style=";border:1px solid #D3D3D3;margin-bottom:20px">
@@ -51,17 +51,17 @@
                 <div class="dateleave" style="display:flex;justify-content:space-around">
                   <div class="form-group" style="margin:0 20px 0 10px;width:95%">
                     <label for="recipient-name" class="col-form-label">เรื่ม:</label>
-                    <input type="text" class="form-control" name="leavestart" id='dateleavestart' autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                    <input style="background:none" type="text" class="form-control" name="leavestart" id='dateleavestart'   autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ"  readonly required>
                   </div>
                   <div class="form-group" style="width:95%;margin:0 15px 20px 0">
                     <label for="recipient-name" class="col-form-label">สิ้นสุด:</label>
-                    <input type="text" class="form-control" name="leaveend" id='dateleaveend' autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                    <input style="background:none" type="text" class="form-control" name="leaveend" id='dateleaveend'   autocomplete="off" title="กรุณาใส่ข้อมูลให้ครบ"  readonly required>
                   </div>
                 </div>
                 <div class="leavenum" style="display:flex;justify-content:space-around">
                   <div class="form-group" style="margin:0 10px 20px 10px;width:95%;">
                     <label>จำนวน (วัน):</label>
-                    <input type="number" class="form-control" min="0" max="100" id="leavenumd" step="1" name="leavenumd" title="กรุณาใส่ข้อมูลให้ครบ" OnChange="checkdateleave()" required>
+                    <input type="number" class="form-control" min="0" max="100" id="leavenumd" step="1" name="leavenumd" title="กรุณาใส่ข้อมูลให้ครบ" OnChange="checkdateleave()"  required>
                   </div>
                   <div class="form-group" style="margin:0 10px 20px 10px;width:95%">
                     <label>จำนวน (ชั่วโมง):</label>
@@ -80,8 +80,8 @@
                       <label>ทบทวนโดย:</label>
                       <select class="form-control select2bs4" style="width: 100%;" name="headuser" id="headuser" title="กรุณาใส่ข้อมูลให้ครบ" required>
                         <option value=""></option>
-                        {% for user in user %}
-                        <option value="({{user.0}},{{user.1}})" name="headuser">{{user.0}}</option>
+                        {% for userreviewleave in userreviewleave %}
+                        <option value="({{userreviewleave.0}},{{userreviewleave.1}})" name="headuser">{{userreviewleave.0}}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -118,6 +118,9 @@
                 Submit
               </button>
             </div>
+            <button type="button" class="btn btn-warning meyou1" name="meyou1" hidden></button>
+            <button type="button" class="btn btn-warning meyou2" name="meyou2" hidden></button>
+
           </form>
         </div>
       </div>
@@ -191,43 +194,50 @@
       </div>
 
     </div>
-    <button type="button" class="btn btn-warning swalDefaultWarning">
-      Launch Warning Toast
-    </button>
+
 
   </div><!-- /.container-fluid -->
 
   <script language="JavaScript">
     function checkdateleave() {
-      var Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
-      
       c = parseFloat(document.leave.leavenumd.value) + parseFloat(document.leave.leavenumh.value);
       if (c === 0.5) {
-        Toast.fire();
         document.leave.leavenumd.value = '';
         document.leave.leavenumh.value = '';
+        document.leave.meyou1.click();
       } else if (c === 0) {
-        alert("กรุณาไส่จำนวนวันลา");
         document.leave.leavenumd.value = '';
         document.leave.leavenumh.value = '';
+        document.leave.meyou2.click();
       } else {
 
       };
+    };
+
+    ////function checkdate() {
+      //var start = document.querySelector('#dateleavestart');
+      //var end = document.querySelector('#dateleaveend');
+      //if (start > end){
+      //  alert("if");
+      //}else{
+        //alert("else");
+      //}
 
 
-
-      $('.swalDefaultWarning').click(function() {
-        Toast.fire({
-          icon: 'warning',
-          title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-        })
-      });
-    }
+    $('.meyou1').click(function() {
+      Swal.fire(
+        'ตรวจสอบรายการ',
+        'ไม่สามารถลา 0.5 ชั่วโมงได้ กรุณาทำรายการใหม่',
+        'warning'
+      )
+    });
+    $('.meyou2').click(function() {
+      Swal.fire(
+        'ตรวจสอบรายการ',
+        'กรุณาไส่จำนวนวันที่ต้องการลางาน',
+        'warning'
+      )
+    });
   </script>
   {% endblock %}
 </section>

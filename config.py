@@ -11,4 +11,4 @@ PASSpost = ''
 DATABASEpost = 'post'
 
 # Access db connect
-con_string = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=E:\Pm2014.mdb;'
+con_string = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=F:\New\Pm2014.mdb;'

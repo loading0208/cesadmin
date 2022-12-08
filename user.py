@@ -318,3 +318,46 @@ def Regisuser():
 def logoff():
     session.clear()
     return redirect(url_for('user.Login'))
+
+
+@user.route("/roles")
+def Roles():
+    if "username" not in session:
+        return render_template("/login.html")
+    try:
+        con.connect()
+        cur = con.cursor()
+        sql = "SELECT * FROM tb_user WHERE usr_status = 1"
+        cur.execute(sql)
+        alluserroles =cur.fetchall()
+        return render_template("role.html",alluserroles=alluserroles,month=month,employee=noti.Employee(),notification=noti.Notification(),part='admin')
+    except Exception as e:
+        print(e)
+    finally:
+        print("Close")
+        cur.close()
+        con.close()
+
+@user.route("/editroleuser",methods=["POST"])
+def Editroleuser():
+    if "username" not in session:
+        return render_template("/login.html")
+    if request.method == "POST":
+        userid = request.form["userid"]
+    try:
+        con.connect()
+        cur = con.cursor()
+        sql =f"SELECT tb_user.* , db_contact.img_profile,role.* FROM tb_user INNER JOIN (db_contact INNER JOIN role ON db_contact.con_employee_ID=role.usr_employee_ID) ON tb_user.usr_employee_ID=role.usr_employee_ID  WHERE tb_user.usr_employee_ID = '{userid}' "
+        cur.execute(sql)
+        editroleuser = cur.fetchall()
+
+        sql = "SELECT * FROM db_department"
+        cur.execute(sql)
+        dep = cur.fetchall()
+        return render_template("editrole.html",editroleuser=editroleuser,dep=dep,employee=noti.Employee(),notification=noti.Notification(),part='editroleuser')
+    except Exception as e:
+        print(e)
+    finally:
+        print("Close")
+        cur.close()
+        con.close()

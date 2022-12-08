@@ -1,0 +1,156 @@
+{% extends 'main/main.html' %}
+
+
+{% block header %}
+<style media="screen">
+  .nav-link.active{
+    background: none !important;
+  }
+</style>
+<h1 class="m-0">Roles</h1>
+{% endblock %}
+<section class="content">
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+  <div class="col-12 col-sm-8">
+    <div class="card card-primary card-outline card-outline-tabs">
+      <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Permission</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content" id="custom-tabs-four-tabContent">
+          {% for editroleuser in editroleuser %}
+          <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+            {% if editroleuser.11 != '' %}
+            <img src="{{editroleuser.11}}" alt="{{editroleuser.1}}" class="img-thumbnail">
+            {% else %}
+            <img src="static/imgprofile/header.png" alt="No Pic" class="img-thumbnail">
+            {% endif %}
+
+            <div class="form-group col-12 col-md-6" style="margin-top: 30px">
+              <label class="form-group">ชื่อ-สกุล:</label>
+              <input type="text" class="form-control" name="name" value="{{editroleuser.1}} {{editroleuser.2}}">
+            </div>
+            <div class="form-group col-12 col-md-6" style="margin-top: 30px">
+              <label class="form-group">รหัสพนักงาน:</label>
+              <input type="text" class="form-control" name="name" value="{{editroleuser.10}}">
+            </div>
+            <div class="form-group col-12 col-md-6" style="margin-top: 30px">
+              <label class="form-group">E-Mail:</label>
+              <input type="email" class="form-control" name="name" value="{{editroleuser.6}}">
+            </div>
+            <div class="form-group col-12 col-md-6">
+              <label for="useruse" class="form-label">แผนก:</label>
+              <select class="custom-select" name="department" required>
+                <option value="{{editroleuser.7}}" name="department">{{editroleuser.7}}</option>
+                {% for dep in dep %}
+                <option value="{{dep.1}}" name="department">{{dep.1}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
+            <div class="form-group">
+              <form class="" action="{{ url_for('roles.Permissions') }}" method="post">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                {% if editroleuser.14 == 1 %}
+                <input type="checkbox" class="custom-control-input" id="check" name="check" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="custom-control-input" id="check" name="check" value="1">
+                {% endif %}
+                <label class="custom-control-label" for="check">ตรวจสอบใบลางาน</label>
+              </div>
+
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                <input type="checkbox" class="custom-control-input" id="check0" name="check" value="0" checked>
+                <label class="custom-control-label" for="check0">ตรวจสอบใบลางาน</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                {% if editroleuser.15 == 1 %}
+                <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1">
+                {% endif %}
+
+                <label class="custom-control-label" for="headreview">Review การขอลางาน</label>
+              </div>
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                <input type="checkbox" class="custom-control-input" id="headreview0" name="reviewleave" value="0" checked>
+                <label class="custom-control-label" for="headreview0">Review การขอลางาน</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                {% if editroleuser.16 == 1 %}
+                <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1">
+                {% endif %}
+
+                <label class="custom-control-label" for="managerapprove">Approve การขอลางาน</label>
+              </div>
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                <input type="checkbox" class="custom-control-input" id="managerapprove0" name="approveleave" value="0" checked>
+                <label class="custom-control-label" for="managerapprove0">Approve การขอลางาน</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                {% if editroleuser.17 == 1 %}
+                <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1">
+                {% endif %}
+
+                <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
+              </div>
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                <input type="checkbox" class="custom-control-input" id="bookingroom0" name="bookingroom" value="0" checked>
+                <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                {% if editroleuser.18 == 1 %}
+                <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1">
+                {% endif %}
+                <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+              </div>
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                <input type="checkbox" class="custom-control-input" id="write_post0" name="write_post" value="0" checked>
+                <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+              </div>
+            </div>
+            <hr style="margin-top:50px;">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+          </form>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>
+
+  </div><!-- /.container-fluid -->
+  {% endblock %}
+</section>
+<!-- /.content -->
+</div>

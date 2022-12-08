@@ -76,7 +76,7 @@
 
     }
 
-    .active {
+    .nav-link.active {
       background-color: #5E6668 !important
     }
 
@@ -96,6 +96,19 @@
     .img-post p img {
       max-width: 100%;
 
+    }
+    .addli{
+      display: flex;
+      align-items: center;
+    }
+    .addhelpdesk::before{
+      content: '+';
+      position: relative;
+      right: 30px;
+      bottom: 5px;
+      color: #c2c7d0;
+      font-size: 2.3rem;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -136,7 +149,7 @@
 
         {% endif %}
 
-        <!--------------
+        <!--
         <li>
           <a class="nav-link" href="#" data-toggle="modal" data-target="#holiday" data-whatever="@fat">
             <i class="nav-icon fas fa-file"></i>
@@ -257,7 +270,38 @@
         </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <ul class="nav nav-pills nav-sidebar flex-column addcolor" data-widget="treeview" role="menu" data-accordion="false">
+            {% if part == "admin" or part == "editroleuser" %}
+            <li class="nav-item menu-open">
+            {% else %}
+            <li class="nav-item">
+            {% endif %}
+              <!------------------------------------------------------------------------------>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-lock"></i>
+                <p>
+                  ADMIN
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                {% if part == "admin" or part == "editroleuser" %}
+                <li class="nav-item">
+                  <a href="roles" class="nav-link">
+                    <i class="far fa-dot-circle nav-icon text-info"></i>
+                    <p>User / Roles</p>
+                  </a>
+                </li>
+                {% else %}
+                <li class="nav-item ">
+                  <a href="roles" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>User / Roles</p>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+              </li>
             <!-- <li class="nav-header ">สำหรับแผนก IT</li>
             Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -265,9 +309,9 @@
             {% else %}
             {% if part == "dashboardgoods" or part == "goods" or part ==  "borrowlist" %}
             <li class="nav-item menu-open">
-              {% else %}
+            {% else %}
             <li class="nav-item">
-              {% endif %}
+            {% endif %}
               <!------------------------------------------------------------------------------>
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-computer"></i>
@@ -332,22 +376,24 @@
             <!------------------------------------------------------------------------------>
 
             {% if part == "helpdesk" %}
-            <li class="nav-item">
+            <li class="nav-item addli">
               <a href="/helpdesk" class="nav-link active">
                 <i class="nav-icon fa-solid fa-screwdriver-wrench"></i>
                 <p>
                   แจ้งซ่อม IT
                 </p>
               </a>
+              <span class="addhelpdesk" data-toggle="modal" data-target="#helpdesk" data-whatever="@fat"></span>
             </li>
             {% else %}
-            <li class="nav-item">
+            <li class="nav-item addli">
               <a href="/helpdesk" class="nav-link">
                 <i class="nav-icon fa-solid fa-screwdriver-wrench"></i>
                 <p>
                   แจ้งซ่อม IT
                 </p>
               </a>
+              <span class="addhelpdesk" data-toggle="modal" data-target="#helpdesk" data-whatever="@fat"></span>
             </li>
             {% endif %}
             <!------------------------------------------------------------------------------>
@@ -587,8 +633,6 @@
         <div class="box-load">
           <div class="dots-10 " id="load"></div>
         </div>
-
-
         {% block content %}
 
 
@@ -1050,7 +1094,7 @@
     });
   </script>
 
-<!--นาฬิกา------------------------------------>
+  <!--นาฬิกา------------------------------------>
   <script type="text/javascript">
     function setTime() {
       const timeEL = document.querySelector(".time")

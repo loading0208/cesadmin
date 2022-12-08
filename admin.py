@@ -26,6 +26,7 @@ month = thai_strftime(datenow,fmt)
 
 admin = Blueprint('admin',__name__)
 
+
 @admin.route('/profile')
 def Profile():
     if "username" not in session:
@@ -122,11 +123,25 @@ def Leave():
         linegroup = cur.fetchall()
         linegroup = linegroup[0]
         linegroup = linegroup[0]
-        sql = f"SELECT con_name,con_employee_ID from db_contact WHERE con_depid = '{department}' or line_group = '{linegroup}' AND con_name IN (SELECT db_contact.con_name FROM role INNER JOIN db_contact ON db_contact.con_employee_ID = role.usr_employee_ID  WHERE approveleave = 1) "
+        sql = f'''
+                  SELECT con_name,con_employee_ID from db_contact WHERE con_depid = '{department}'
+                  or line_group = '{linegroup}' AND con_name
+                  IN (SELECT db_contact.con_name FROM role INNER JOIN db_contact ON db_contact.con_employee_ID = role.usr_employee_ID
+                  WHERE approveleave = 1)
+                  '''
         cur.execute(sql)
         user = cur.fetchall()
 
-        return render_template("/leave.html",part=part,month=month,user=user,employee=noti.Employee(),datenow=datenow.strftime("%d/%m/%Y"),notification=noti.Notification())
+        sql = f'''
+                  SELECT con_name,con_employee_ID from db_contact WHERE con_depid = '{department}'
+                  or line_group = '{linegroup}' AND con_name
+                  IN (SELECT db_contact.con_name FROM role INNER JOIN db_contact ON db_contact.con_employee_ID = role.usr_employee_ID
+                  WHERE reviewleave = 1)
+                  '''
+        cur.execute(sql)
+        userreviewleave = cur.fetchall()
+
+        return render_template("/leave.html",part=part,month=month,user=user,userreviewleave=userreviewleave,employee=noti.Employee(),datenow=datenow.strftime("%d/%m/%Y"),notification=noti.Notification())
     except Exception as e:
         print(e)
     finally:
@@ -152,6 +167,8 @@ def Addleave():
         name = request.form["name"]
         dep = request.form["dep"]
         leavetype = request.form["leavetype"]
+        if leavetype == 'ลาอื่นๆ':
+            leavetype = 'ลาอื่นๆ /'+' ' + request.form["leavetypeother"]
         datecreate = request.form["datecreate"]
         leavestart = request.form["leavestart"]
         leaveend = request.form["leaveend"]

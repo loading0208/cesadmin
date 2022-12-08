@@ -1,6 +1,11 @@
 {% extends 'main/main.html' %}
 
 {% block header %}
+<style media="screen">
+  .custom-radio label{
+    cursor: pointer;
+  }
+</style>
 <h1 class="m-0">ระบบลางาน</h1>
 {% endblock %}
 <section class="content">
@@ -18,25 +23,26 @@
             <input type="text" name="name" value="{{ session['name'] }}" hidden>
             <input type="text" name="dep" value="{{ session['department'] }}" hidden>
             <div class="card-body">
-              <div class="form-group" style="display:flex;width:100%;">
+              <div class="form-group" style="display:flex;width:100%">
                 <div class="leavetype" style="margin-right:30px;width:20%">
                   <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio1" value="ลากิจ" name="leavetype" title="กรุณาใส่ข้อมูลให้ครบ" required>
+                    <input class="custom-control-input" type="radio" id="customRadio1" value="ลากิจ" name="leavetype" title="กรุณาใส่ข้อมูลให้ครบ" onChange="checkradio();" required>
                     <label for="customRadio1" class="custom-control-label">ลากิจ</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio2" value="ลาพักร้อน" name="leavetype" required>
+                    <input class="custom-control-input" type="radio" id="customRadio2" value="ลาพักร้อน" name="leavetype" onChange="checkradio();" required>
                     <label for="customRadio2" class="custom-control-label">ลาพักร้อน</label>
                   </div>
                 </div>
-                <div class="leavetype" style="width:30%">
+                <div class="leavetype" style="width:50%;">
                   <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio3" value="ลาป่วย" name="leavetype" required>
+                    <input class="custom-control-input" type="radio" id="customRadio3" value="ลาป่วย" name="leavetype" onChange="checkradio();" required>
                     <label for="customRadio3" class="custom-control-label">ลาป่วย</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" required>
-                    <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+                    <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" onChange="checkradio();" required>
+                    <label for="customRadio4" class="custom-control-label" style="width:30%">ลาอื่นๆ</label>
+                    <input type="text" class="form-control" id="leaveother" name="leavetypeother" value="" title="กรุณาใส่ข้อมูลให้ครบ" placeholder="ระบุ" style="border-top: none;border-left: none;border-right: none;display:none;">
                   </div>
                 </div>
               </div>
@@ -80,8 +86,8 @@
                       <label>ทบทวนโดย:</label>
                       <select class="form-control select2bs4" style="width: 100%;" name="headuser" id="headuser" title="กรุณาใส่ข้อมูลให้ครบ" required>
                         <option value=""></option>
-                        {% for user in user %}
-                        <option value="({{user.0}},{{user.1}})" name="headuser">{{user.0}}</option>
+                        {% for userreviewleave in userreviewleave %}
+                        <option value="({{userreviewleave.0}},{{userreviewleave.1}})" name="headuser">{{userreviewleave.0}}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -185,8 +191,6 @@
                 </div>
                 <!-- /.info-box -->
               </div>
-
-
               {% endfor %}
             </div>
           </div>
@@ -213,6 +217,22 @@
 
       };
     };
+
+    function checkradio(){
+      const checkbtn1 = document.querySelector("#customRadio1");
+      const checkbtn2 = document.querySelector("#customRadio2");
+      const checkbtn3 = document.querySelector("#customRadio3");
+      const checkbtn4 = document.querySelector("#customRadio4");
+      const leaveother = document.querySelector("#leaveother");
+      if(checkbtn4.checked){
+        leaveother.style.display='';
+      }else if (checkbtn1.checked || checkbtn2.checked || checkbtn3.checked) {
+        leaveother.style.display='none';
+
+      }
+
+    }
+
 
     ////function checkdate() {
       //var start = document.querySelector('#dateleavestart');

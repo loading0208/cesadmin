@@ -164,11 +164,11 @@ def Addcontact():
                     '''
             cur.execute(sql,(path,name,phone,position,department,linegroup,telin,email,employeeid,prosonal_leave,prosonal_leaveh,vacation_leave,vacation_leaveh,sick_leave,sick_leaveh,check,datestart))
             con.commit()
-
+            #permission
             sql = "INSERT INTO role (usr_employee_ID,check_leave,reviewleave,approveleave,write_post) VALUES(%s,%s,%s,%s,%s)"
             cur.execute(sql,(employeeid,check,reviewleave,approveleave,write_post))
             con.commit()
-
+            #update status user
             sql = "UPDATE tb_user SET usr_status=%s,usr_level=%s WHERE usr_id=%s"
             cur.execute(sql,(status,level,id))
             con.commit()
