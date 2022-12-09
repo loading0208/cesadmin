@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from songline import Sendline
 ###########################################################
 import noti
+import roles
 ############################################################
 import pymysql
 from config import *
@@ -39,7 +40,7 @@ def Helpdesk():
         cur.execute(sql)
         dep = cur.fetchall()
 
-        return render_template('/helpdesk.html',part=part,datas = rows,dep = dep,month=month,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('/helpdesk.html',part=part,datas = rows,dep = dep,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -62,7 +63,7 @@ def Notifyhelpdesk():
         datas = cur.fetchall()
         if len(datas) == 0 :
             return redirect(url_for('helpdesk.Helpdesk'))
-        return render_template('/notifyhelpdesk.html',month=month,datas=datas,now=datenow.strftime("%d/%m/%Y %H:%M"),employee=noti.Employee(),notification=noti.Notification())
+        return render_template('/notifyhelpdesk.html',month=month,datas=datas,now=datenow.strftime("%d/%m/%Y %H:%M"),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -85,7 +86,7 @@ def Notifywaithelpdesk():
         datas = cur.fetchall()
         if len(datas) == 0 :
             return redirect(url_for('helpdesk.Helpdesk'))
-        return render_template('/notifywaithelpdesk.html',month=month,datas=datas,now=datenow.strftime("%d/%m/%Y %H:%M"),employee=noti.Employee(),notification=noti.Notification())
+        return render_template('/notifywaithelpdesk.html',month=month,datas=datas,now=datenow.strftime("%d/%m/%Y %H:%M"),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:

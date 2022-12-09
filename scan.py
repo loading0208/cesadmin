@@ -6,6 +6,7 @@ from datetime import timedelta
 from datetime import datetime
 ###########################################################
 import noti
+import roles
 ############################################################
 import pymysql
 from config import *
@@ -50,7 +51,7 @@ def Checkmyscan():
                 ''')
         cur.execute(sql)
         holiday = cur.fetchall()
-        return render_template("/checkmyscan.html",part=part,month=month,myleave=myleave,holiday=holiday, row=row,sumrow=len(row),summysearch=mysearch,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("/checkmyscan.html",part=part,month=month,myleave=myleave,holiday=holiday, row=row,sumrow=len(row),summysearch=mysearch,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except pyodbc.Error as e:
         print(e)
     finally:
@@ -94,7 +95,7 @@ def Searchmyscan():
                     ''')
             cur.execute(sql)
             holiday = cur.fetchall()
-            return render_template("checkmyscan.html",month=month,mysearch=mysearch,holiday=holiday,myleave=myleave,row=row,summysearch=len(mysearch),employee=noti.Employee(),notification=noti.Notification() )
+            return render_template("checkmyscan.html",month=month,mysearch=mysearch,holiday=holiday,myleave=myleave,row=row,summysearch=len(mysearch),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except pyodbc.Error as e:
             print(e)
         finally:
@@ -121,7 +122,7 @@ def Checkscan():
                 ''')
         cur.execute(sql)
         row = cur.fetchall()
-        return render_template("/checkscan.html",month=month, row=row,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("/checkscan.html",month=month, row=row,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except pyodbc.Error as e:
         print(e)
     finally:
@@ -147,7 +148,7 @@ def Research():
                     ''')
             cur.execute(sql)
             search = cur.fetchall()
-            return render_template("search.html",month=month,search=search,sunsearch=len(search),employee=noti.Employee(),notification=noti.Notification() )
+            return render_template("search.html",month=month,search=search,sunsearch=len(search),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except pyodbc.Error as e:
             print(e)
         finally:
@@ -173,7 +174,7 @@ def Researchdep():
                     ''')
             cur.execute(sql)
             search = cur.fetchall()
-            return render_template("search.html",month=month,search=search,sunsearch=len(search),employee=noti.Employee(),notification=noti.Notification() )
+            return render_template("search.html",month=month,search=search,sunsearch=len(search),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except pyodbc.Error as e:
             print(e)
         finally:

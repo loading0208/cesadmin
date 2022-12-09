@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from songline import Sendline
 ###########################################################
 import noti
+import roles
 ############################################################
 import pymysql
 from config import *
@@ -144,13 +145,15 @@ def Alluser():
 def Newuser():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
         sql = "SELECT * FROM tb_user WHERE usr_status = 0"
         cur.execute(sql)
         newuser = cur.fetchall()
-        return render_template("notifynewuser.html",newuser = newuser,month=month,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("notifynewuser.html",newuser = newuser,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
            print(e)
     finally:
@@ -177,7 +180,7 @@ def Approvenewuser():
             sql = "SELECT * FROM tb_user WHERE usr_id = %s"
             cur.execute(sql,(id))
             newuser = cur.fetchall()
-            return render_template("approvenewuser.html",linegroup=linegroup,dep=dep,newuser = newuser,month=month,employee=noti.Employee(),notification=noti.Notification())
+            return render_template("approvenewuser.html",linegroup=linegroup,dep=dep,newuser = newuser,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except Exception as e:
                print(e)
         finally:
@@ -324,13 +327,15 @@ def logoff():
 def Roles():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
         sql = "SELECT * FROM tb_user WHERE usr_status = 1"
         cur.execute(sql)
         alluserroles =cur.fetchall()
-        return render_template("role.html",alluserroles=alluserroles,month=month,employee=noti.Employee(),notification=noti.Notification(),part='admin')
+        return render_template("role.html",alluserroles=alluserroles,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),part='admin')
     except Exception as e:
         print(e)
     finally:
@@ -354,7 +359,7 @@ def Editroleuser():
         sql = "SELECT * FROM db_department"
         cur.execute(sql)
         dep = cur.fetchall()
-        return render_template("editrole.html",editroleuser=editroleuser,dep=dep,employee=noti.Employee(),notification=noti.Notification(),part='editroleuser')
+        return render_template("editrole.html",editroleuser=editroleuser,dep=dep,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),part='editroleuser')
     except Exception as e:
         print(e)
     finally:

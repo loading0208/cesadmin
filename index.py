@@ -7,6 +7,7 @@ con = pymysql.connect(HOST,USER,PASS,DATABASE)
 conn = pymysql.connect(HOSTpost,USERpost,PASSpost,DATABASEpost)
 ###########################################################
 import noti
+import roles
 ###########################################################
 from datetime import datetime
 from pythainlp.util import thai_strftime
@@ -32,7 +33,7 @@ def Home():
 
         cur.execute("select * from blog where new_status = 2 order by id desc")
         guidenew = cur.fetchall()
-        return render_template('/home.html',guidenew=guidenew,month=month,post=post,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('/home.html',guidenew=guidenew,month=month,post=post,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -46,11 +47,11 @@ def Home():
 def Writenews():
     if "username" not in session:
         return render_template("/login.html")
-    notification=noti.Notification()
-    notification = notification[8][6]
-    if notification != 1:
+    permissions = roles.Checkpermissions()
+    permissions = permissions[0][6]
+    if permissions != 1:
         return redirect(url_for('index.Home'))
-    return render_template("writenews.html",part = "writenews",month=month,employee=noti.Employee(),notification=noti.Notification())
+    return render_template("writenews.html",part = "writenews",month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
 
 
 

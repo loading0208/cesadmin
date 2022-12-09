@@ -8,6 +8,7 @@ con = pymysql.connect(HOST,USER,PASS,DATABASE)
 from flask_paginate import Pagination,get_page_args #แบ่งหน้าข้อมูล
 ###########################################################
 import noti
+import roles
 ###########################################################
 from datetime import datetime
 from pythainlp.util import thai_strftime
@@ -22,13 +23,15 @@ propertyregister = Blueprint('propertyregister',__name__)
 def Goods():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
         sql = "SELECT * FROM dbgoods ORDER BY id_goods DESC"
         cur.execute(sql)
         propertyregister = cur.fetchall()
-        return render_template('goods.html',part="goods",propertyregister=propertyregister,month=month,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('goods.html',part="goods",propertyregister=propertyregister,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -40,6 +43,8 @@ def Goods():
 def Addgoods():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     now = datetime.today()
     try:
         con.connect()
@@ -74,6 +79,8 @@ def Signature():
 def Category():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
@@ -149,6 +156,8 @@ def Borrow():
 def Borrowlist():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     now = datetime.today()
     try:
         con.connect()
@@ -157,7 +166,7 @@ def Borrowlist():
         cur.execute(sql)
         borrowlist = cur.fetchall()
 
-        return render_template('borrow.html',part="borrowlist",borrowlist = borrowlist,now=now.strftime("%d/%m/%Y %H:%M"),month=month,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('borrow.html',part="borrowlist",borrowlist = borrowlist,now=now.strftime("%d/%m/%Y %H:%M"),month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -337,6 +346,8 @@ def Deletegoods():
 def Showcategory():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
@@ -483,12 +494,6 @@ def Detail():
             con.close()
 
 
-@propertyregister.route("/detailgoods")
-def Detailgoods():
-    if "username" not in session:
-        return render_template("/login.html")
-    return render_template("/detailgoods.html")
-
 
 @propertyregister.route("/goodedit",methods=["POST"])
 def Goodedit():
@@ -555,6 +560,8 @@ def Editgoods():
 def Dashboardgoods():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
@@ -1164,7 +1171,7 @@ def Dashboardgoods():
                                                     meNotebook=len(meNotebook),meComputerPC=len(meComputerPC),meMonitor=len(meMonitor),mePrinter=len(mePrinter),meWalkieTalkie=len(meWalkieTalkie),meTV=len(meTV),meTelephone=len(meTelephone),meCamera=len(meCamera),meAccessory=len(meAccessory),
                                                     bkkNotebook=len(bkkNotebook),bkkComputerPC=len(bkkComputerPC),bkkMonitor=len(bkkMonitor),bkkPrinter=len(bkkPrinter),bkkWalkieTalkie=len(bkkWalkieTalkie),bkkTV=len(bkkTV),bkkTelephone=len(bkkTelephone),bkkCamera=len(bkkCamera),bkkAccessory=len(bkkAccessory),
                                                     itNotebook=len(itNotebook),itComputerPC=len(itComputerPC),itMonitor=len(itMonitor),itPrinter=len(itPrinter),itWalkieTalkie=len(itWalkieTalkie),itTV=len(itTV),itTelephone=len(itTelephone),itCamera=len(itCamera),itAccessory=len(itAccessory),
-                                                    month=month,employee=noti.Employee(),notification=noti.Notification())
+                                                    month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:

@@ -271,6 +271,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column addcolor" data-widget="treeview" role="menu" data-accordion="false">
+            {% if session['level'] == 'admin' %}
             {% if part == "admin" or part == "editroleuser" %}
             <li class="nav-item menu-open">
             {% else %}
@@ -302,6 +303,8 @@
                 {% endif %}
               </ul>
               </li>
+              {% else %}
+              {% endif %}
             <!-- <li class="nav-header ">สำหรับแผนก IT</li>
             Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -490,7 +493,8 @@
             </li>
             {% endif %}
             <!------------------------------------------------------------------------------>
-
+            {% for permissions in permissions %}
+            {% if permissions.7 == 1 %}
             {% if part == "commentinbox" %}
             <li class="nav-item">
               <a href="/commentinbox" class="nav-link active">
@@ -518,9 +522,11 @@
               </a>
             </li>
             {% endif %}
+            {% else %}
+            {% endif %}
             <!------------------------------------------------------------------------------>
-            {% for rolecheckid in notification %}
-            {% if rolecheckid.6 == 1 %}
+
+            {% if permissions.6 == 1 %}
             {% if part == "writenews" %}
             <li class="nav-item">
               <a href="/writenews" class="nav-link active">

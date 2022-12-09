@@ -65,7 +65,6 @@ def Notification():
         cur.execute(sql)
         rolecheckid = cur.fetchall()
         rolecheckid=rolecheckid[0]
-
         sumnoti = str(myreview+snewdesk+swaitdesk+suser+sbooing)
 
         return sumnoti,myreview,snewdesk,swaitdesk,suser,sbooing,sumcomments,sumtrashcomments,rolecheckid

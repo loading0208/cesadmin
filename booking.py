@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from songline import Sendline
 ###########################################################
 import noti
+import roles
 ############################################################
 import pymysql
 from config import *
@@ -40,7 +41,7 @@ def Notifybooking():
         sql = "SELECT * FROM db_booking"
         cur.execute(sql)
         booking = cur.fetchall()
-        return render_template('notifybooking.html',booking=booking,month=month,employee=noti.Employee(),notification=noti.Notification(),datenow=datenow)
+        return render_template('notifybooking.html',booking=booking,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),datenow=datenow)
     except Exception as e:
         print (e)
     finally:
@@ -68,7 +69,7 @@ def Booking():
         cur.execute(sql)
         nextevents = cur.fetchall()
 
-        return render_template('bookingroom.html',part="bookingroom",events=events,nextevents=nextevents,snextevents=len(nextevents),todayevents=todayevents,stodayevents=len(todayevents),month=month,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('bookingroom.html',part="bookingroom",events=events,nextevents=nextevents,snextevents=len(nextevents),todayevents=todayevents,stodayevents=len(todayevents),month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -81,7 +82,7 @@ def Booking():
 def Howto():
     if "username" not in session:
         return render_template("/login.html")
-    return render_template("meetingroom/howto.html",sumnoti=notification.Notification())
+    return render_template("meetingroom/howto.html",sumnoti=notification.Notification(),permissions=roles.Checkpermissions())
 
 
 @booking.route("/addbooking", methods=["POST"])

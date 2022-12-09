@@ -8,6 +8,7 @@ con = pymysql.connect(HOST,USER,PASS,DATABASE)
 from flask_paginate import Pagination,get_page_args #แบ่งหน้าข้อมูล
 ###########################################################
 import noti
+import roles
 ###########################################################
 from datetime import datetime
 from pythainlp.util import thai_strftime
@@ -36,7 +37,7 @@ def viewprofile():
             if len(profile) == 0:
                 flash("เกิดข้อมผิดพลาด ไม่สามารถดูข้อมูลได้ กรุณาติดต่อ IT Support โทร 147")
                 return redirect(url_for('contacts.Contact'))
-            return render_template('viewprofile.html',part="contact",profile = profile,linegroup=linegroup,lprofile=len(profile),employee=noti.Employee(),notification=noti.Notification())
+            return render_template('viewprofile.html',part="contact",profile = profile,linegroup=linegroup,lprofile=len(profile),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except Exception as e:
             print(e)
         finally:

@@ -8,6 +8,7 @@ con = pymysql.connect(HOST,USER,PASS,DATABASE)
 from flask_paginate import Pagination,get_page_args #แบ่งหน้าข้อมูล
 ###########################################################
 import noti
+import roles
 ###########################################################
 from datetime import datetime
 from pythainlp.util import thai_strftime
@@ -43,7 +44,7 @@ def Contact():
         pagination_users = getuser
         pagination = Pagination(page=page,per_page=per_page,total=total,css_framework='bootstrap4')
 
-        return render_template('/contact.html',part=part,department=department,month=month,contact=contact,employee=noti.Employee(),notification=noti.Notification(),
+        return render_template('/contact.html',part=part,department=department,month=month,contact=contact,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),
         users=pagination_users,page=page,per_page=per_page,pagination=pagination,len=total)
     except Exception as e:
         print(e)
@@ -68,7 +69,7 @@ def Search():
             if len(contact) == 0:
                 flash("ไม่พบข้อมูล")
                 return redirect(url_for('contacts.Contact'))
-            return render_template('/searchcontact.html',part="contact",month=month,contact=contact,employee=noti.Employee(),notification=noti.Notification())
+            return render_template('/searchcontact.html',part="contact",month=month,contact=contact,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
         except Exception as e:
             print(e)
         finally:
@@ -80,6 +81,8 @@ def Search():
 def Addcontacts():
     if "username" not in session:
         return render_template("/login.html")
+    if session['level'] != 'admin':
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
@@ -91,7 +94,7 @@ def Addcontacts():
         cur.execute(sql)
         linegroup = cur.fetchall()
 
-        return render_template("/addcontact.html",part="contact",month=month,dep=dep,linegroup=linegroup,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("/addcontact.html",part="contact",month=month,dep=dep,linegroup=linegroup,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:

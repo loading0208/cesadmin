@@ -6,6 +6,7 @@ from datetime import date
 ###########################################################
 from dateutil.relativedelta import relativedelta #คำนวนระยะห่างของวัน
 ###########################################################
+import roles
 import noti
 ###########################################################
 import pymysql
@@ -62,7 +63,7 @@ def Profile():
         m = str(z[1])
         d = str(z[2])
         aeg = y +' '+ 'ปี' +' '+ m + ' '+ 'เดือน'+ ' ' + d +' ' +'วัน'
-        return render_template('/profile.html',month=month,myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),aeg=aeg)
+        return render_template('/profile.html',month=month,myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),permissions=roles.Checkpermissions(),aeg=aeg)
     except Exception as e:
         print(e)
     finally:
@@ -97,7 +98,7 @@ def Leavereview():
         myreview = cur.fetchall()
         if len(myreview) == 0 :
             return redirect(url_for('admin.Profile'))
-        return render_template('/review.html',month=month,myreview=myreview,employee=noti.Employee(),notification=noti.Notification())
+        return render_template('/review.html',month=month,myreview=myreview,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print(e)
     finally:
@@ -141,7 +142,7 @@ def Leave():
         cur.execute(sql)
         userreviewleave = cur.fetchall()
 
-        return render_template("/leave.html",part=part,month=month,user=user,userreviewleave=userreviewleave,employee=noti.Employee(),datenow=datenow.strftime("%d/%m/%Y"),notification=noti.Notification())
+        return render_template("/leave.html",part=part,month=month,user=user,userreviewleave=userreviewleave,employee=noti.Employee(),permissions=roles.Checkpermissions(),datenow=datenow.strftime("%d/%m/%Y"),notification=noti.Notification())
     except Exception as e:
         print(e)
     finally:
@@ -282,7 +283,7 @@ def Detailleave():
             cur.execute(sql)
             log = cur.fetchall()
 
-            return render_template('detailleave.html',month=month,detailleave = detailleave,employee=noti.Employee(),log=log,notification=noti.Notification())
+            return render_template('detailleave.html',month=month,detailleave = detailleave,employee=noti.Employee(),log=log,notification=noti.Notification(),permissions=roles.Checkpermissions())
         except Exception as e:
             print(e)
         finally:
@@ -306,7 +307,7 @@ def Mydetailleave():
             cur.execute(sql)
             log = cur.fetchall()
 
-            return render_template('mydetailleave.html',month=month,mydetailleave = mydetailleave,employee=noti.Employee(),log=log,notification=noti.Notification(),id=id)
+            return render_template('mydetailleave.html',month=month,mydetailleave = mydetailleave,employee=noti.Employee(),log=log,notification=noti.Notification(),permissions=roles.Checkpermissions(),id=id)
         except Exception as e:
             print(e)
         finally:
@@ -590,7 +591,7 @@ def Hrreview():
 def Comments():
     if "username" not in session:
         return render_template("/login.html")
-    return render_template("comments.html",part="comments",employee=noti.Employee(),notification=noti.Notification())
+    return render_template("comments.html",part="comments",employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
 
 
 @admin.route("/sendcomment",methods=["POST"])
@@ -632,13 +633,16 @@ def Sendcomment():
 def Commentinbox():
     if "username" not in session:
         return render_template("/login.html")
+    permissions=roles.Checkpermissions()
+    if permissions[0][7] != 1:
+        return redirect(url_for('admin.Profile'))
     try:
         con.connect()
         cur = con.cursor()
         sql = f"select * from db_comments where comment_status < 2 order by comment_id desc"
         cur.execute(sql)
         comment = cur.fetchall()
-        return render_template("commentinbox.html",part="commentinbox",comment = comment,scomment=len(comment),employee=noti.Employee(),notification=noti.Notification())
+        return render_template("commentinbox.html",part="commentinbox",comment = comment,scomment=len(comment),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print (e)
     finally:
@@ -662,7 +666,7 @@ def Readcomment():
         cur.execute(f"update db_comments set comment_status = '{comment_status}' where comment_id = '{commentid}' ")
         con.commit()
 
-        return render_template("readcomment.html",part="commentinbox",read=read,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("readcomment.html",part="commentinbox",read=read,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print (e)
     finally:
@@ -696,13 +700,17 @@ def Deletecomment():
 def Trashcomment():
     if "username" not in session:
         return render_template("/login.html")
+    permissions=roles.Checkpermissions()
+    if permissions[0][7] != 1:
+        return redirect(url_for('admin.Profile'))
+
     try:
         con.connect()
         cur = con.cursor()
         sql = "select * from db_comments where comment_status = 2 order by comment_id desc"
         cur.execute(sql)
         trash = cur.fetchall()
-        return render_template("trashcomment.html",part="commentinbox",trash=trash,strash=len(trash),employee=noti.Employee(),notification=noti.Notification())
+        return render_template("trashcomment.html",part="commentinbox",trash=trash,strash=len(trash),employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print (e)
     finally:
@@ -722,7 +730,7 @@ def Readtrashcomment():
         sql = "select * from db_comments where comment_id = %s"
         cur.execute(sql,(commentid))
         read = cur.fetchall()
-        return render_template("readtrashcomment.html",part="commentinbox",read=read,employee=noti.Employee(),notification=noti.Notification())
+        return render_template("readtrashcomment.html",part="commentinbox",read=read,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())
     except Exception as e:
         print (e)
     finally:
