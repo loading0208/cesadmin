@@ -110,6 +110,9 @@
       font-size: 2.3rem;
       cursor: pointer;
     }
+    .addhelpdesk:hover::before{
+      color: #fff;
+    }
   </style>
 </head>
 
@@ -619,6 +622,15 @@
               timer: 2500
             })
           </script>
+          {% elif msg == 'กรุณาเช็ควันที่เรื่มต้นและวันที่สิ้นสุด' %}
+          <script type="text/javascript">
+            swal({
+              position: 'center',
+              icon: 'warning',
+              title: '{{msg}}',
+              showConfirmButton: true,
+            })
+          </script>
           {% else %}
           <script type="text/javascript">
             swal({
@@ -654,25 +666,25 @@
               </div>
               <div class="modal-body">
                 <form action="{{ url_for('helpdesk.addrepair') }}" method="POST" enctype="multipart/form-data" id="quickForm">
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">ชื่อ:</label>
-                    <input type="text" class="form-control" name="fname" value="{{ session['fname'] }}" readonly>
+                  <div class="form-group" hidden>
+                    <label for="recipient-name" class="col-form-label" >ชื่อ:</label>
+                    <input type="text" class="form-control" name="fname" value="{{ session['fname'] }}" readonly >
                   </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">นามสกุล:</label>
-                    <input type="text" class="form-control" name="lname" value="{{ session['lname'] }}" readonly>
+                  <div class="form-group" hidden>
+                    <label for="recipient-name" class="col-form-label" >นามสกุล:</label>
+                    <input type="text" class="form-control" name="lname" value="{{ session['lname'] }}" readonly >
                   </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">แผนก:</label>
-                    <input type="text" class="form-control" name="depart" value="{{ session['department'] }}" readonly>
+                  <div class="form-group" hidden>
+                    <label for="recipient-name" class="col-form-label" >แผนก:</label>
+                    <input type="text" class="form-control"  name="depart" value="{{ session['department'] }}" readonly >
                   </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">E-MAil:</label>
-                    <input type="email" class="form-control" name="email" value="{{ session['email'] }}" readonly>
+                  <div class="form-group" hidden>
+                    <label for="recipient-name" class="col-form-label" >E-MAil:</label>
+                    <input type="email" class="form-control" name="email" value="{{ session['email'] }}" readonly >
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">เบอร์โต๊ะ:</label>
-                    <input type="text" pattern="[0-9\s]*" title="กรุณาใส่เบอร์โทรภายใน" class="form-control" name="telin" value="" required>
+                    <input type="text" pattern="[0-9\s]*" min="3"  title="กรุณาใส่เบอร์โทรภายใน" class="form-control" name="telin" value="" required>
                   </div>
 
                   <div class="form-group">
@@ -688,7 +700,7 @@
                     </select>
                   </div>
                   <div class="form-group error">
-                    <input id="show" type="text" class="form-control " name="goodsohter" value="" placeholder="กรุณาใส่ประเภทอุปกรณ์" title="กรุณาใส่ข้อมูล" style="display:none">
+                    <input id="show" type="text" class="form-control " name="goodsohter" value="" placeholder="กรุณาใส่ประเภทอุปกรณ์" title="กรุณาใส่ข้อมูล" style="display:none" required>
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">รหัสทะเบียนอุปกรณ์:</label>

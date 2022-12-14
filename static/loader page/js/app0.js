@@ -17,8 +17,10 @@ const radio3 = document.getElementById('customRadio3');
 const radio4 = document.getElementById('customRadio4');
 
 form.addEventListener("submit", function(e) {
-  if (dateleavestart.value == '' || dateleaveend.value == '' || leavenumd.value == '' || leavenumh.value == '' || causedetail.value == '' || headuser.value == '' || manageruser.value == '' || radio1.checked===false && radio2.checked===false&&
-      radio3.checked===false&& radio4.checked===false || radio4.checked===true&&leaveother.value=='') {
+  if (dateleavestart.value == '' || dateleaveend.value == '' || leavenumd.value == '' || leavenumh.value == '' || causedetail.value == '' || headuser.value == '' || manageruser.value == '') {
+
+  }
+  if (radio1.checked === false && radio2.checked === false && radio3.checked === false) {
 
   } else {
     load.classList.add("loader_page");

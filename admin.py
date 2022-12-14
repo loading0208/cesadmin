@@ -82,7 +82,6 @@ def Leavereview():
     try:
         con.connect()
         cur = con.cursor()
-
         permissionsql = f"SELECT * FROM role WHERE usr_employee_ID = '{employee}' "
         cur.execute(permissionsql)
         permission = cur.fetchall()
@@ -174,7 +173,7 @@ def Addleave():
         leavestart = request.form["leavestart"]
         leaveend = request.form["leaveend"]
         if leavestart > leaveend :
-            flash("กรุณาเช็ควันที่ลา")
+            flash("กรุณาเช็ควันที่เรื่มต้นและวันที่สิ้นสุด")
             return redirect(url_for('admin.Leave'))
         leavenumd = request.form["leavenumd"]
         leavenumh = request.form["leavenumh"]
@@ -554,7 +553,7 @@ def Hrreview():
                 sql = f'''UPDATE `db_contact` SET `sick_leave`='{sum}',sick_leave_h='{z}' WHERE `con_employee_ID`='{employeeid}' '''
                 cur.execute(sql)
                 con.commit()
-            if typeleave == 'ลาอื่นๆ':
+            if typeleave != 'ลากิจ' or typeleave != 'ลาพักร้อน' or typeleave != 'ลาป่วย':
                 myday = float(leaveday[0][14]) #ค่าจาก database หน่วยเป็น วัน
                 mydayH = float(leaveday[0][15]) #ค่าจาก database หน่วยเป็น ชั่วโมง
 

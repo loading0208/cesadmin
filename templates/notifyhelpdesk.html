@@ -98,8 +98,8 @@
     $('.helpdesk-loader-page').click(function() {
       const deteil = document.getElementById('deteil')
       const acction = document.getElementById('type-acction')
-      if (deteil.value, acction.value === '') {
-        
+      if (deteil.value == '' || acction.value === '') {
+
       } else {
         $(".box-load").addClass("loader_page");
       }
