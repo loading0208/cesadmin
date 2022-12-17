@@ -17,7 +17,7 @@
   {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12 col-sm-8">
+      <div class="col-12 ">
         <div class="card card-primary card-outline card-outline-tabs">
           <div class="card-header p-0 border-bottom-0">
             <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -34,7 +34,7 @@
               {% for editroleuser in editroleuser %}
               <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                 {% if editroleuser.11 != '' %}
-                <img src="{{editroleuser.11}}" alt="{{editroleuser.1}}" class="img-thumbnail">
+                <img src="{{editroleuser.11}}" alt="{{editroleuser.1}}" class="img-thumbnail" width="250">
                 {% else %}
                 <img src="static/imgprofile/header.png" alt="No Pic" class="img-thumbnail">
                 {% endif %}
@@ -62,8 +62,55 @@
                 </div>
               </div>
               <div class="tab-pane fade pointer" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-                <div class="form-group">
-                  <form class="" action="{{ url_for('roles.Permissions') }}" method="post">
+                <form class="" action="{{ url_for('roles.Permissions') }}" method="post">
+                  <div class="row" style="border-bottom: 1px solid red ;padding:2px;margin-bottom:20px">
+                    <div class="col-sm-12" style="margin-bottom:20px">
+                      <h5>Level</h5>
+                    </div>
+                    <div class="col-sm-12">
+                      <!-- radio -->
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          {% if editroleuser.9 == 'admin' %}
+                          <input class="custom-control-input custom-control-input-danger" type="radio" id="customRadio4" name="level" value="admin" checked>
+                          {% else %}
+                          <input class="custom-control-input custom-control-input-danger" type="radio" id="customRadio4" name="level" value="admin">
+                          {% endif %}
+                          <label for="customRadio4" class="custom-control-label">Admin</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <!-- radio -->
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          {% if editroleuser.9 == 'สมาชิกทั่วไป' %}
+                          <input class="custom-control-input custom-control-input-danger custom-control-input-outline" type="radio" id="customRadio5" name="level" value="สมาชิกทั่วไป" checked>
+                          {% else %}
+                          <input class="custom-control-input custom-control-input-danger custom-control-input-outline" type="radio" id="customRadio5" name="level" value="สมาชิกทั่วไป">
+                          {% endif %}
+                          <label for="customRadio5" class="custom-control-label">สมาชิกทั่วไป</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.8 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1" >
+                      {% endif %}
+                      <label class="custom-control-label" for="activated">activated</label>
+                    </div>
+
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="activated0" name="status" value="0" checked>
+                      <label class="custom-control-label" for="activated0">activated</label>
+                    </div>
+
+                  </div>
+                  <div class="form-group">
                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                       {% if editroleuser.14 == 1 %}
                       <input type="checkbox" class="custom-control-input" id="check" name="check" value="1" checked>
@@ -77,88 +124,88 @@
                       <input type="checkbox" class="custom-control-input" id="check0" name="check" value="0" checked>
                       <label class="custom-control-label" for="check0">ตรวจสอบใบลางาน</label>
                     </div>
-                </div>
+                  </div>
 
-                <div class="form-group pot">
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                    {% if editroleuser.15 == 1 %}
-                    <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1" checked>
-                    {% else %}
-                    <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1">
-                    {% endif %}
+                  <div class="form-group pot">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.15 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="headreview" name="reviewleave" value="1">
+                      {% endif %}
 
-                    <label class="custom-control-label" for="headreview">Review การขอลางาน</label>
+                      <label class="custom-control-label" for="headreview">Review การขอลางาน</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="headreview0" name="reviewleave" value="0" checked>
+                      <label class="custom-control-label" for="headreview0">Review การขอลางาน</label>
+                    </div>
                   </div>
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
-                    <input type="checkbox" class="custom-control-input" id="headreview0" name="reviewleave" value="0" checked>
-                    <label class="custom-control-label" for="headreview0">Review การขอลางาน</label>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                    {% if editroleuser.16 == 1 %}
-                    <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1" checked>
-                    {% else %}
-                    <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1">
-                    {% endif %}
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.16 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="managerapprove" name="approveleave" value="1">
+                      {% endif %}
 
-                    <label class="custom-control-label" for="managerapprove">Approve การขอลางาน</label>
+                      <label class="custom-control-label" for="managerapprove">Approve การขอลางาน</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="managerapprove0" name="approveleave" value="0" checked>
+                      <label class="custom-control-label" for="managerapprove0">Approve การขอลางาน</label>
+                    </div>
                   </div>
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
-                    <input type="checkbox" class="custom-control-input" id="managerapprove0" name="approveleave" value="0" checked>
-                    <label class="custom-control-label" for="managerapprove0">Approve การขอลางาน</label>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                    {% if editroleuser.17 == 1 %}
-                    <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1" checked>
-                    {% else %}
-                    <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1">
-                    {% endif %}
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.17 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="bookingroom" name="bookingroom" value="1">
+                      {% endif %}
 
-                    <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
+                      <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="bookingroom0" name="bookingroom" value="0" checked>
+                      <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
+                    </div>
                   </div>
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
-                    <input type="checkbox" class="custom-control-input" id="bookingroom0" name="bookingroom" value="0" checked>
-                    <label class="custom-control-label" for="bookingroom">ห้องประชุม</label>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                    {% if editroleuser.18 == 1 %}
-                    <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1" checked>
-                    {% else %}
-                    <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1">
-                    {% endif %}
-                    <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.18 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="write_post" name="write_post" value="1">
+                      {% endif %}
+                      <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="write_post0" name="write_post" value="0" checked>
+                      <label class="custom-control-label" for="write_post">เขียนบทความ</label>
+                    </div>
                   </div>
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
-                    <input type="checkbox" class="custom-control-input" id="write_post0" name="write_post" value="0" checked>
-                    <label class="custom-control-label" for="write_post">เขียนบทความ</label>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                    {% if editroleuser.19 == 1 %}
-                    <input type="checkbox" class="custom-control-input" id="inbox" name="inbox" value="1" checked>
-                    {% else %}
-                    <input type="checkbox" class="custom-control-input" id="inbox" name="inbox" value="1">
-                    {% endif %}
-                    <label class="custom-control-label" for="inbox">comment in box</label>
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.19 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="inbox" name="inbox" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="inbox" name="inbox" value="1">
+                      {% endif %}
+                      <label class="custom-control-label" for="inbox">comment in box</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="inbox0" name="inbox" value="0" checked>
+                      <label class="custom-control-label" for="inbox">comment in box</label>
+                    </div>
                   </div>
-                  <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
-                    <input type="checkbox" class="custom-control-input" id="inbox0" name="inbox" value="0" checked>
-                    <label class="custom-control-label" for="inbox">comment in box</label>
-                  </div>
-                </div>
-                <hr style="margin-top:50px;">
-                <input type="text" name="employeeID" value="{{editroleuser.10}}" hidden>
-                <button type="submit" class="btn btn-success">Submit</button>
+                  <hr style="margin-top:50px;">
+                  <input type="text" name="employeeID" value="{{editroleuser.10}}" hidden>
+                  <button type="submit" class="btn btn-success">Submit</button>
               </div>
               </form>
               {% endfor %}

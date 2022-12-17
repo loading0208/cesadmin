@@ -41,10 +41,14 @@
                   <label for="customRadio3" class="custom-control-label">ลาป่วย</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  {% if mydetailleave.3 == 'ลาอื่นๆ' %}
+                  {% if mydetailleave.3 != 'ลาพักร้อน' and mydetailleave.3 != 'ลาป่วย' and mydetailleave.3 != 'ลาพักร้อน' and mydetailleave.3 != 'ลากิจ' %}
                   <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" checked disabled>
-                  {% endif %}
                   <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+                  <input type="text" class="form-control" value="{{mydetailleave.3[10:]}}" style="border-top: none;border-left: none;border-right: none;background:none" readonly>
+                  {% else %}
+                  <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -204,14 +208,6 @@
           </div>
           <!-- /.card-body -->
         </div>
-
-
-
-
-
-
-
-
 
 
       </div>

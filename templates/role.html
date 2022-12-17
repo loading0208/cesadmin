@@ -24,14 +24,50 @@
               <tbody>
                 {% for alluserroles in alluserroles %}
                 <tr>
-                  <td>{{alluserroles.0}}</td>
+                  {% if alluserroles.8 == 0 %}
+                  <td class="td"><span></span>{{alluserroles.0}}</td>
+                  {% else %}
+                  <td class="td-td"><span></span>{{alluserroles.0}}</td>
+                  {% endif %}
                   <td>{{alluserroles.1}} {{alluserroles.2}}</td>
                   <td>{{alluserroles.7}}</td>
-                  <td style="text-align:center">
-                    <form class="" action="{{ url_for('user.Editroleuser',user = alluserroles.1) }}" method="post">
-                      <input type="text" name="userid" value="{{alluserroles.10}}" hidden>
-                      <button type="submit" name="button" style="border:none;background:none"><i class="fa-regular fa-pen-to-square"></i></button>
-                    </form>
+                  <td>
+                    <div class="row" style="display:flex;justify-content:center">
+                      <form class="" action="{{ url_for('user.Editroleuser',user = alluserroles.1) }}" method="post">
+                        <input type="text" name="userid" value="{{alluserroles.10}}" hidden>
+                        <button type="submit" name="button" style="border:none;background:none"><i class="fa-regular fa-pen-to-square"></i></button>
+                      </form>
+
+                      <button type="button" name="button" style="border:none;background:none;color:#FA8072" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
+
+                      <div class="modal fade" id="modal-default">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <form class="" action="{{ url_for('user.Deleteuser') }}" method="post">
+                                <input type="text" name="userid" value="{{alluserroles.10}}" hidden>
+                                <center>
+                                  <img src="static\img\warningpic.png" alt="">
+                                  <h3>ต้องการลบผู้ใช้งานนี้ ?</h3>
+                                </center>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                              <button type="submit" class="btn btn-danger">Yes</button>
+                            </div>
+                            </form>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+
+
+
+
+
+
+                    </div>
                   </td>
                 </tr>
                 {% endfor %}

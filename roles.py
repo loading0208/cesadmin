@@ -23,12 +23,19 @@ def Permissions():
         bookingroom = request.form['bookingroom']
         write_post = request.form['write_post']
         inbox = request.form['inbox']
+        level = request.form['level']
+        status = request.form['status']
         try:
             con.connect()
             cur = con.cursor()
             sql = "UPDATE role SET check_leave=%s,reviewleave=%s,approveleave=%s,meetingroom=%s,write_post=%s,comment_inbox=%s WHERE usr_employee_ID=%s"
             cur.execute(sql,(check,reviewleave,approveleave,bookingroom,write_post,inbox,employeeID))
             con.commit()
+
+            sql_level = "UPDATE tb_user SET usr_level=%s,usr_status=%s WHERE usr_employee_ID=%s"
+            cur.execute(sql_level,(level,status,employeeID))
+            con.commit()
+
             return redirect(url_for('user.Roles'))
         except Exception as e:
             print (e)
@@ -52,3 +59,23 @@ def Checkpermissions():
     finally:
         cur.close()
         con.close()
+
+@roles.route('/test')
+def test():
+    con.connect()
+    cur = con.cursor()
+    cur.execute("SELECT * FROM log_leave")
+    test = cur.fetchall()
+    return render_template("test.html",test=test)
+
+@roles.route('/deleterole', methods=['POST'])
+def delete():
+    if request.method == 'POST':
+        test = request.form['test']
+        print(test)
+        con.connect()
+        cur = con.cursor()
+        cur.execute(f"DELETE FROM log_leave WHERE log_id = '{test}' ")
+        con.commit()
+
+        return redirect(url_for('roles.test'))

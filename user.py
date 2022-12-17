@@ -215,14 +215,14 @@ def Edituser():
 @user.route("/deleteuser",methods=["POST"])
 def Deleteuser():
     if request.method == "POST":
-        id = request.form["id"]
+        userid = request.form["userid"]
         try:
             con.connect()
             cur = con.cursor()
-            sql = "delete from tb_user where usr_id = %s"
-            cur.execute(sql,(id))
+            sql = "delete from tb_user where usr_employee_ID = %s"
+            cur.execute(sql,(userid))
             con.commit()
-            return redirect(url_for("dashboard.Dashboard"))
+            return redirect(url_for("user.Roles"))
         except Exception as e:
                print(e)
         finally:
@@ -332,7 +332,7 @@ def Roles():
     try:
         con.connect()
         cur = con.cursor()
-        sql = "SELECT * FROM tb_user WHERE usr_status = 1"
+        sql = "SELECT * FROM tb_user"
         cur.execute(sql)
         alluserroles =cur.fetchall()
         return render_template("role.html",alluserroles=alluserroles,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),part='admin')

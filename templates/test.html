@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <form class="" action="{{ url_for('roles.delete') }}" method="post">
+
+  {% for test in test %}
+    <input type="text" name="test" value="{{test.0}}"><br>
+
+  {% endfor %}
+
+  <button type="submit" name="button">Submit</button>
+
+</form>
+</body>
+
+</html>

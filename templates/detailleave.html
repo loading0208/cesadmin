@@ -42,11 +42,13 @@
                   <label for="customRadio3" class="custom-control-label">ลาป่วย</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  {% if detailleave.3 != 'ลากิจ' or detailleave.3 != 'ลาพักร้อน' or detailleave.3 != 'ลาป่วย' %}
+                  {% if detailleave.3 != 'ลาพักร้อน' and detailleave.3 != 'ลาป่วย' and detailleave.3 != 'ลาพักร้อน' and detailleave.3 != 'ลากิจ' %}
                   <input class="custom-control-input" type="radio" id="customRadio4" value="ลาอื่นๆ" name="leavetype" checked disabled>
                   <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
+                  <input type="text" class="form-control" value="{{detailleave.3[10:]}}" style="border-top: none;border-left: none;border-right: none;background:none" readonly>
+                  {% else %}
+                  <label for="customRadio4" class="custom-control-label">ลาอื่นๆ</label>
 
-                  <input type="text" class="form-control" value="{{detailleave.3}}" style="border-top: none;border-left: none;border-right: none;background:none" readonly>
                   {% endif %}
                 </div>
               </div>
