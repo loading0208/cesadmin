@@ -14,6 +14,7 @@ from helpdesk import *
 from contacts import *
 from profile import *
 from booking import *
+from mcu import *
 from roles import *
 from noti import *
 
@@ -32,6 +33,7 @@ app.register_blueprint(propertyregister)
 app.register_blueprint(helpdesk)
 app.register_blueprint(profile)
 app.register_blueprint(booking)
+app.register_blueprint(mcu)
 app.register_blueprint(roles)
 app.register_blueprint(noti)
 

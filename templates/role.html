@@ -38,14 +38,14 @@
                         <button type="submit" name="button" style="border:none;background:none"><i class="fa-regular fa-pen-to-square"></i></button>
                       </form>
 
-                      <button type="button" name="button" style="border:none;background:none;color:#FA8072" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
+                      <button type="button" name="button" style="border:none;background:none;color:#FA8072" data-toggle="modal" data-target="#deleteuser{{alluserroles.10}}"><i class="fas fa-trash"></i></button>
 
-                      <div class="modal fade" id="modal-default">
+                      <div class="modal fade" id="deleteuser{{alluserroles.10}}">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-body">
                               <form class="" action="{{ url_for('user.Deleteuser') }}" method="post">
-                                <input type="text" name="userid" value="{{alluserroles.10}}" hidden>
+                                <input type="text" name="userid" value="{{alluserroles.10}}" hidden >
                                 <center>
                                   <img src="static\img\warningpic.png" alt="">
                                   <h3>ต้องการลบผู้ใช้งานนี้ ?</h3>
@@ -61,12 +61,6 @@
                         </div>
                         <!-- /.modal-dialog -->
                       </div>
-
-
-
-
-
-
                     </div>
                   </td>
                 </tr>

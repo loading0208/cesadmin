@@ -99,7 +99,7 @@
                       {% if editroleuser.8 == 1 %}
                       <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1" checked>
                       {% else %}
-                      <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1" >
+                      <input type="checkbox" class="custom-control-input" id="activated" name="status" value="1">
                       {% endif %}
                       <label class="custom-control-label" for="activated">activated</label>
                     </div>
@@ -205,8 +205,9 @@
                   </div>
                   <hr style="margin-top:50px;">
                   <input type="text" name="employeeID" value="{{editroleuser.10}}" hidden>
-                  <button type="submit" class="btn btn-success">Submit</button>
+                  <button type="submit" class="btn btn-success" id="checkleave">Submit</button>
               </div>
+
               </form>
               {% endfor %}
             </div>
@@ -217,6 +218,21 @@
     </div>
 
   </div><!-- /.container-fluid -->
+  <script type="text/javascript">
+    const admin = document.getElementById('customRadio4')
+    const user = document.getElementById('customRadio5')
+    const checkleave = document.getElementById('checkleave')
+    checkleave.addEventListener('click', function(e) {
+      if (admin.checked == false && user.checked == false) {
+        Swal.fire(
+          'เลือกระดับ USER',
+          '',
+          'warning'
+        )
+        e.preventDefault();
+      }
+    });
+  </script>
   {% endblock %}
 </section>
 <!-- /.content -->

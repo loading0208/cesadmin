@@ -2,6 +2,34 @@
 
 
 {% block header %}
+<style media="screen">
+  .mcu-star {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+    align-items: center;
+    margin-top: 15px
+  }
+
+  .mcu-star p {
+    font-size: 1.5em;
+    color: blue;
+    margin-top: 50px;
+    text-align: center;
+  }
+  .mcu{
+    margin-left: 20px;
+  }
+  .mcu span{
+    position: absolute;
+    width:5px;
+    height:20px;
+    background:red;
+    margin-left: 10px;
+    margin-top: 3px;
+    align-items: center;
+  }
+</style>
 <h1 class="m-0">Profile</h1>
 {% endblock %}
 <section class="content">
@@ -143,6 +171,96 @@
           </div>
 
           <div class="col-md-9">
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-notes-medical"></i>
+                  Medical
+                </h3>
+              </div>
+              <div class="card-body">
+                <h4></h4>
+                <div class="row">
+                  <div class="col-5 col-sm-4">
+                    <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                      {% for mcu in mcu %}
+                      {% if date < mcu.4 %}
+                      <a class="nav-link mcu active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">ตรวจสุขภาพประจำปี</a>
+                      {% else %}
+                      <a class="nav-link mcu active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">ตรวจสุขภาพประจำปี<span></span></a>
+                      {% endif %}
+                      {% endfor %}
+
+                      {% for pttep in pttep %}
+                      {% if date < pttep.4 %}
+                      <a class="nav-link mcu" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">OSHV PTTEP</a>
+                      {% else %}
+                      <a class="nav-link mcu" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">OSHV PTTEP<span></span></a>
+                      {% endif %}
+                      {% endfor %}
+
+                      <a class="nav-link mcu" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">ประวัติวัคซีน COVID</a>
+                    </div>
+                  </div>
+                  <div class="col-7 col-sm-8">
+                    <div class="tab-content" id="vert-tabs-tabContent">
+                      <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                        {% for mcu in mcu %}
+                        <div class="mcu-star">
+                          <h5>วันที่ตรวจสุขภาพประจำปี</h5>
+                          <h5>{{mcu.3.strftime('%d/%m/%Y')}}</h5>
+                        </div>
+                        <div class="mcu-star">
+                          <h5>วันหมดหมดอายุผลตรวจสุขภาพประจำปี</h5>
+                          <h5>{{mcu.4.strftime('%d/%m/%Y')}}</h5>
+                        </div>
+                        <div class="mcu-star">
+                          {% if date < mcu.4 %}
+                          <p>Status : Available</p>
+                          {% else %}
+                          <p style='color:red'>Status : Expired</p>
+                          {% endif %}
+                        </div>
+
+                        {% endfor %}
+                      </div>
+                      <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                        {% for pttep in pttep %}
+                        <div class="mcu-star">
+                          <h5>ผลสุขภาพในระบบ OSHV PTTEP</h5>
+                          <h5>{{pttep.3.strftime('%d/%m/%Y')}}</h5>
+                        </div>
+                        <div class="mcu-star">
+                          <h5>วันหมดหมดอายุผลสุขภาพในระบบ OSHV PTTEP</h5>
+                          <h5>{{pttep.4.strftime('%d/%m/%Y')}}</h5>
+                        </div>
+                        <div class="mcu-star">
+                          {% if date < pttep.4 %}
+                          <p>Status : Available</p>
+                          {% else %}
+                          <p style='color:red'>Status : Expired</p>
+                          {% endif %}
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
+                        {% for covid in covid %}
+                        <div class="mcu-star">
+                          <h5>เข็มที่ {{covid.2}}</h5>
+                          <h5>{{covid.3.strftime('%d/%m/%Y')}}</h5>
+                        </div>
+                        <hr>
+                        {%endfor%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+
+
             {% if smyhelpdesk == 0 %}
             {% else %}
             <div class="card card-gray">

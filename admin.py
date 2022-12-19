@@ -24,6 +24,7 @@ fmt = "%B"
 datenow = datetime.today()
 month = thai_strftime(datenow,fmt)
 
+date = date.today()
 
 admin = Blueprint('admin',__name__)
 
@@ -52,6 +53,18 @@ def Profile():
         cur.execute(sql)
         borrow = cur.fetchall()
 
+        sql = f"SELECT * from db_mcu WHERE employeeID = '{employee}' and title = 1"
+        cur.execute(sql)
+        mcu = cur.fetchall()
+
+        sql = f"SELECT * from db_mcu WHERE employeeID = '{employee}' and title = 2"
+        cur.execute(sql)
+        pttep = cur.fetchall()
+
+        sql = f"SELECT * from db_covid WHERE employeeID = '{employee}'"
+        cur.execute(sql)
+        covid = cur.fetchall()
+
         sql = f"SELECT * from db_contact WHERE con_employee_ID = '{employee}' "
         cur.execute(sql)
         employee = cur.fetchall()
@@ -63,7 +76,7 @@ def Profile():
         m = str(z[1])
         d = str(z[2])
         aeg = y +' '+ 'ปี' +' '+ m + ' '+ 'เดือน'+ ' ' + d +' ' +'วัน'
-        return render_template('/profile.html',month=month,myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),permissions=roles.Checkpermissions(),aeg=aeg)
+        return render_template('/profile.html',month=month,mcu=mcu,pttep=pttep,covid=covid,scovid=len(covid),myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),permissions=roles.Checkpermissions(),date=date,aeg=aeg)
     except Exception as e:
         print(e)
     finally:
