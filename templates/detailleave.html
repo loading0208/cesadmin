@@ -154,7 +154,7 @@
 
               <div class="form-group">
                 <label>Additional Commitment Remark:</label>
-                <textarea class="form-control" name="remark" rows="6"></textarea>
+                <textarea class="form-control" name="remark" id="remark" rows="6"></textarea>
               </div>
           </div>
 
@@ -277,9 +277,21 @@
       $(".box-load").addClass("loader_page");
     });
 
-    $('#reject').click(function() {
-      $(".box-load").addClass("loader_page");
+    $('#reject').click(function(event) {
+      if ($('#remark').val() == ''){
+        event.preventDefault();
+        $('#remark').focus();
+        Swal.fire(
+          'กรุณาระบุเหตุผล',
+          '',
+          'warning'
+        );
+      }else{
+        $(".box-load").addClass("loader_page");
+      }
     });
+
+
   </script>
 
   {% endblock %}

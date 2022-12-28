@@ -37,16 +37,20 @@
                   <td>{{ row.6 }}</td>
                   <td>{{ row.7.strftime("%d/%m/%Y %H:%M:%S") }}</td>
                   <td>{{ row.8 }}</td>
+                  {% if row.12 == '' %}
+                  <td>No Picture</td>
+                  {% else %}
                   <td style="width:100px;height:10px"><a href="{{ row.12 }}" target="_blank"> <img src="{{ row.12 }}" style="width:100%;object-fit:cover"></td></a>
+                  {% endif %}
                   {% if row.13 == 2 %}
                   <td>{{ row.9 }} <span class="badge badge-warning" style="background-color:#fffa65;color:#4b4b4b;border-radius:10px">Warning</span></td>
                   {% elif row.13 == 3 %}
                   <td>{{ row.9 }} <span class="badge badge-info" style="background-color:#32ff7e;color:#4b4b4b;border-radius:10px">Success</span></td>
                   {% elif row.13 == 0 %}
-                  <td>{{ row.9 }}</td>
+                  <td>-</td>
                   {% endif %}
                   {% if row.14 == "" %}
-                  <td></td>
+                  <td>-</td>
                   {% else %}
                   <td>{{ row.10 }} ({{ row.14 }})</td>
                   {% endif %}

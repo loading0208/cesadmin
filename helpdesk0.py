@@ -208,58 +208,46 @@ def Ithelpdesk():
             cur.close()
 #----แจ้งผลผ่าน e-mail----------------------------------------------------------------------------------
             def sendthai(sendto,subj,detail):
-                try:
-                	myemail = 'noreply@cesteam.co.th'
-                	mypassword = 'iydot06)[q8ofu@@CES'
-                	receiver = sendto
 
-                	msg = MIMEMultipart('alternative')
-                	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
-                	msg['To'] = receiver
-                	html = detail
+            	myemail = 'ces-eservice@hotmail.com'
+            	mypassword = '$Supportces65$'
+            	receiver = sendto
 
-                	part1 = MIMEText(html, 'html')
-                	msg.attach(part1)
+            	msg = MIMEMultipart('alternative')
+            	msg['Subject'] = subj
+            	msg['From'] = 'IT Support CES'
+            	msg['To'] = receiver
+            	html = detail
 
-                	s = smtplib.SMTP('mail.cesteam.co.th:25')
-                	s.ehlo()
-                	s.starttls()
+            	part1 = MIMEText(html, 'html')
+            	msg.attach(part1)
 
-                	s.login(myemail, mypassword)
-                	s.sendmail(myemail, receiver.split(','), msg.as_string())
-                	s.quit()
-                except:
-                    print('send failed')
+            	s = smtplib.SMTP('smtp-mail.outlook.com:587')
+            	s.ehlo()
+            	s.starttls()
+
+            	s.login(myemail, mypassword)
+            	s.sendmail(myemail, receiver.split(','), msg.as_string())
+            	s.quit()
 
             subject = 'แจ้งผลการซ่อม'
             msg = f"""
-                                <html>
+                        <html>
 
-                                <head></head>
-
-                                <body style="font-family:'Prompt', sans-serif;font-size:20px;color:#079992;display:flex;justify-content:center;align-items: center;">
-                                    <h3>เรียนคุณ {nameuser} </h3>
-                                    <table style='border-collapse: collapse;width:100%;'>
-                                        <tr style="text-align:center;">
-                                            <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ใบแจ้งซ่อมที่</th>
-                                            <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>แจ้งว่า</th>
-                                            <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ผลการซ่อม</th>
-                                            <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ผู้ซ่อม</th>
-                                        </tr>
-                                        <tr style="text-align:center;">
-                                            <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{id}</td>
-                                            <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{detail}</td>
-                                            <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{feedback}</td>
-                                            <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{ituser}</td>
-                                        </tr>
-                                    </table>
-                                    <h3>IT Support CES</h3>
-                                    <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
-                                </body>
-
-                                </html>
-                        """
+                            <head></head>
+                            <body style="font-family:'Prompt', sans-serif;font-size:20px;color:#079992">
+                                <h2>รายงานผลการซ่อม </h2>
+                                <h3>เรียนคุณ {nameuser}</h3>
+                                <h3>อ้างอิงใบแจ้งซ่อมที่ : {id}</h3>
+                                <h3>แจ้งว่า : {detail}</h3>
+                                <h3>ผลการซ่อม : {feedback}</h3>
+                                <h3>ผู้ซ่อม : {ituser}</h3>
+                                <hr style="color:#079992">
+                                <h3>IT Support CES</h3>
+                                <a href="http://ceseservice.dyndns.org:88/" style="color:#079992" >CES-ESERVICE</a>
+                            </body>
+                        </html>
+                    """
 
             sendthai(email,subject,msg)
 #-----------------------------------------------------------------------------------------------------------

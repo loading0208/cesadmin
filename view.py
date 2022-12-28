@@ -15,6 +15,7 @@ from contacts import *
 from profile import *
 from booking import *
 from mcu import *
+from api import *
 from roles import *
 from noti import *
 
@@ -34,6 +35,7 @@ app.register_blueprint(helpdesk)
 app.register_blueprint(profile)
 app.register_blueprint(booking)
 app.register_blueprint(mcu)
+app.register_blueprint(api)
 app.register_blueprint(roles)
 app.register_blueprint(noti)
 
@@ -41,9 +43,7 @@ app.register_blueprint(noti)
 
 @app.route("/")
 def home():
-    if "username" not in session:
-        return render_template("/login.html")
-    return redirect(url_for('admin.Profile'))
+    return render_template("christmas.html")
 
 if __name__== '__main__':
     app.run(host = "0.0.0.0",port=789,debug = True )

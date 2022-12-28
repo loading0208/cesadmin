@@ -28,7 +28,7 @@ def Goods():
     try:
         con.connect()
         cur = con.cursor()
-        sql = "SELECT * FROM dbgoods ORDER BY id_goods DESC"
+        sql = "SELECT id_goods,purchase_date,po_no,brand,it_code,s_n,type_goods,user_use,department,link_po,status_goods FROM dbgoods ORDER BY id_goods DESC"
         cur.execute(sql)
         propertyregister = cur.fetchall()
         return render_template('goods.html',part="goods",propertyregister=propertyregister,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions())

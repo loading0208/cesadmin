@@ -327,7 +327,9 @@ def logoff():
 def Roles():
     if "username" not in session:
         return render_template("/login.html")
-    if session['level'] != 'admin':
+    permissions = roles.Checkpermissions()
+    permissions = permissions[0]
+    if permissions[10] != 1:
         return redirect(url_for('admin.Profile'))
     try:
         con.connect()

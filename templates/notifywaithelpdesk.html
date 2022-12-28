@@ -35,7 +35,11 @@
                   <td>{{ row.5 }}</td>
                   <td>{{ row.7.strftime("%d/%m/%Y %H:%M:%S") }}</td>
                   <td>{{ row.8 }}</td>
+                  {% if row.12 == '' %}
+                  <td>No Picture</td>
+                  {% else %}
                   <td style="width:100px;height:10px"><a href="{{ row.12 }}" target="_blank"> <img src="{{ row.12 }}" style="width:100%;object-fit:cover"></a></td>
+                  {% endif %}
                   <td>{{row.9}}</td>
                   <td>
                     <button type="button" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#waithelpdesk{{row.0}}" data-whatever="@fat">
@@ -99,8 +103,12 @@
     $('.helpdesk-loader-page').click(function() {
       const deteil = document.getElementById('deteil')
       const acction = document.getElementById('type-acction')
-      if (deteil.value, acction.value === '') {
-
+      if (deteil.value === '' || acction.value === '') {
+        Swal.fire(
+          '',
+          '',
+          'warning'
+        )
       } else {
         $(".box-load").addClass("loader_page");
       }

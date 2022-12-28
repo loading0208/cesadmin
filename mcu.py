@@ -20,6 +20,29 @@ date = date.today()
 
 mcu = Blueprint('mcu',__name__)
 
+@mcu.route('/mcu')
+def Mcu():
+    if "username" not in session:
+        return render_template("/login.html")
+    permissions = roles.Checkpermissions()
+    permissions = permissions[0]
+    if permissions[8] != 1:
+        return redirect(url_for('admin.Profile'))
+    try:
+        con.connect()
+        cur = con.cursor()
+        sql = f"SELECT db_contact.con_employee_ID,db_contact.con_name,db_contact.con_position,db_contact.con_depid,db_mcu.*,db_covid.* FROM db_contact INNER JOIN (db_mcu INNER JOIN db_covid ON db_mcu.employeeID=db_covid.employeeID) ON db_contact.con_employee_ID = db_mcu.employeeID GROUP BY con_name"
+        cur.execute(sql)
+        alluserroles =cur.fetchall()
+        return render_template("mcu.html",alluserroles=alluserroles,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),part='mcu')
+    except Exception as e:
+        print(e)
+    finally:
+        print("Close")
+        cur.close()
+        con.close()
+
+
 
 @mcu.route('/editcovid',methods=['POST'])
 def Editcovid():

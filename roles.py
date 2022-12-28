@@ -25,11 +25,14 @@ def Permissions():
         inbox = request.form['inbox']
         level = request.form['level']
         status = request.form['status']
+        userroles = request.form['userroles']
+        mcu = request.form['mcu']
+        menuadmin= request.form['menuadmin']
         try:
             con.connect()
             cur = con.cursor()
-            sql = "UPDATE role SET check_leave=%s,reviewleave=%s,approveleave=%s,meetingroom=%s,write_post=%s,comment_inbox=%s WHERE usr_employee_ID=%s"
-            cur.execute(sql,(check,reviewleave,approveleave,bookingroom,write_post,inbox,employeeID))
+            sql = "UPDATE role SET check_leave=%s,reviewleave=%s,approveleave=%s,meetingroom=%s,write_post=%s,comment_inbox=%s,user_roles=%s,mcu=%s,per_level=%s WHERE usr_employee_ID=%s"
+            cur.execute(sql,(check,reviewleave,approveleave,bookingroom,write_post,inbox,userroles,mcu,menuadmin,employeeID))
             con.commit()
 
             sql_level = "UPDATE tb_user SET usr_level=%s,usr_status=%s WHERE usr_employee_ID=%s"

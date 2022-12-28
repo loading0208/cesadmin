@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas</title>
+  <link rel="stylesheet" href="static/mycss/christmas.css">
+  <style media="screen">
+    .containeer-Christmas::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 200px;
+      background: url(static/img/tree.png);
+      z-index: 1;
+    }
+
+    .containeer-Christmas .circle::before {
+      content: '';
+      position: absolute;
+      inset: -200px -300px;
+      background: url(static/img/santa.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 600px;
+      animation: Christmas 5s ease-in-out infinite;
+    }
+
+    @media (max-width:600px) {
+      .containeer-Christmas .circle::after {
+        font-size: 1.6rem;
+      }
+
+      .containeer-Christmas .circle {
+        width: 200px;
+        height: 200px;
+      }
+
+      .containeer-Christmas .circle::before {
+        background-size: 350px;
+      }
+    }
+
+    @media (min-width:1024px) {
+      .containeer-Christmas .circle::after {
+        font-size: 3rem;
+      }
+
+      .containeer-Christmas .circle {
+        width: 300px;
+        height: 300px;
+      }
+
+      .containeer-Christmas .circle::before {
+        background-size: 600px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="containeer-Christmas">
+    <div class="circle"></div>
+    <div class="snow">
+      <span style="--i:11;"></span>
+      <span style="--i:12;"></span>
+      <span style="--i:24;"></span>
+      <span style="--i:10;"></span>
+      <span style="--i:14;"></span>
+      <span style="--i:23;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:16;"></span>
+      <span style="--i:19;"></span>
+      <span style="--i:20;"></span>
+      <span style="--i:22;"></span>
+      <span style="--i:25;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:21;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:26;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:28;"></span>
+      <span style="--i:11;"></span>
+      <span style="--i:12;"></span>
+      <span style="--i:24;"></span>
+      <span style="--i:10;"></span>
+      <span style="--i:14;"></span>
+      <span style="--i:23;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:16;"></span>
+      <span style="--i:19;"></span>
+      <span style="--i:20;"></span>
+      <span style="--i:22;"></span>
+      <span style="--i:25;"></span>
+      <span style="--i:18;"></span>
+      <span style="--i:21;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:15;"></span>
+      <span style="--i:26;"></span>
+      <span style="--i:17;"></span>
+      <span style="--i:13;"></span>
+      <span style="--i:28;"></span>
+    </div>
+  </div>
+  <a href="/profile">เข้าสู่เว็ปไซด์</a>
+
+</body>
+
+</html>

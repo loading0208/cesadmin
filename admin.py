@@ -56,10 +56,12 @@ def Profile():
         sql = f"SELECT * from db_mcu WHERE employeeID = '{employee}' and title = 1"
         cur.execute(sql)
         mcu = cur.fetchall()
+        smcu = len(mcu)
 
         sql = f"SELECT * from db_mcu WHERE employeeID = '{employee}' and title = 2"
         cur.execute(sql)
         pttep = cur.fetchall()
+        spttep = len(pttep)
 
         sql = f"SELECT * from db_covid WHERE employeeID = '{employee}'"
         cur.execute(sql)
@@ -76,7 +78,7 @@ def Profile():
         m = str(z[1])
         d = str(z[2])
         aeg = y +' '+ 'ปี' +' '+ m + ' '+ 'เดือน'+ ' ' + d +' ' +'วัน'
-        return render_template('/profile.html',month=month,mcu=mcu,pttep=pttep,covid=covid,scovid=len(covid),myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),permissions=roles.Checkpermissions(),date=date,aeg=aeg)
+        return render_template('/profile.html',month=month,mcu=mcu,pttep=pttep,covid=covid,scovid=len(covid),spttep=spttep,smcu=smcu,myleave=myleave,smyleave=len(myleave),myhelpdesk=myhelpdesk,smyhelpdesk=len(myhelpdesk),booking=booking,sbooking=len(booking),employee=noti.Employee(),borrow=borrow,sborrow=len(borrow),notification=noti.Notification(),permissions=roles.Checkpermissions(),date=date,aeg=aeg)
     except Exception as e:
         print(e)
     finally:
@@ -104,7 +106,7 @@ def Leavereview():
                 SELECT * from db_leave
                 WHERE head_employeeID = '{employee}' AND lea_status = 0
                 or manager_employeeID = '{employee}' AND lea_status = 1
-                or lea_status = 2 AND '{department}' = 'Human Resources' AND '{permission}' = 1 order by lea_id DESC
+                or lea_status = 2 AND '{permission}' = 1 order by lea_id DESC
                 '''
         cur.execute(sql)
         myreview = cur.fetchall()
@@ -228,27 +230,29 @@ def Addleave():
 
 #----แจ้งผลผ่าน e-mail----------------------------------------------------------------------------------
             def sendthai(sendto,subj,detail):
+                try:
+                	myemail = 'noreply@cesteam.co.th'
+                	mypassword = 'iydot06)[q8ofu@@CES'
+                	receiver = sendto
 
-            	myemail = 'ces-eservice@hotmail.com'
-            	mypassword = '$Supportces65$'
-            	receiver = sendto
+                	msg = MIMEMultipart('alternative')
+                	msg['Subject'] = subj
+                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                	msg['To'] = receiver
+                	html = detail
 
-            	msg = MIMEMultipart('alternative')
-            	msg['Subject'] = subj
-            	msg['From'] = 'IT Support CES'
-            	msg['To'] = receiver
-            	html = detail
+                	part1 = MIMEText(html, 'html')
+                	msg.attach(part1)
 
-            	part1 = MIMEText(html, 'html')
-            	msg.attach(part1)
+                	s = smtplib.SMTP('mail.cesteam.co.th:25')
+                	s.ehlo()
+                	s.starttls()
 
-            	s = smtplib.SMTP('smtp-mail.outlook.com:587')
-            	s.ehlo()
-            	s.starttls()
-
-            	s.login(myemail, mypassword)
-            	s.sendmail(myemail, receiver.split(','), msg.as_string())
-            	s.quit()
+                	s.login(myemail, mypassword)
+                	s.sendmail(myemail, receiver.split(','), msg.as_string())
+                	s.quit()
+                except:
+                    print('send failed')
 
             subject = 'ขออนุญาตลางาน'
             msg = f"""
@@ -358,27 +362,29 @@ def Headreview():
 
         #----แจ้งผลผ่าน e-mail----------------------------------------------------------------------------------
                 def sendthai(sendto,subj,detail):
+                    try:
+                    	myemail = 'noreply@cesteam.co.th'
+                    	mypassword = 'iydot06)[q8ofu@@CES'
+                    	receiver = sendto
 
-                	myemail = 'ces-eservice@hotmail.com'
-                	mypassword = '$Supportces65$'
-                	receiver = sendto
+                    	msg = MIMEMultipart('alternative')
+                    	msg['Subject'] = subj
+                    	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                    	msg['To'] = receiver
+                    	html = detail
 
-                	msg = MIMEMultipart('alternative')
-                	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES'
-                	msg['To'] = receiver
-                	html = detail
+                    	part1 = MIMEText(html, 'html')
+                    	msg.attach(part1)
 
-                	part1 = MIMEText(html, 'html')
-                	msg.attach(part1)
+                    	s = smtplib.SMTP('mail.cesteam.co.th:25')
+                    	s.ehlo()
+                    	s.starttls()
 
-                	s = smtplib.SMTP('smtp-mail.outlook.com:587')
-                	s.ehlo()
-                	s.starttls()
-
-                	s.login(myemail, mypassword)
-                	s.sendmail(myemail, receiver.split(','), msg.as_string())
-                	s.quit()
+                    	s.login(myemail, mypassword)
+                    	s.sendmail(myemail, receiver.split(','), msg.as_string())
+                    	s.quit()
+                    except:
+                        print('send failed')
 
                 subject = 'รายงานผลการขอลางาน'
                 msg = f"""
@@ -423,27 +429,29 @@ def Headreview():
                     email = cur.fetchall()
         #----แจ้งผลผ่าน e-mail----------------------------------------------------------------------------------
                     def sendthai(sendto,subj,detail):
+                        try:
+                        	myemail = 'noreply@cesteam.co.th'
+                        	mypassword = 'iydot06)[q8ofu@@CES'
+                        	receiver = sendto
 
-                    	myemail = 'ces-eservice@hotmail.com'
-                    	mypassword = '$Supportces65$'
-                    	receiver = sendto
+                        	msg = MIMEMultipart('alternative')
+                        	msg['Subject'] = subj
+                        	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                        	msg['To'] = receiver
+                        	html = detail
 
-                    	msg = MIMEMultipart('alternative')
-                    	msg['Subject'] = subj
-                    	msg['From'] = 'IT Support CES'
-                    	msg['To'] = receiver
-                    	html = detail
+                        	part1 = MIMEText(html, 'html')
+                        	msg.attach(part1)
 
-                    	part1 = MIMEText(html, 'html')
-                    	msg.attach(part1)
+                        	s = smtplib.SMTP('mail.cesteam.co.th:25')
+                        	s.ehlo()
+                        	s.starttls()
 
-                    	s = smtplib.SMTP('smtp-mail.outlook.com:587')
-                    	s.ehlo()
-                    	s.starttls()
-
-                    	s.login(myemail, mypassword)
-                    	s.sendmail(myemail, receiver.split(','), msg.as_string())
-                    	s.quit()
+                        	s.login(myemail, mypassword)
+                        	s.sendmail(myemail, receiver.split(','), msg.as_string())
+                        	s.quit()
+                        except:
+                            print('send failed')
 
                     subject = 'ขออนุญาตลางาน'
                     msg = f"""

@@ -110,6 +110,41 @@
                     </div>
 
                   </div>
+
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.21 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="menuadmin" name="menuadmin" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="menuadmin" name="menuadmin" value="1">
+                      {% endif %}
+                      <label class="custom-control-label" for="menuadmin">Admin</label>
+                    </div>
+
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="menuadmin0" name="menuadmin" value="0" checked>
+                      <label class="custom-control-label" for="menuadmin0">Admin</label>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.22 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="userroles" name="userroles" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="userroles" name="userroles" value="1">
+                      {% endif %}
+                      <label class="custom-control-label" for="userroles">User / Role</label>
+                    </div>
+
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="userroles0" name="userroles" value="0" checked>
+                      <label class="custom-control-label" for="userroles0">User / Role</label>
+                    </div>
+                  </div>
+
+
                   <div class="form-group">
                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                       {% if editroleuser.14 == 1 %}
@@ -203,6 +238,22 @@
                       <label class="custom-control-label" for="inbox">comment in box</label>
                     </div>
                   </div>
+
+                  <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      {% if editroleuser.20 == 1 %}
+                      <input type="checkbox" class="custom-control-input" id="mcu" name="mcu" value="1" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="mcu" name="mcu" value="1">
+                      {% endif %}
+                      <label class="custom-control-label" for="mcu">MCU</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" hidden>
+                      <input type="checkbox" class="custom-control-input" id="mcu0" name="mcu" value="0" checked>
+                      <label class="custom-control-label" for="mcu">MCU</label>
+                    </div>
+                  </div>
+
                   <hr style="margin-top:50px;">
                   <input type="text" name="employeeID" value="{{editroleuser.10}}" hidden>
                   <button type="submit" class="btn btn-success" id="checkleave">Submit</button>

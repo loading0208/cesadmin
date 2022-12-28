@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(#a2000a, #cf0000);
+}
+
+.containeer-Christmas {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.containeer-Christmas .circle {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 350px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.containeer-Christmas .circle::before {
+    content: '';
+    position: absolute;
+    inset: -200px -300px;
+    background: url(static/img/santa.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 600px;
+    animation: Christmas 5s ease-in-out infinite;
+}
+
+@keyframes Christmas {
+    0%,
+    100% {
+        transform: translateY(-25px)
+    }
+    50% {
+        transform: translateY(25px);
+    }
+}
+
+.containeer-Christmas .circle::after {
+    content: 'Happy Christmas and Happy New Year';
+    position: absolute;
+    inset: -125px -200px;
+    font-size: 3.2em;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: #fff;
+}
+
+.containeer-Christmas .snow {
+    position: relative;
+    display: flex;
+}
+
+.containeer-Christmas .snow span {
+    position: relative;
+    min-width: 5px;
+    height: 5px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 0 1vw;
+    box-shadow: -100px 20px 5px #fff, 100px 20px 10px #fff;
+    animation: snow 15s linear infinite;
+    animation-duration: calc(75s / var(--i));
+}
+
+.containeer-Christmas .snow span:nth-child(even) {
+    min-width: 10px;
+    height: 10px;
+}
+
+@keyframes snow {
+    0% {
+        transform: translateY(-10vh);
+    }
+    100% {
+        transform: translateY(100vh)
+    }
+}
+
+a {
+    position: absolute;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    transform: translateY(200px);
+    margin-top: 50px;
+    z-index: 2;
+    text-decoration: none;
+    color: #000;
+    transition: 0.3s ease-in-out;
+}
+
+a:hover {
+    background: #cf0000;
+    color: #fff;
+}

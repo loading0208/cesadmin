@@ -29,6 +29,9 @@
     margin-top: 3px;
     align-items: center;
   }
+  .card-mcu{
+    min-height:260px
+  }
 </style>
 <h1 class="m-0">Profile</h1>
 {% endblock %}
@@ -171,19 +174,19 @@
           </div>
 
           <div class="col-md-9">
-
-            <div class="card card-primary card-outline">
+            <div class="card card-primary card-outline ">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-notes-medical"></i>
                   Medical
                 </h3>
               </div>
-              <div class="card-body">
+              <div class="card-body card-mcu">
                 <h4></h4>
                 <div class="row">
                   <div class="col-5 col-sm-4">
                     <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                      {% if smcu > 0 %}
                       {% for mcu in mcu %}
                       {% if date < mcu.4 %}
                       <a class="nav-link mcu active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">ตรวจสุขภาพประจำปี</a>
@@ -191,7 +194,11 @@
                       <a class="nav-link mcu active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">ตรวจสุขภาพประจำปี<span></span></a>
                       {% endif %}
                       {% endfor %}
+                      {% else %}
+                      <a class="nav-link mcu active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">ตรวจสุขภาพประจำปี</a>
+                      {% endif %}
 
+                      {% if spttep > 0 %}
                       {% for pttep in pttep %}
                       {% if date < pttep.4 %}
                       <a class="nav-link mcu" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">OSHV PTTEP</a>
@@ -199,6 +206,11 @@
                       <a class="nav-link mcu" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">OSHV PTTEP<span></span></a>
                       {% endif %}
                       {% endfor %}
+                      {% else %}
+                      <a class="nav-link mcu" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">OSHV PTTEP</a>
+                      {% endif %}
+
+
 
                       <a class="nav-link mcu" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">ประวัติวัคซีน COVID</a>
                     </div>
@@ -206,6 +218,7 @@
                   <div class="col-7 col-sm-8">
                     <div class="tab-content" id="vert-tabs-tabContent">
                       <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                        {% if smcu > 0 %}
                         {% for mcu in mcu %}
                         <div class="mcu-star">
                           <h5>วันที่ตรวจสุขภาพประจำปี</h5>
@@ -222,10 +235,16 @@
                           <p style='color:red'>Status : Expired</p>
                           {% endif %}
                         </div>
-
                         {% endfor %}
+                        {% else %}
+                        <div class="mcu-star">
+                          <h5>ไม่พบข้อมูล</h5>
+                        </div>
+                        {% endif %}
                       </div>
+
                       <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                        {% if spttep > 0 %}
                         {% for pttep in pttep %}
                         <div class="mcu-star">
                           <h5>ผลสุขภาพในระบบ OSHV PTTEP</h5>
@@ -243,15 +262,28 @@
                           {% endif %}
                         </div>
                         {% endfor %}
+
+                        {% else %}
+                        <div class="mcu-star">
+                          <h5>ไม่พบข้อมูล</h5>
+                        </div>
+                        {% endif %}
                       </div>
+
                       <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
+                        {% if scovid > 0 %}
                         {% for covid in covid %}
                         <div class="mcu-star">
                           <h5>เข็มที่ {{covid.2}}</h5>
                           <h5>{{covid.3.strftime('%d/%m/%Y')}}</h5>
                         </div>
                         <hr>
-                        {%endfor%}
+                        {% endfor %}
+                        {% else %}
+                        <div class="mcu-star">
+                          <h5>ไม่พบข้อมูล</h5>
+                        </div>
+                        {% endif %}
                       </div>
                     </div>
                   </div>

@@ -114,9 +114,9 @@ def Addbooking():
                 flash("กรุณาเช็ควันที่")
                 return redirect(url_for('booking.Booking'))
             #----แจ้งเตือนผ่านไลน์--------------------------------------------
-            token = '6j9FngK4ptn4FJB1MKPMaPPEYDEVicMhW3apbkY2O2O'
-            messenger = Sendline(token)
-            messenger.sendtext('คุณ' + session['fname']+' '+ 'จองห้องประชุม ห้อง' + room )
+            #token = '6j9FngK4ptn4FJB1MKPMaPPEYDEVicMhW3apbkY2O2O'
+            #messenger = Sendline(token)
+            #messenger.sendtext('คุณ' + session['fname']+' '+ 'จองห้องประชุม ห้อง' + room )
            #----สิ้นสุด----------------------------------------------------
             flash("จองห้องประชุมแล้ว")
             return redirect(url_for('booking.Booking'))
@@ -148,39 +148,90 @@ def Updatestatus():
             if status == '10':
                 return redirect(url_for('booking.Notifybooking'))
             if status == '2':
-                return redirect(url_for('booking.Notifybooking'))
+                #----แจ้งเตือนผ่านไลน์--------------------------------------------
+                messenger = Sendline('6j9FngK4ptn4FJB1MKPMaPPEYDEVicMhW3apbkY2O2O')
+                messenger.sendtext( room + ' '+ 'Close' )
+                #----สิ้นสุด----------------------------------------------------
+                return redirect(url_for('admin.Profile'))
 #----แจ้งผลผ่าน e-mail----------------------------------------------------------------------------------
             def sendthai(sendto,subj,detail):
+                try:
+                	myemail = 'noreply@cesteam.co.th'
+                	mypassword = 'iydot06)[q8ofu@@CES'
+                	receiver = sendto
 
-            	myemail = 'ces-eservice@hotmail.com'
-            	mypassword = '$Supportces65$'
-            	receiver = sendto
+                	msg = MIMEMultipart('alternative')
+                	msg['Subject'] = subj
+                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                	msg['To'] = receiver
+                	html = detail
 
-            	msg = MIMEMultipart('alternative')
-            	msg['Subject'] = subj
-            	msg['From'] = 'IT Support CES'
-            	msg['To'] = receiver
-            	html = detail
+                	part1 = MIMEText(html, 'html')
+                	msg.attach(part1)
 
-            	part1 = MIMEText(html, 'html')
-            	msg.attach(part1)
+                	s = smtplib.SMTP('mail.cesteam.co.th:25')
+                	s.ehlo()
+                	s.starttls()
 
-            	s = smtplib.SMTP('smtp-mail.outlook.com:587')
-            	s.ehlo()
-            	s.starttls()
-
-            	s.login(myemail, mypassword)
-            	s.sendmail(myemail, receiver.split(','), msg.as_string())
-            	s.quit()
+                	s.login(myemail, mypassword)
+                	s.sendmail(myemail, receiver.split(','), msg.as_string())
+                	s.quit()
+                except:
+                    print('send failed')
 
             if status == '1':
                 subject = 'แจ้งสถานะการขอใช้ห้องประชุม'
-                msg = 'อนุญาตให้ใช้งานได้ เจ้าหน้าที่ทำรายการ'+' '+actionby
+                msg = f"""
+                        <html>
 
+                        <head></head>
+
+                        <body style="font-family:'Prompt', sans-serif;font-size:20px;color:#079992;display:flex;justify-content:center;align-items: center;">
+                            <table style='border-collapse: collapse;width:100%;'>
+                                <tr style="text-align:center;">
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ใบจอง</th>
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>สถานะ</th>
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ผู้เจ้าหน้าที่ทำรายการ</th>
+                                </tr>
+                                <tr style="text-align:center;">
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{id}</td>
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>ใช้งานได้</td>
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{actionby}</td>
+                                </tr>
+                            </table>
+                            <h3>IT Support CES</h3>
+                            <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
+                        </body>
+
+                        </html>
+                """
                 sendthai(email,subject,msg)
             if status == '9':
                 subject = 'แจ้งสถานะการขอใช้ห้องประชุม'
-                msg = 'ยกเลิยกเลิกโดยผู้ดูแล เจ้าหน้าที่ทำรายการ'+' '+actionby
+                msg = f"""
+                        <html>
+
+                        <head></head>
+
+                        <body style="font-family:'Prompt', sans-serif;font-size:20px;color:#079992;display:flex;justify-content:center;align-items: center;">
+                            <table style='border-collapse: collapse;width:100%;'>
+                                <tr style="text-align:center;">
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ใบจอง</th>
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>สถานะ</th>
+                                    <th style='border: 1px solid #dddddd;color:#079992;font-size:20px;width:25%;'>ผู้เจ้าหน้าที่ทำรายการ</th>
+                                </tr>
+                                <tr style="text-align:center;">
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{id}</td>
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>ยกเลิยกเลิกโดยผู้ดูแล</td>
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{actionby}</td>
+                                </tr>
+                            </table>
+                            <h3>IT Support CES</h3>
+                            <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
+                        </body>
+
+                        </html>
+                """
 
                 sendthai(email,subject,msg)
 

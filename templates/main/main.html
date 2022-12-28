@@ -301,8 +301,9 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column addcolor" data-widget="treeview" role="menu" data-accordion="false">
-            {% if session['level'] == 'admin' %}
-            {% if part == "admin" or part == "editroleuser" %}
+            {% for permissions in permissions %}
+            {% if permissions.8 == 1 or permissions.10 == 1 %}
+            {% if part == "admin" or part == "editroleuser" or part == "mcu" %}
             <li class="nav-item menu-open">
             {% else %}
             <li class="nav-item">
@@ -316,6 +317,7 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
+                {% if permissions.10 == 1 %}
                 {% if part == "admin" or part == "editroleuser" %}
                 <li class="nav-item">
                   <a href="roles" class="nav-link">
@@ -331,10 +333,38 @@
                   </a>
                 </li>
                 {% endif %}
+                {% else %}
+                {% endif %}
+
+                {% if permissions.8 == 1 %}
+                {% if part == "mcu" or part == "editmcu" %}
+                <li class="nav-item addli">
+                  <a href="mcu" class="nav-link">
+                    <i class="far fa-dot-circle nav-icon text-info"></i>
+                    <p>MCU</p>
+                  </a>
+                  <span class="addhelpdesk" data-toggle="modal" data-target="#helpdesk" data-whatever="@fat"></span>
+
+                </li>
+                {% else %}
+                <li class="nav-item addli">
+                  <a href="mcu" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>MCU</p>
+                  </a>
+                  <span class="addhelpdesk" data-toggle="modal" data-target="#helpdesk" data-whatever="@fat"></span>
+
+                </li>
+                {% endif %}
+                {% else %}
+                {% endif %}
+
               </ul>
               </li>
               {% else %}
               {% endif %}
+              {% endfor %}
+<!------------------------------------------------------------------------------------------------------------>
             <!-- <li class="nav-header ">สำหรับแผนก IT</li>
             Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -430,6 +460,16 @@
             </li>
             {% endif %}
             <!------------------------------------------------------------------------------>
+            {% if part == "bookingroom" %}
+            <li class="nav-item">
+              <a href="/bookingroom" class="nav-link active">
+                <i class="nav-icon fa fa-link"></i>
+                <p>
+                  จองห้องประชุม
+                </p>
+              </a>
+            </li>
+            {% else %}
             <li class="nav-item">
               <a href="/bookingroom" class="nav-link">
                 <i class="nav-icon fa fa-link"></i>
@@ -438,6 +478,7 @@
                 </p>
               </a>
             </li>
+            {% endif %}
             <!------------------------------------------------------------------------------>
 
             {% if part == "checkmyscan" %}

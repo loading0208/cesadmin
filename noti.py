@@ -23,7 +23,7 @@ def Notification():
                     from db_leave
                     WHERE head_employeeID = '{employee}' AND lea_status = 0
                     or manager_employeeID = '{employee}' AND lea_status = 1
-                    or lea_status = 2 AND '{department}' = 'Human Resources' AND '{role2}' = 1
+                    or lea_status = 2 AND '{role2}' = 1
                 '''
         cur.execute(sql)
         myreview = cur.fetchall()
