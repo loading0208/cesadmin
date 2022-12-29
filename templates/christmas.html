@@ -18,7 +18,7 @@
       z-index: 1;
     }
 
-    .containeer-Christmas .circle::before {
+    .containeer-Christmas .circle-dot::before {
       content: '';
       position: absolute;
       inset: -200px -300px;
@@ -30,31 +30,31 @@
     }
 
     @media (max-width:600px) {
-      .containeer-Christmas .circle::after {
+      .containeer-Christmas .circle-dot::after {
         font-size: 1.6rem;
       }
 
-      .containeer-Christmas .circle {
+      .containeer-Christmas .circle-dot {
         width: 200px;
         height: 200px;
       }
 
-      .containeer-Christmas .circle::before {
+      .containeer-Christmas .circle-dot::before {
         background-size: 350px;
       }
     }
 
     @media (min-width:1024px) {
-      .containeer-Christmas .circle::after {
+      .containeer-Christmas .circle-dot::after {
         font-size: 3rem;
       }
 
-      .containeer-Christmas .circle {
+      .containeer-Christmas .circle-dot {
         width: 300px;
         height: 300px;
       }
 
-      .containeer-Christmas .circle::before {
+      .containeer-Christmas .circle-dot::before {
         background-size: 600px;
       }
     }
@@ -62,8 +62,47 @@
 </head>
 
 <body>
+  <div class="newyear">
+    <img src="static/img/tho.png" alt="">
+    <h2>2023</h2>
+    <h2>Happy New Year</h2>
+  </div>
+  <div id="time">
+    <div class="circle" style="--clr:#ffffff">
+      <div class="dot day_dot"></div>
+      <svg>
+        <circle cx="70" cy="70" r="70"></circle>
+        <circle cx="70" cy="70" r="70" id="dd"></circle>
+      </svg>
+      <div id="date">00 <br><span>Days</span> </div>
+    </div>
+    <div class="circle" style="--clr:#ff2972">
+      <div class="dot hr_dot"></div>
+      <svg>
+        <circle cx="70" cy="70" r="70"></circle>
+        <circle cx="70" cy="70" r="70" id="hh"></circle>
+      </svg>
+      <div id="hours">00</div>
+    </div>
+    <div class="circle" style="--clr:#fee800">
+      <div class="dot min_dot"></div>
+      <svg>
+        <circle cx="70" cy="70" r="70"></circle>
+        <circle cx="70" cy="70" r="70" id="mm"></circle>
+      </svg>
+      <div id="minutes">00</div>
+    </div>
+    <div class="circle" style="--clr:#04fc43">
+      <div class="dot sec_dot"></div>
+      <svg>
+        <circle cx="70" cy="70" r="70"></circle>
+        <circle cx="70" cy="70" r="70" id="ss"></circle>
+      </svg>
+      <div id="seconds">00</div>
+    </div>
+  </div>
   <div class="containeer-Christmas">
-    <div class="circle"></div>
+    <div class="circle-dot"></div>
     <div class="snow">
       <span style="--i:11;"></span>
       <span style="--i:12;"></span>
@@ -107,8 +146,66 @@
       <span style="--i:28;"></span>
     </div>
   </div>
-  <a href="/profile">เข้าสู่เว็ปไซด์</a>
+  <a href="/profile">เข้าสู่เว็ปไซต์</a>
 
+
+  <script>
+    let days = document.getElementById('date');
+    let hours = document.getElementById('hours');
+    let minutes = document.getElementById('minutes');
+    let seconds = document.getElementById('seconds');
+
+    let dd = document.getElementById('dd');
+    let hh = document.getElementById('hh');
+    let mm = document.getElementById('mm');
+    let ss = document.getElementById('ss');
+
+    let day_dot = document.querySelector('.day_dot');
+    let hr_dot = document.querySelector('.hr_dot');
+    let min_dot = document.querySelector('.min_dot');
+    let sec_dot = document.querySelector('.sec_dot');
+
+
+    let endDate = '01/01/2023 00:00:00'; //format mm/dd/yy
+
+    let x = setInterval(function() {
+      let now = new Date(endDate).getTime();
+      let countDown = new Date().getTime();
+      let distance = now - countDown;
+
+      //คำนวนเวลา วัน ชั่วโมง นาที วินาที
+      let d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let s = Math.floor((distance % (1000 * 60)) / (1000));
+
+      //เอาไปไส่ใน ele ด้วย id
+      days.innerHTML = d + '<br><span>days</span>';
+      hours.innerHTML = h + '<br><span>hours</span>';
+      minutes.innerHTML = m + '<br><span>minutes</span>';
+      seconds.innerHTML = s + '<br><span>seconds</span>';
+
+      dd.style.strokeDashoffset = 440 - (440 * d) / 365;
+      hh.style.strokeDashoffset = 440 - (440 * h) / 24;
+      mm.style.strokeDashoffset = 440 - (440 * m) / 60;
+      ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+
+      day_dot.style.transform = `rotateZ(${d * 0.986}deg)`;
+      hr_dot.style.transform = `rotateZ(${h * 15}deg)`;
+      min_dot.style.transform = `rotateZ(${m * 6}deg)`;
+      sec_dot.style.transform = `rotateZ(${s * 6}deg)`;
+
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById('time').style.display = 'none';
+        document.querySelector('.containeer-Christmas').style.display = 'none';
+        document.querySelector('.newyear').style.display = 'flex'
+
+
+
+      }
+    })
+  </script>
 </body>
 
 </html>
