@@ -237,7 +237,7 @@ def Addleave():
 
                 	msg = MIMEMultipart('alternative')
                 	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                	msg['From'] = 'noreply <noreply@cesteam.co.th>'
                 	msg['To'] = receiver
                 	html = detail
 
@@ -369,7 +369,7 @@ def Headreview():
 
                     	msg = MIMEMultipart('alternative')
                     	msg['Subject'] = subj
-                    	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                    	msg['From'] = 'noreply <noreply@cesteam.co.th>'
                     	msg['To'] = receiver
                     	html = detail
 
@@ -436,7 +436,7 @@ def Headreview():
 
                         	msg = MIMEMultipart('alternative')
                         	msg['Subject'] = subj
-                        	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                        	msg['From'] = 'noreply <noreply@cesteam.co.th>'
                         	msg['To'] = receiver
                         	html = detail
 

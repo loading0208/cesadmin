@@ -215,7 +215,7 @@ def Ithelpdesk():
 
                 	msg = MIMEMultipart('alternative')
                 	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                	msg['From'] = 'noreply <noreply@cesteam.co.th>'
                 	msg['To'] = receiver
                 	html = detail
 
@@ -254,7 +254,7 @@ def Ithelpdesk():
                                             <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{ituser}</td>
                                         </tr>
                                     </table>
-                                    <h3>IT Support CES</h3>
+                                    <h3>noreply</h3>
                                     <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
                                 </body>
 

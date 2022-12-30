@@ -38,9 +38,11 @@ def Notifybooking():
         checkrole = checkrole[0]
         if checkrole != 1:
             return redirect(url_for('booking.Booking'))
-        sql = "SELECT * FROM db_booking"
+        sql = "SELECT * FROM db_booking WHERE bk_status != 8"
         cur.execute(sql)
         booking = cur.fetchall()
+        if len(booking) == 0:
+            return redirect(url_for('admin.Profile'))
         return render_template('notifybooking.html',booking=booking,month=month,employee=noti.Employee(),notification=noti.Notification(),permissions=roles.Checkpermissions(),datenow=datenow)
     except Exception as e:
         print (e)
@@ -142,12 +144,16 @@ def Updatestatus():
             sql = "UPDATE  `db_booking` SET `bk_status` =%s,`bk_admin` =%s WHERE `bk_id`=%s"
             cur.execute(sql,(status,actionby,id))
             con.commit()
-            if status == '8':
+            if status == '8': #cancel with user
+                #----แจ้งเตือนผ่านไลน์--------------------------------------------
+                messenger = Sendline('6j9FngK4ptn4FJB1MKPMaPPEYDEVicMhW3apbkY2O2O')
+                messenger.sendtext( room + ' '+ 'Cancel' )
+                #----สิ้นสุด----------------------------------------------------
                 flash('ยกเลิกการจองห้องประชุมสำเร็จ','error')
                 return redirect(url_for('admin.Profile'))
             if status == '10':
                 return redirect(url_for('booking.Notifybooking'))
-            if status == '2':
+            if status == '2': #----user close
                 #----แจ้งเตือนผ่านไลน์--------------------------------------------
                 messenger = Sendline('6j9FngK4ptn4FJB1MKPMaPPEYDEVicMhW3apbkY2O2O')
                 messenger.sendtext( room + ' '+ 'Close' )
@@ -162,7 +168,7 @@ def Updatestatus():
 
                 	msg = MIMEMultipart('alternative')
                 	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES <noreply@cesteam.co.th>'
+                	msg['From'] = 'noreply <noreply@cesteam.co.th>'
                 	msg['To'] = receiver
                 	html = detail
 
@@ -199,7 +205,7 @@ def Updatestatus():
                                     <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{actionby}</td>
                                 </tr>
                             </table>
-                            <h3>IT Support CES</h3>
+                            <h3>noreply</h3>
                             <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
                         </body>
 
@@ -222,11 +228,11 @@ def Updatestatus():
                                 </tr>
                                 <tr style="text-align:center;">
                                     <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{id}</td>
-                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>ยกเลิยกเลิกโดยผู้ดูแล</td>
+                                    <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>ยกเลิกโดยผู้ดูแล</td>
                                     <td style='border: 1px solid #dddddd;color:#079992;font-size:20px'>{actionby}</td>
                                 </tr>
                             </table>
-                            <h3>IT Support CES</h3>
+                            <h3>noreply</h3>
                             <a href="http://ceseservice.dyndns.org:88/">CES-ESERVICE</a>
                         </body>
 
@@ -272,7 +278,7 @@ def Updatestatus():
 
                 	msg = MIMEMultipart('alternative')
                 	msg['Subject'] = subj
-                	msg['From'] = 'IT Support CES'
+                	msg['From'] = 'noreply'
                 	msg['To'] = receiver
                 	text = detail
 
