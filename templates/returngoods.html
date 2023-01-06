@@ -104,7 +104,7 @@
         </div>
         <div class="form-group" style="width: 100%">
           <label for="exampleFormControlTextarea1" class="form-label">หมายเหตุสำหรับ IT</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="noteit" required></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" cols="125" name="noteit" required>{{datas.27}}</textarea>
         </div>
         <div class="col-md-6" hidden>
           <label class="form-label">เจ้าหน้าที่ทำรายการ</label>
@@ -117,9 +117,9 @@
 
         </div>
 
-        <input type="text" name="idgoods" value="{{ datas.12 }}" hidden>
-        <input type="text" name="returnborrow" value="0" hidden>
-        <input type="text" name="returngoods" value="1" hidden>
+        <input type="text" name="idgoods" value="{{ datas.12 }}" >
+        <input type="text" name="returnborrow" value="0" >
+        <input type="text" name="returngoods" value="1" >
         <input type="text" name="itreturn" value="{{ session['fname'] }}" hidden>
 
         <div class="col-12" style="margin-top:1rem">

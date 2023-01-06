@@ -659,9 +659,8 @@
                       <td>{{borrow.5}}</td>
                       <td>{{borrow.6}}</td>
                       <td>
-                        <form class="" action="{{url_for('admin.Mydetailleave')}}" method="post,get">
-                          <input type="text" name="id" value="{{ myleave.0 }}" hidden>
-                          <input type="text" name="view" value="0" hidden>
+                        <form class="" action="{{url_for('propertyregister.Borrowing')}}" method="post">
+                          <input type="text" name="id" value="{{ borrow.0 }}" hidden>
                           <button type="submit" class="btn btn-primary" style="float:left">
                             <i class="fa fa-search"></i>
                           </button>

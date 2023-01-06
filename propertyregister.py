@@ -180,6 +180,20 @@ def Borrowlist():
 def Addborrow():
     id = request.form["id"]
     useruse = request.form["useruse"]
+    try:
+        con.connect()
+        cur = con.cursor()
+        sql = (f" SELECT con_employee_ID FROM db_contact WHERE con_name = '{useruse}' ")
+        cur.execute(sql)
+        iduser = cur.fetchall()
+        iduser = iduser[0]
+        iduser = iduser[0]
+    except Exception as e:
+        print(e)
+    finally:
+        cur.close()
+        con.close()
+    employeeID = iduser
     depborrow = request.form["depborrow"]
     type = request.form["type"]
     brand = request.form["brand"]
@@ -209,8 +223,8 @@ def Addborrow():
     try:
         con.connect()
         cur = con.cursor()
-        sql = "insert into borrow_db (name_borrow,dep_borrow,type_borrow,brand_borrow,sn_boorow,itcode_boorow,note_borrow,it_borrow,date_borrow,idgoods,signature) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        cur.execute(sql,(useruse,depborrow,type,brand,serialnumber,itcode,note,itadd,dateborrow,idgoods,canvassignature))
+        sql = "insert into borrow_db (name_borrow,dep_borrow,type_borrow,brand_borrow,sn_boorow,itcode_boorow,note_borrow,it_borrow,date_borrow,idgoods,signature,employee_ID) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        cur.execute(sql,(useruse,depborrow,type,brand,serialnumber,itcode,note,itadd,dateborrow,idgoods,canvassignature,employeeID))
         con.commit()
         return redirect(url_for('propertyregister.Goods'))
     except Exception as e:
@@ -228,7 +242,7 @@ def Returngoods():
         try:
             con.connect()
             cur = con.cursor()
-            sql = "SELECT * FROM borrow_db WHERE id_borrow = %s"
+            sql = "SELECT borrow_db.*,dbgoods.* FROM borrow_db INNER JOIN dbgoods ON borrow_db.itcode_boorow=dbgoods.it_code WHERE id_borrow = %s"
             cur.execute(sql,(id))
             returngoods = cur.fetchall()
             return render_template("returngoods.html",returngoods=returngoods)
@@ -249,14 +263,18 @@ def Return():
     returnborrow = request.form["returnborrow"]
     returngoods = request.form["returngoods"]
     itreturn = request.form["itreturn"]
+    noteit = request.form["noteit"]
     datereturn = datetime.today()
     datereturn=datereturn.strftime("%d/%m/%Y %H:%M")
+    user = '-'
+    dep = 'IT Support'
+    print(returnborrow)
     if returnborrow == "0":
         try:
             con.connect()
             cur = con.cursor()
-            sql = "UPDATE dbgoods SET status_goods=%s WHERE id_goods=%s"
-            cur.execute(sql,(returngoods,idgoods))
+            sql = "UPDATE dbgoods SET status_goods=%s,user_use=%s,department=%s,note=%s WHERE id_goods=%s"
+            cur.execute(sql,(returngoods,user,dep,noteit,idgoods))
             con.commit()
             cur.close()
         except Exception as e:
