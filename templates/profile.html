@@ -647,6 +647,8 @@
                       <th scope="col">ยี้ห้อ</th>
                       <th scope="col">Serial number</th>
                       <th scope="col">IT Code</th>
+                      <th scope="col">Status</th>
+
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -658,6 +660,13 @@
                       <td>{{borrow.4}}</td>
                       <td>{{borrow.5}}</td>
                       <td>{{borrow.6}}</td>
+                      {% if borrow.11 == 1 %}
+                      <td><span class=" badge badge-warning">ยังไม่คืน</span></td>
+                      {% elif borrow.11 == 0 %}
+                      <td><span class=" badge badge-success" style="padding:5px 10px;font-size:15px">คืนแล้ว</span></td>
+                      {% else %}
+                      <td><span class=" badge badge-danger" >ติดต่อเจ้าหน้าที่ IT</span></td>
+                      {% endif %}
                       <td>
                         <form class="" action="{{url_for('propertyregister.Borrowing')}}" method="post">
                           <input type="text" name="id" value="{{ borrow.0 }}" hidden>
