@@ -268,7 +268,6 @@ def Return():
     datereturn=datereturn.strftime("%d/%m/%Y %H:%M")
     user = '-'
     dep = 'IT Support'
-    print(returnborrow)
     if returnborrow == "0":
         try:
             con.connect()

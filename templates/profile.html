@@ -17,20 +17,23 @@
     margin-top: 50px;
     text-align: center;
   }
-  .mcu{
+
+  .mcu {
     margin-left: 20px;
   }
-  .mcu span{
+
+  .mcu span {
     position: absolute;
-    width:5px;
-    height:20px;
-    background:red;
+    width: 5px;
+    height: 20px;
+    background: red;
     margin-left: 10px;
     margin-top: 3px;
     align-items: center;
   }
-  .card-mcu{
-    min-height:260px
+
+  .card-mcu {
+    min-height: 260px
   }
 </style>
 <h1 class="m-0">Profile</h1>
@@ -665,7 +668,7 @@
                       {% elif borrow.11 == 0 %}
                       <td><span class=" badge badge-success" style="padding:5px 10px;font-size:15px">คืนแล้ว</span></td>
                       {% else %}
-                      <td><span class=" badge badge-danger" >ติดต่อเจ้าหน้าที่ IT</span></td>
+                      <td><span class=" badge badge-danger">ติดต่อเจ้าหน้าที่ IT</span></td>
                       {% endif %}
                       <td>
                         <form class="" action="{{url_for('propertyregister.Borrowing')}}" method="post">
